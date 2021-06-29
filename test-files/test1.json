@@ -1,3 +1,29 @@
 {
-    
+    "name": "",
+    "description": "",
+    "questions": [
+        {
+            "type": "QCM",
+            "name": "",
+            "hints": ["",""],
+            "optionals": [],
+            "answers": ["",""],
+            "solution": [0]
+        },
+        {
+            "type": "OPEN",
+            "name": "",
+            "hints": ["",""],
+            "optionals": [],
+            "solution": ""
+        },
+        {
+            "type": "LINKED",
+            "name": "",
+            "hints": ["",""],
+            "optionals": [],
+            "answers": ["mot1", "mot2"],
+            "solution": ["def2", "def1"]
+        }
+    ]
 }
