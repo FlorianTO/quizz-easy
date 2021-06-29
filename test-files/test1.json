@@ -1,29 +1,48 @@
 {
-    "name": "",
-    "description": "",
+    "name": "Quizz de test",
+    "description": "ce quizz est fait pour les tests",
     "questions": [
         {
             "type": "QCM",
-            "name": "",
+            "name": "Combien font 2+3 ?",
             "hints": ["",""],
-            "optionals": [],
-            "answers": ["",""],
-            "solution": [0]
+            "optionals": [
+                {
+                    "type": "IMAGE",
+                    "link": "",
+                    "sizeX": 0,
+                    "sizeY": 0
+                },
+                {
+                    "type": "CODE",
+                    "content": ""
+                },
+                {
+                    "type": "VIDEO",
+                    "link": ""
+                },
+                {
+                    "type": "AUDIO",
+                    "link": ""
+                }
+            ],
+            "answers": ["1","7", "5"],
+            "solution": [3]
         },
         {
             "type": "OPEN",
-            "name": "",
-            "hints": ["",""],
+            "name": "Quel est le prénom de Mr.GUIBERT ?",
+            "hints": ["commence par un O","Est le nom d'une plante"],
             "optionals": [],
-            "solution": ""
+            "solution": "Olivier"
         },
         {
             "type": "LINKED",
-            "name": "",
+            "name": "Lier chaque mot à son synonyme",
             "hints": ["",""],
             "optionals": [],
-            "answers": ["mot1", "mot2"],
-            "solution": ["def2", "def1"]
+            "answers": ["oui", "non"],
+            "solution": ["effectivement", "bof"]
         }
     ]
 }
