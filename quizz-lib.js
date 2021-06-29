@@ -69,6 +69,60 @@ function createNewQCM(question, dom, questionId) {
     });
 }
 
+function createNewOpen(question, dom, questionId) {
+    var questionName = question.name;
+    var h = document.createElement(QUESTION_TITLE_TYPE);
+    var textName = document.createTextNode(questionName);
+    h.appendChild(textName);
+    h.id = "quizz-app-questions-" + questionId + "-name";
+    dom.appendChild(h);
+
+    var inputSolution = document.createElement("input");
+    inputSolution.type = "text";
+    inputSolution.required = true;
+    dom.appendChild(inputSolution); 
+}
+
+function createNewLinked(question, dom, questionId) {
+    var questionName = question.name;
+    var h = document.createElement(QUESTION_TITLE_TYPE);
+    var textName = document.createTextNode(questionName);
+    h.appendChild(textName);
+    h.id = "quizz-app-questions-" + questionId + "-name";
+    dom.appendChild(h);
+
+    var questionAnswers = question.answers;
+    var questionSolutions = shuffle(question.solution);
+    var divAnswersAndSolutions = document.createElement("div");
+    divAnswersAndSolutions.id = "quizz-app-questions-" + questionId + "-answersAndSolutions";
+    dom.appendChild(divAnswersAndSolutions);
+
+    questionAnswers.forEach(function(answer, index) {
+        var divAnswer = document.createElement("div");
+        divAnswer.id = "quizz-app-questions-" + questionId + "-answers-" + index;
+        divAnswersAndSolutions.appendChild(divAnswer);
+        
+        var textanswer = document.createTextNode(answer);
+        textanswer.id = "quizz-app-questions-" + questionId + "-answers-" + index + "-text";
+        divAnswer.appendChild(textanswer);
+
+        var inputSolution = document.createElement("select");
+        inputSolution.id = "quizz-app-questions-" + questionId + "-answers-" + index + "-select";
+        divAnswer.appendChild(inputSolution);
+
+        for (var i = 1; i <= questionAnswers.length; i++) {
+            var option = document.createElement("option");
+            option.value = i;
+            option.text = i;
+            inputSolution.appendChild(option);
+        }
+
+        var textSolution = document.createTextNode(questionSolutions[index]);
+        textSolution.id = "quizz-app-questions-" + questionId + "-answers-" + index + "-textSolution";
+        divAnswer.appendChild(textSolution);
+    });
+}
+
 function getJSON() {
     var xmlhttp = new XMLHttpRequest();
 
@@ -80,3 +134,14 @@ function getJSON() {
     xmlhttp.open("GET", JSON_FILE, true);
     xmlhttp.send(); 
 }
+
+function shuffle(array) {
+    var currentIndex = array.length,  randomIndex;
+    while (0 !== currentIndex) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+      [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+    }
+  
+    return array;
+  }
