@@ -2,6 +2,7 @@ var JSON_FILE = './test-files/test1.json';
 var DISPLAY_HINTS = true; //true : hints are displayed //false : hints aren't displayed
 var MAIN_TITLE_TYPE = "h1"; //h1 to h6
 var QUESTION_TITLE_TYPE = "h2"; //h1 to h6
+var NORMAL_TEXT_TYPE = "p";
 
 var loader = setInterval(function () {
     if(document.readyState !== "complete") return;
@@ -11,15 +12,14 @@ var loader = setInterval(function () {
 
 function createNewQuizz(jsonObject) {
     var dom = document.getElementById("quizz-app");
+    console.log(dom);
 
 	displayTitleNode(jsonObject.name, MAIN_TITLE_TYPE, "quizz-app-name", dom);
 
 	displayTextNode(jsonObject.description, "quizz-app-description", dom);
 
     var quizzQuestions = jsonObject.questions;
-    var divQuestions = document.createElement("div");
-    divQuestions.id = "quizz-app-questions";
-    dom.appendChild(divQuestions);
+    var divQuestions = createDivNode("quizz-app-questions", dom);
 
     quizzQuestions.forEach(function(question, index) {
         if(question.type == "QCM")
@@ -29,20 +29,23 @@ function createNewQuizz(jsonObject) {
         else if(question.type == "LINKED")
             createNewLinked(question, divQuestions, index);
     });
+
+	//button
+    var buttonValidate = document.createElement("button");
+    buttonValidate.innerHTML="valider";
+    divQuestions.appendChild(buttonValidate);
 }
 
 function createNewQCM(question, dom, questionId) {
 	displayTitleNode(question.name, QUESTION_TITLE_TYPE, "quizz-app-questions-" + questionId + "-name", dom);
 
+	displayHints(question.hints, questionId, dom);
+
     var questionAnswers = question.answers;
-    var divAnswers = document.createElement("div");
-    divAnswers.id = "quizz-app-questions-" + questionId + "-answers";
-    dom.appendChild(divAnswers);
+    var divAnswers = createDivNode("quizz-app-questions-" + questionId + "-answers", dom);
 
     questionAnswers.forEach(function(answer, index) {
-        var divAnswer = document.createElement("div");
-        divAnswer.id = "quizz-app-questions-" + questionId + "-answers-" + index;
-        divAnswers.appendChild(divAnswer);
+        var divAnswer = createDivNode("quizz-app-questions-" + questionId + "-answers-" + index, divAnswers);
         
         var checkboxAnswer = document.createElement("input");
         checkboxAnswer.type = "checkbox";
@@ -67,14 +70,10 @@ function createNewLinked(question, dom, questionId) {
 
     var questionAnswers = question.answers;
     var questionSolutions = shuffle(question.solution);
-    var divAnswersAndSolutions = document.createElement("div");
-    divAnswersAndSolutions.id = "quizz-app-questions-" + questionId + "-answersAndSolutions";
-    dom.appendChild(divAnswersAndSolutions);
+	var divAnswersAndSolutions = createDivNode("quizz-app-questions-" + questionId + "-answersAndSolutions", dom);
 
     questionAnswers.forEach(function(answer, index) {
-        var divAnswer = document.createElement("div");
-        divAnswer.id = "quizz-app-questions-" + questionId + "-answers-" + index;
-        divAnswersAndSolutions.appendChild(divAnswer);
+		var divAnswer = createDivNode("quizz-app-questions-" + questionId + "-answers-" + index, divAnswersAndSolutions);
         
         displayTextNode(answer, "quizz-app-questions-" + questionId + "-answers-" + index + "-text", divAnswer);
 
@@ -100,11 +99,41 @@ function displayTextNode(text, id, dom) {
 }
 
 function displayTitleNode(text, textType, id, dom) {
-    var h = document.createElement(QUESTION_TITLE_TYPE);
+    //Element de type h (h1, h2, etc)
+    var h = document.createElement(textType); 
     var textNode = document.createTextNode(text);
     h.appendChild(textNode);
     h.id = id;
     dom.appendChild(h);
+}
+
+function displayHints(hints, questionId, dom) {
+	if(hints.length <= 0) return;
+
+	var divHints = createDivNode("quizz-app-questions-" + questionId + "hints", dom);
+
+	hints.forEach(function(hint, index) {
+		createButton("Afficher indice " + (index + 1), "quizz-app-questions-" + questionId + "hints-button", divHints, function() {
+			var button = document.getElementById("quizz-app-questions-" + questionId + "hints-button");
+			displayTitleNode(hints[index], NORMAL_TEXT_TYPE, "quizz-app-questions-" + questionId + "hints-" + index, divHints);
+			button.remove();
+		});
+	});
+}
+
+function createButton(text, id, dom, onclick) {
+	var button = document.createElement("button");
+	button.innerHTML = text;
+	button.id = id;
+	dom.appendChild(button);
+	button.addEventListener("click", onclick);
+}
+
+function createDivNode(id, dom) {
+	var divNode = document.createElement("div");
+	divNode.id = id;
+	dom.appendChild(divNode);
+	return divNode;
 }
 
 function getJSON() {
@@ -130,3 +159,10 @@ function shuffle(array) {
     }
     return array;
 }
+/*
+function send(array){
+    var finalUserArray = [];
+    var SolutionArray = [];
+    
+} 
+*/

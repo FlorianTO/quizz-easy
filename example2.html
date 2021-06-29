@@ -1,0 +1,3406 @@
+<!DOCTYPE html>
+<html>
+<title>Introduction au JS pour le front</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="http://www.informatics-tech.com/highlighter/prettify.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js' type='text/javascript'></script>
+<script src="http://www.informatics-tech.com/highlighter/prettify.js"></script>
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=desert"></script>
+<script src="../quizz-lib.js"></script>
+<style>
+table tr th,td{
+  border:1px solid black;
+} 
+body,h1,h2,h3,h4,h5 {font-family: "Poppins", sans-serif}
+body {font-size:16px;}
+.w3-half img{margin-bottom:-6px;margin-top:16px;opacity:0.8;cursor:pointer}
+.w3-half img:hover{opacity:1}
+.ajout-oga {background-color: green;}
+.todo-oga {background-color: red;}
+pre.enLigne{display: inline;}
+.nicho-modif{border-left: Lime 5px solid;padding-left: 5px;background: yellow;}
+video {border: 2px solid black;}
+.code{background: black; color:white;padding:2px;font: 500 90%/1 Roboto Mono,monospace};
+</style>
+<body>
+
+  <!-- Sidebar/menu -->
+  <nav class="w3-sidebar w3-red w3-collapse w3-top w3-large w3-padding" style="z-index:3;width:300px;font-weight:bold;" id="mySidebar"><br>
+    <a href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px">Close Menu</a>
+    <div class="w3-container">
+      <h3 class="w3-padding-64"><b>IUT<br>Département-info</b></h3>
+    </div>
+    <div class="w3-bar-block">
+
+      <a href="#objectifs" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Objectifs</a> 
+      <a href="#cours" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Présentation express du JS</a> 
+      <a href="#exo1" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">JS et le DOM</a> 
+      <a href="#exo2" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Requête Ajax et données structurées</a> 
+      <a href="#exoJQuery" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">JQuery</a> 
+
+      <a href="#exo3" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Service Worker</a>
+      <a href="#exo4" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">LocalStorage</a>
+
+      <a href="#exo5" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Etude d'une PWA</a> 
+      <a href="#exo6" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Vue.js</a> 
+      <a href="#exo7" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Projet iGoogle</a> 
+
+
+
+
+    </div>
+  </nav>
+
+  <!-- Top menu on small screens -->
+  <header class="w3-container w3-top w3-hide-large w3-red w3-xlarge w3-padding">
+    <a href="javascript:void(0)" class="w3-button w3-red w3-margin-right" onclick="w3_open()">&#9776;</a>
+    <span>Iut info BDX</span>
+  </header>
+
+  <!-- Overlay effect when opening sidebar on small screens -->
+  <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+  <!-- !PAGE CONTENT! -->
+  <div class="w3-main" style="margin-left:340px;margin-right:40px">
+
+    <!-- Header -->
+    <div class="w3-container" style="margin-top:80px" id="showcase">
+      <h1 id="objectifs" class="w3-jumbo"><b>Initiation au JavaScript pour la réalisation de sites</b></h1>
+      <!-- <h1 class="w3-xxxlarge w3-text-red"><b>Mise en oeuvre avec le jeu du morpion</b></h1> -->
+      <hr style="width:50px;border:5px solid red" class="w3-round">
+    </div>
+
+    <div id="quizz-app"></div>
+
+    <!-- Photo grid (modal) -->
+    <div class="w3-row-padding">
+      <div class="w3-half">
+       <p>    
+        Lors des 4 prochaines séances vous allez vous initier au JS afin de permettre des interactions riches entre l'utilisateur et le site.
+        Concrètement après cette séance vous aller apprendre à : 
+        <ul>
+          <li>Interagir en JS avec les composants d'un site web</li>
+          <li>Coder (un peu) en JS (objets, fonctions, collections, ...)</li>      
+          <li>Envoyer des requêtes asynchrone à un serveur</li>
+          <li>Charger des données structurées</li>
+          <li>Utiliser un service worker</li>
+          <li>Quoi sert le localStorage</li>
+          <li>Faire du JQuery</li>
+          <li>Les bases du frameWork Vue.js</li>
+          <li>Ressources utilisées (et parfois recopiées) pour faire ce cours : <a href="https://developer.mozilla.org/">developer.mozilla.org/</a>, <a href="https://www.kaherecode.com/tutorial/les-fonctions-flechees-en-javascript">https://www.kaherecode.com/tutorial/les-fonctions-flechees-en-javascript</a>
+
+          <a href="https://www.pierre-giraud.com/javascript-apprendre-coder-cours/fonction-flechee/">https://www.pierre-giraud.com/javascript-apprendre-coder-cours/fonction-flechee/</a>
+          <a href="https://www.yvonh.com/les-fonctions-fleches-en-javascript-es6/">https://www.yvonh.com/les-fonctions-fleches-en-javascript-es6/</a>
+    <a href="https://buzut.net/programmation-fonctionnelle-en-javascript/#Fonction-d%E2%80%99ordre-superieur">https://buzut.net/programmation-fonctionnelle-en-javascript/#Fonction-d%E2%80%99ordre-superieur</a>
+<a href="https://nouvelle-techno.fr/actualites/2019/08/31/live-coding-le-javascript-oriente-objet-es6">https://nouvelle-techno.fr/actualites/2019/08/31/live-coding-le-javascript-oriente-objet-es6</a><a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise">https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise</a><a href="https://blog.engineering.publicissapient.fr/2017/11/14/asyncawait-une-meilleure-facon-de-faire-de-lasynchronisme-en-javascript/">https://blog.engineering.publicissapient.fr/2017/11/14/asyncawait-une-meilleure-facon-de-faire-de-lasynchronisme-en-javascript/</a>
+          </li>
+        </ul>
+      </p>
+
+<!--       <p>Avant cette séance, il faut OBLIGATOIREMENT avoir lu les supports suivants : <a href="files/javascriptS4.pdf">Supports de cours de Stéphane Fosse</a>, <a href="files/Journet-Cours.pdf">Mes notes de cours</a>. Pour mon cours, les solutions aux questions posées sont dans le répertoire <span class="code">files</span> </p> -->
+
+      <p>
+        En complément de ce cours pouvez également regarder cette vidéo (regarder  la séquence entre 1H10 et 3H00):<br>
+
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/PwsigsH4oXw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </p>
+      <p>
+        Celle-ci fait un point rapide sur les objets dans la dernière version de JS:<br>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/8x1fygdWabY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </p>
+
+    </div>
+
+    <div   class="w3-half">
+      <img width=500px; src="img/Strip-Le-mauvais-pari-650-final1.jpg">
+    </div>
+    
+  </div>
+
+
+
+  <!-- Modal for full size images on click-->
+  <div id="modal01" class="w3-modal w3-black" style="padding-top:0" onclick="this.style.display='none'">
+    <span class="w3-button w3-black w3-xxlarge w3-display-topright">&times;</span>
+    <div class="w3-modal-content w3-animate-zoom w3-center w3-transparent w3-padding-64">
+      <img id="img01" class="w3-image">
+      <p id="caption"></p>
+    </div>
+  </div>
+
+  <!-- Services -->
+
+
+
+<h2 id="cours" class="w3-xxlarge">Présentation express du JS</h2>
+<hr style="width:50px;border:5px solid red" class="w3-round">
+<h3>Du JS pour quoi faire ?</h3>
+
+<h4>Du code classique : stocker des valeurs, opérations, itérations, retours, fonctions, objets…</h4>
+<pre class="prettyprint">      
+   &lt;script&gt;
+      function sum(num1){
+         var sum=0;
+         for (var i=1;i<=num1;i++)
+            sum+=i;
+         return sum;
+      }
+      alert(sum(5));
+      console.log(sum(6)); 
+   &lt;/script&gt;
+</pre>
+
+
+
+<h4> Permettre des interactions utilisateurs et des modifications du HTML </h4>
+
+<pre class="prettyprint">      
+&lt;!--  &lt;script>
+      function sum(num1){
+         var sum=0;
+         for (var i=1;i<=num1;i++)
+            sum+=i;
+         return sum;
+      }
+      document.getElementById("add").addEventListener('click',function(){  
+         console.log(sum(document.getElementById("limite").value));
+      }); 
+   &lt;/script&gt; --&gt;
+&lt;body&gt;
+   &lt;div&gt;
+      &lt;label&gt;chiffre&lt;/label&gt;&lt;input id="limite" type="value" name="limite"&gt;
+      &lt;button id="add"&gt;Add&lt;button&gt;
+   &lt;/div&gt;
+
+       &lt;script&gt
+      function sum(num1){
+         var sum=0;
+         for (var i=1;i<=num1;i++)
+            sum+=i;
+         return sum;
+      }
+      document.getElementById("add").addEventListener('click',function(){  
+         console.log(sum(document.getElementById("limite").value));
+      }); 
+   &lt;/script&gt;
+&lt;/body&gt;
+</pre>
+
+<p>Décommentez le bloc en haut et commenter celui du bas. Cela ne marche plus. Pourquoi ?</p>
+
+
+<h4>Echanger des informations avec un serveur </h4>
+
+<p><a href="https://meteo.cours.iutlppro.devops.u-bordeaux.fr/">Voici un exemple d'un code</a> (issu de tutos proposés par goocle) qui affiche des informations météorologiques présentent sur un serveur.  </p>
+
+
+
+<h3>Bases de la programmation JS</h3>
+
+
+
+<p>
+Proche du c et autres c-like (c++, java, ...)
+<ul>
+  <li>Identifiants : premier caractère doit être un caractère, un _ ou un $ et ne pas être un mot réservé</li>
+  <li>commentaires : // ou /**/</li>
+  <li>utilisation du ; en fin d’instruction non obligatoire mais recommandée</li>
+  <li>utilisation des {} pour définir les blocs d’instructions</li>
+  <li>types classiques : string, boolean, number (pas de différences),
+object, null, undefined</li>
+<li>structures de contrôle : for, if, break,</li>
+</ul>
+</p>
+
+
+<p>
+  Typage des données non obligatoire : 
+  
+<pre class="prettyprint">   
+var message ="hi"; // type mis à string
+message = 100; // legal mais non recommandé car le type est changé en "numeric"
+var val; // type "undefined"
+</pre>
+</p>
+
+<p>
+  Gestion des vraiables globales : 
+  
+<pre class="prettyprint">   
+function test (){
+ var message = "hi"; // variable locale
+ phrase="ok";
+ }
+ test ();
+ alert(message) // erreur
+ alert (phrase) // ok
+</pre>
+
+
+instruction let.
+<pre class="prettyprint">   
+let x = 1;
+if (x === 1) {
+  let x = 2;
+  console.log(x); // 2
+}
+console.log(x);//1
+</pre>
+
+</p>
+
+<p>
+  for-in / for-of : l'énumération.
+  Pas simple de saisir la différence. On utilise normalement for-of sur un contenu itérable (array, map, set, ...) et le for-in sur les propriétés d'un objet
+  <a href="https://alligator.io/js/for-of-for-in-loops/">Des explications supplémentaires</a> pour comprendre la différence entre les deux.
+</p>
+<pre class="prettyprint">   
+var person = ["John", "Doe", 25];
+   for (let x of person) {
+    console.log(x);
+ }
+//fonctionne, mais ...
+for (let x in person) {
+ console.log(x);
+ console.log(person[x]);
+}
+//on l'utilise plutôt dans ce cas là : 
+
+let oldCar = {
+ make: 'Toyota',
+ model: 'Tercel',
+ year: '1996'
+};
+
+for (let key in oldCar) {
+ console.log(key + "-->" + oldCar[key]);  
+ //console.log(`${key} --> ${oldCar[key]}`); // autre manière d'écrire
+}
+
+for (let propName in window){
+   console.log(propName);
+}
+
+//sur les array il y a every, some, filter, foreach mais dans ce cours, à quelques exceptions, on va privilégier for-in for-of (plus dans l'esprit ES6)   
+</pre>
+
+<h4>Quelques spécificités sur les fonctions : </h4>
+<p>
+  
+  <pre class="prettyprint"> 
+function sayHi(name , message , age , ville){
+  alert("Hello " + name + " , " + message + " " + age);
+  }
+sayHi("Nicholas", "how are you?");
+  </pre>
+</p>
+
+
+<p>
+<pre class="prettyprint"> 
+function sum(){
+  return arguments [0]+ arguments [1];
+}
+function howManyArgs (){
+  alert(arguments.length);
+}
+
+function start(name , message , age , ville){
+  alert(sum (1 ,2));
+  alert(sum("hi ","bonjour"));
+  howManyArgs("string" ,45);
+  howManyArgs ();
+  howManyArgs (12);
+}
+</pre>
+
+Les fonctions sont des variables/objets : 
+<pre class="prettyprint"> 
+function callSomeFunction(someFunction , someArgument){
+  return someFunction(someArgument);
+}
+function add10(num){
+  return num +10;
+}
+
+var result1=callSomeFunction(add10 ,10);
+console.log(result1);
+function getGreeting(name){
+  return "Hello , " + name;
+}
+var result2 = callSomeFunction(getGreeting , "Bob");
+console.log(result2);  
+</pre>
+</p>
+
+<p>
+  <ul>
+    <li>Les types primitifs (undefined, null, boolean, number, string) sont atomiques et sont accédés par valeur</li>
+    <li>Les références : objets composés de plusieurs valeurs auquelles on accède par référence uniquement (au sens java)</li>
+  </ul>
+  
+<pre class="prettyprint"> 
+var num1 =5;
+var num2=num1; // valeur copiée
+var obj1=new Object ();
+var obj2= obj1;
+obj1.name="Nicholas";
+console.log(obj2.name);//"Nicholas"
+</pre>
+</p>
+
+
+<p>
+  Le passage d'arguments dans les fonctions est réalisé de la manière
+suivante : les types primitifs sont passés par valeur et le reste par
+référence.
+
+<pre class="prettyprint"> 
+function setName(obj , age){
+  obj.name="Nicholas";
+  age =35;
+}
+var person=new Object ();
+var _age =21;
+setName(person , _age),
+alert(person.name);// Nicholas
+alert(_age);//21
+</pre>
+</p>
+
+<p>Mais Attention ! Un peu comme en C++ avec le passage par
+adresse. Le passage par référence est un abus de langage. C’est en
+fait un passage par copie de référence. Si la référence est réaffectée
+sur un autre objet, la référence à l’objet d’orgine est perdue.</p>
+
+
+<pre class="prettyprint"> 
+function setName(obj){
+  obj.name="Nicholas";
+  obj = new Object ();
+  obj.name = "Greg";
+}
+var person= new Object ();
+setName(person);
+alert(person.name); // Nicholas  
+</pre>
+
+<h4>Les collections</h4>
+<p>
+Array (collections indexés). Plus d'informations <a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Guide/Collections_index%C3%A9es">ici</a>.
+<pre class="prettyprint"> 
+var colors= new Array ();
+var colors= new Array (20);
+var colors= new Array("red", "blue", "green");
+//ou
+var colors = ["red", "blue", "green"];
+
+
+//tout plein de méthodes très pratiques
+colors.push("red", "green");// ajoute à la fin
+colors.pop(); // enlève et retourne le dernier élément
+colors.unshift("red","green");// ajoute deux éléments au début du tableau
+colors.shift ();// enlève et retourne le premier élément
+var values = [3,1,2,5,4];
+values.sort (); // trie le tableau par ordre croissant
+values.reverse ();// inverse le tableau
+
+//utilisation de forEach pour appeler des fonctions sur chaque item
+const array1 = ['a', 'b', 'c'];
+array1.forEach(element => console.log(element)); //version E6
+
+var fruits = ["apple", "orange", "cherry"];
+fruits.forEach(myFunction);
+function myFunction(item, index) {
+  console.log(index + ":" + item );
+}
+//on préfèrera (plus "léger")
+var couleurs = ['rouge', 'vert', 'bleu'];
+couleurs.forEach(function(couleur) {
+  console.log(couleur);
+});
+
+</pre>
+
+</p>
+
+
+<p>
+  Collections avec clé (valeurs ou objet ):  Maps, Sets. 
+   Plus d'informations <a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Guide/Collections_avec_cl%C3%A9s">ici</a>.
+  <pre class="prettyprint"> 
+//map : on associe une cléf et une valeur
+var sayings = new Map();
+sayings.set("dog", "woof");
+sayings.set("cat", "meow");
+sayings.set("elephant", "toot");
+sayings.size; // 3
+sayings.get("fox"); // undefined
+sayings.has("bird"); // false
+sayings.delete("dog");
+
+for (var [key, value] of sayings) {
+  console.log(key + " goes " + value);
+
+
+//Set : comme Array mais on garantit qu'une valeur d'un élément Set ne peut y apparaître qu'une seule fois, il est unique pour cette instance de Set
+var monEnsemble = new Set();
+monEnsemble.add(1);
+monEnsemble.add("du texte");
+monEnsemble.add("du texte");
+monEnsemble.size; // 2
+for (let item of monEnsemble) console.log(item);
+
+monEnsemble.add("toto");
+for (let item of monEnsemble) console.log(item);
+monEnsemble.has(1); // true
+monEnsemble.delete("toto");
+monEnsemble.size; // 2
+for (let item of monEnsemble) console.log(item);
+
+
+  </pre>
+</p>
+<h4>Les fonctions fléchées</h4>
+<p>
+  Les fonctions fléchées : une syntaxe plus courte. Lisez la <a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Fonctions/Fonctions_fl%C3%A9ch%C3%A9es">documentation</a> de mozilla pour en apprendre plus (notamment les subtilités avec this).
+ 
+<pre class="prettyprint"> 
+ 
+
+// ES5
+const add = function(x, y) {
+    return x + y
+}
+console.log(add(5, 4)) // 9
+
+// ES6
+const addES6 = (x, y) => { return x + y }
+console.log(addES6(5, 6)) // 11
+
+
+const addES6Bis = (x, y) =>  x + y
+console.log(addES6Bis(5, 6)) // 11
+
+
+const prices = [4, 5, 14, 20, 45, 3, 8, 15]
+
+var greaterThan10 = prices.filter(function(p) {
+  return p > 10
+})
+console.log(greaterThan10) // [14, 20, 45, 15]
+
+const greaterThan10ES6 = prices.filter(p => p >= 10)
+console.log(greaterThan10ES6) // [14, 20, 45, 15]
+
+
+</pre>
+
+
+</p>
+
+
+
+<p>
+  Encore quelques exemples d'un même code dans différentes versions : 
+
+
+  <pre class="prettyprint"> 
+function disBonjour(){
+  alert('Bonjour');
+}
+
+
+let disBonjour= function(){
+  alert('Bonjour');
+};
+disBonjour();
+
+let disBonjourV2= function bonjour(nom){
+if (nom){
+  alert('Bonjour ' + nom);
+}else{
+  alert('inconnu');
+  }
+};
+
+disBonjourV2();
+disBonjourV2("IUT");
+
+
+const disBonjourV3 = (nom) => {
+  if (nom){
+    alert('Bonjour ' + nom);
+  }else{
+    alert('inconnu');
+  }
+}
+disBonjourV3();
+disBonjourV3("IUT");
+  
+const disBonjourV3 = (nom) =>  nom;
+disBonjourV3("nicholas");
+
+
+const disBonjourV3 = (nom) => 
+{
+  if (nom){return 'Bonjour'+nom;}
+  else{return 'inconnu';}
+};
+alert(disBonjourV3("nicholas"));
+
+
+
+  </pre>
+</p>
+
+
+
+<p>
+  Les fonctions fléchées et le mot clef this. 
+  <br>Vous avez l'habitude avec Java, que this référence l'instance d'un objet. En JS c'est aussi le cas. Ainsi, lorsqu'un nouvel objet est instancié chaque nouvelle fonction/méthode nommée définit son propre this.
+  <pre class="prettyprint">
+  let pierre = {name: 'Pierre'};
+  let mathilde = {name: 'Mathilde'};
+
+  function disBonjour(){
+    alert('Bonjour ' + this.name);
+  }
+
+  pierre.bonjour = disBonjour;
+  mathilde.bonjour = disBonjour;
+
+  pierre.bonjour(); 
+  mathilde.bonjour();
+
+  </pre>
+ 
+<p>Dans les fonctions fléchées c'est un peu différent. Le this ne fait pas référence à une instance. Dans l'esprit, les fonctions fléchées sont à utiliser comme des méthodes anonymes.
+Nous utiliserons toujours les fonctions fléchées de manière  anonyme. Elles n'utiliseront pas de constructeur. 
+</p>
+<p>on voit dans l'exemple ci-dessous qu'une fonction fléchée n'a pas son propre this. Ici il fait référence à l'objet windows.</p>
+<pre class="prettyprint">
+var obj = {
+i: 10,
+b: () => console.log(this.i, this),
+c: function() {
+    console.log(this.i, this)
+    }
+}
+obj.b(); // undefined Window {...}
+obj.c(); // 10  Object{i:10}
+</pre>
+
+
+</p>
+
+<h4>Les fonctions d'ordre supérieur.</h4>
+ <p>
+  
+  Les fonctions d’ordre supérieur sont des fonctions qui ont au moins une des propriétés suivantes :  elles prennent une ou plusieurs fonctions en entrée,
+elles renvoient une fonction. (définition Wikipédia).
+</p>
+<p>
+  Cette manière de retourner des fonctions permet très facilement de construire des fonctions plus spécifiques et d’éviter d’avoir à passer trop de paramètres. En effet, la fonction retournée “se souvient” des paramètres passés à la fonction parente.
+  </p>
+<pre class="prettyprint">
+const l18n = {
+    en: {
+        hello: 'Hello',
+        ciao: 'See you'
+    },
+    es: {
+        hello: 'Hola',
+        ciao: 'Hasta luego'
+    },
+    fr: {
+        hello: 'Bonjour',
+        ciao: 'À bientôt'
+    }
+};
+
+function saySomethingToUser(l18n, locale, sayWhat) {
+    return (userName,last) => `${l18n[locale][sayWhat]} ${userName} ${last}`;
+}
+
+const sayHelloInFrench = saySomethingToUser(l18n, 'fr', 'hello');
+const sayCiaoInSpanish = saySomethingToUser(l18n, 'es', 'ciao');
+
+console.log(sayHelloInFrench('Jean','truc'));//bonjour Jean truc
+console.log(sayCiaoInSpanish('Juan'));//Hasta lueago undefined
+</pre>
+</p> 
+<h3>La composition de fonctions</h3>
+<p>
+   
+L'idée est de créer un code minimaliste qui a plus de chance d'être réutilisé qu'un gros code. En programmation fonctionnelle on peut le faire avec de la composition de fonctions.
+<pre class="prettyprint">
+// nous avons deux élèves dont nous voulons calculer la moyenne
+const studentAGrades = [4, 7, 6, 1, 6, 6, 9];
+const studentBGrades = [3, 9, 6, 6, 5, 0, 2];
+
+// évidemment, on peut faire une fonction de calcul de moyenne
+function computeMean(grades) {
+    let sum = 0;
+
+    grades.forEach(grade => {
+        sum += grade;
+    });
+
+    return sum / grades.length;
+}
+
+// mais en PF, nous voulons avoir de petites fonctions réutilisables
+function sum(numsArr) {
+    let sum = 0;
+
+    numsArr.forEach(nums => {
+        sum += nums;
+    });
+
+    return sum;
+}
+
+// tiens, une fonction d'ordre supérieur
+function divideBy(divisor) {
+    return dividend => dividend / divisor;
+}
+
+// tous les élèves ont le même nombre de notes
+const divideByNumberOfExams = divideBy(studentAGrades.length);
+
+// usage de manière naïve
+const sumOfGrades = sum(studentAGrades);
+console.log(divideByNumberOfExams(sumOfGrades)); // 5.571428571428571
+
+// on peut faire un peu mieux en imbriquant les fonctions
+console.log(divideByNumberOfExams(sum(studentAGrades))); // 5.571428571428571
+
+// mais peu lisible d'imbriquer tous ces arguments à chaque fois
+// avec la composition de fonctions, on peut créer une nouvelle ƒ plus spécifique
+const computeMeanComposed = grades => divideByNumberOfExams(sum(grades));
+
+// la même chose en éliminant l'usage d'une variable pour divideByNumberOfExams
+const computeMeanComposed2 = grades => divideBy(studentAGrades.length)(sum(grades));
+
+// l'appel est bien plus léger
+console.log(computeMeanComposed(studentAGrades)); // 5.571428571428571
+console.log(computeMeanComposed2(studentBGrades)); // 4.428571428571429
+
+// et fonctionne exactement comme notre fonction computeMean
+console.log(computeMean(studentBGrades)); // 4.428571428571429
+</pre>
+
+</p>
+
+
+
+
+<h3>Les objets et le JS</h3>
+
+
+<p>
+  Une (première) manière très "java" de faire de l'objet.
+<pre class="prettyprint">
+* Titulaires de comptes
+ */
+ class Titulaire{
+    /**
+     * Titulaires de comptes bancaires
+     * @param {string} nom Nom du titulaire
+     * @param {string} prenom Prénom du titulaire
+     */
+     constructor(nom, prenom){
+       this.nom = nom;
+       this.prenom = prenom;
+    }
+
+    /**
+     * Afficher l'identité du titulaire
+     */
+     identite(){
+       console.log(`Le titulaire s'appelle ${this.prenom} ${this.nom}`);
+    }
+ }
+
+
+/**
+ * Compte bancaire
+ */
+ class Compte{
+    /**
+     * Création du compte
+     * @param {Titulaire} titulaire Titulaire du compte
+     * @param {number} montant Montant de départ
+     */
+     constructor(titulaire, montant = 0){
+       this.titulaire = titulaire;
+       this.solde = montant;
+    }
+
+    /**
+     * Créditer le compte
+     * @param {number} montant 
+     */
+     crediter(montant){
+       this.solde += montant;
+    }
+
+    /**
+     * Débiter le compte
+     * @param {number} montant 
+     */
+     debiter(montant){
+       this.solde -= montant;
+    }
+ }
+
+
+/**
+ * Compte épargne
+ */
+ class CompteEpargne extends Compte{
+/**
+ * Création du compte
+ * @param {Titulaire} titulaire Titulaire du compte
+ * @param {number} montant Montant de départ
+ * @param {number} taux Taux d'intérêts
+ * @param {number} rythme Rythme de versement des intérêts (en millisecondes)
+ */
+ constructor(titulaire, montant = 50, taux = 0.005, rythme = 1000){
+    // Nous transférons les informations utiles à l'objet Compte
+    super(titulaire, montant);
+
+    // Nous créons les propriétés spécifiques à un compte épargne
+    this.taux = taux;
+    this.rythme = rythme;
+ } 
+}
+
+let titulaire3 = new Titulaire("Penneflamme", "Katy");
+let compte1 = new Compte(titulaire3, 25);
+
+// Nous créditons le compte de 150 euros
+compte1.crediter(150);
+
+// Nous débitons le compte de 20 euros
+compte1.debiter(20);
+
+let compteEpargne = new CompteEpargne(titulaire3, 15, 0.005, 5000);
+
+</pre>
+  </p>
+
+  <p>
+  Une variante : 
+<pre class="prettyprint">
+function Personne(prenom, nom, age, genre, interets) {
+  this.nom = {
+    prenom,
+    nom
+  };
+  this.age = age;
+  this.genre = genre;
+  this.interets = interets;
+  this.bio = function() {
+    alert(this.nom.prenom + ' ' + this.nom.nom + ' a ' + this.age + ' ans. Il aime ' + this.interets[0] + ' et ' + this.interets[1] + '.');
+  };
+  this.salutation = function() {
+    alert('Bonjour ! Je m\'appelle ' + this.nom.prenom + '.');
+  };
+};
+var personne1 = new Personne('Bob', 'Smith', 32, 'homme', ['musique', 'ski']);
+//pour instancier à partir d'une instance existante.
+var personne2 = Object.create(personne1);
+</pre>
+</p>
+
+<p>
+  d'autres variantes : 
+<pre class="prettyprint">
+var maVoiture = new Object();
+maVoiture.fabricant = "Ford";
+maVoiture.modèle = "Mustang";
+maVoiture.année = 1969;
+
+var maHonda = {couleur: "rouge", roue: 4, moteur: {cylindres: 4, taille: 2.2}};
+
+
+var Animal = {
+  type: "Invertébrés",        // Valeur par défaut  value of properties
+  afficherType : function() {  // Une méthode pour afficher le type Animal
+    console.log(this.type);
+  }
+}
+
+// On crée un nouveau type d'animal, animal1 
+var animal1 = Object.create(Animal);
+animal1.afficherType(); // affichera Invertébrés
+
+// On crée un type d'animal "Poissons"
+var poisson = Object.create(Animal);
+poisson.type = "Poisson";
+poisson.afficherType(); // affichera Poissons
+
+
+</pre>
+</p>
+
+
+
+
+  <h3>Exercice 1 : fonctions, parcours de collections; ...</h3>
+  <p>
+    Complétez le code JS permettant de
+    <ul>
+      <Li>Modéliser une personne (nom, date d’anniversaire, liste d’amis)</Li>
+      <Li>Ajouter des amis à une personne</Li>
+       <Li>Afficher le nombre d'amis et la liste de mes amis (utilisez un forEach ou un for-of) </Li>
+      <Li>Afficher "je suis le plus vieux de ma bande d’amis" si c’est effectivement le cas, "je ne suis pas le plus vieux" sinon.</Li>
+     
+      <li></li>
+    </ul>
+
+
+<pre class="prettyprint">
+ function Person(name, date){
+      this.name=name;
+      this.birthDay= new /*compléter*/;
+      this.friends=new /*compléter*/;
+
+      this.addfriends=function(friend){
+        /*compléter*/
+      };
+     
+
+      this.sayNameFriends=function(){
+       /*compléter*/
+      };
+      
+      this.olderthanFriends=function(){
+        /*compléter*/
+      };  
+    };
+
+
+    function start(){
+      var P1= new Person("Nicho", new Date(1949,11,10));
+      var P2= new Person("Fred", new Date(1979,09,27));
+      var P3= new Person("Seb", new Date(1980,11,20));
+      var P4= new Person("Ed", new Date(1979,02,04));
+
+      P1.addfriends(P2);
+      P1.addfriends(P3);
+      P1.addfriends(P4);
+
+      P1.sayNameFriends();
+      P1.sayNameFriendsMarcheAussi();
+
+      //if (P1.olderthanFirends(P1.birthDay))
+      if (P1.olderthanFriends())
+        console.log("je suis le plus vieux de la bande");
+      else
+        console.log("je ne suis pas le plus vieux de la bande");
+
+    }   
+</pre>
+
+    <!-- Si vous êtes perdus vous pouvez jeter un coup d’œil à la solution <a href="files/test-slides/slide34.html" target="blank">ici</a>  -->
+
+
+   <!--  <iframe width="100%" height="700px" src="http://plnkr.co/edit/MZKC2XVSURnDGJmHNaqZ"></iframe>
+ -->
+
+  </p>
+
+
+
+
+  <h2 id="exo1" class="w3-xxlarge">JS et le DOM</h2>
+  <hr style="width:50px;border:5px solid red" class="w3-round">
+    <h3>Les concepts les plus importants</h3>
+
+<h4>Comprendre le DOM et sa hiérarchie de nœuds</h4>
+<img src="img/DOM.png">
+
+<h4>Les noeuds sont typés</h4>
+<p>Chaque noeud a une propriété nodeType parmi 12 possibles : ELEMENT_NODE, TEXT_NODE, ATTRIBUTE_NODE, COMMENT_NODE, ...
+<pre class="prettyprint">
+var node=document.getElementById("element").firstChild;
+  alert(node);//affiche [object HTMLParagraphElement]
+  var node=document.getElementById("monImage");
+  alert(node);//affiche [object HTMLImageElement]
+  var node=document.getElementById("element").firstChild;
+  alert(node);//affiche [object Text]
+  var node=document.getElementById("monImage").attributes[0];
+  alert(node);//affiche [object Attr]
+</pre>
+</p>
+
+
+
+<h4>La relation entre les nœuds</h4>
+<p>
+<img src="img/DOM-tree.jpg">
+
+<pre class="prettyprint">
+
+<!-- <body onload="start();"> -->
+
+ &lt;div id="papa"&gt; &lt;p id="premierFils"&gt;Premier paragraphe &lt;/p&gt; &lt;p id="secondFils"&gt;Second paragraphe &lt;/p&gt; &lt;p id="dernierFils"&gt;Dernier Paragraphe &lt;/p&gt; &lt;/div&gt;
+ &lt;div id="papaBis">
+   &lt;p id="premierFilsBis">Premier paragraphe &lt;/p&gt;
+   &lt;p id="secondFilsBis">Second paragraphe &lt;/p&gt;
+   &lt;p id="dernierFilsBis">Dernier Paragraphe &lt;/p&gt;
+ &lt;/div&gt;
+ &lt;script&gt;
+function start(){
+  var pere=document.getElementById("papa");
+  var fils1=document.getElementById("premierFils");
+  var fils2=document.getElementById("secondFils");
+  var fils3=document.getElementById("dernierFils");
+
+  alert(pere.firstChild.firstChild.nodeValue);
+  alert(pere.lastChild.firstChild.nodeValue);
+  alert(pere.childNodes[1].firstChild.nodeValue);
+  alert(fils1.parentNode);
+  alert(fils1.nextSibling.firstChild.nodeValue);
+  alert(fils3.previousSibling.firstChild.nodeValue);
+
+
+  var pereBis=document.getElementById("papaBis");
+  var fils1Bis=document.getElementById("premierFilsBis");
+  var fils2Bis=document.getElementById("secondFilsBis");
+  var fils3Bis=document.getElementById("dernierFilsBis");
+
+  alert(pereBis.firstChild.firstChild.nodeValue);
+  alert(pereBis.lastChild.firstChild.nodeValue);
+  alert(pereBis.childNodes[1].firstChild.nodeValue);
+  alert(fils1Bis.parentNode);
+  alert(fils1Bis.nextSibling.firstChild.nodeValue);
+  alert(fils3Bis.previousSibling.firstChild.nodeValue);
+}
+ &lt;/script&gt;
+
+</body>
+</pre>
+</p>
+
+
+
+
+  
+
+<h3> Les méthodes de manipulation du DOM à connaître </h3>
+
+<h4>Ajout d’un noeud (déplacement si le nœud existe déjà)</h4>
+
+<p>
+<pre class="prettyprint">
+function start(){
+  var nodeElem = document.getElementById("elem1");
+  var nodeListe = document.getElementById("liste");
+  nodeListe.appendChild(nodeElem);
+}
+</script>
+</head>
+
+  &lt;ul id="liste"&gt;
+    &lt;li id="elem1"&gt; 1 &lt;/li&gt;
+    &lt; li&gt; 2 &lt;/li&gt;
+    &lt; li> 2 &lt;/li&gt;
+    &lt; li&gt; 3 &lt;/li&gt;
+  &lt;/ul&gt;
+
+</pre>
+</p>
+
+
+<h4>Insertion d’un noeud avec insertBefore (déplacement si le noeud
+existe déjà)</h4>
+<pre class="prettyprint">
+function start(){
+  var nodeElem = document.getElementById("elem1");
+  var nodeListe = document.getElementById("liste");
+  nodeListe.insertBefore(nodeElem, nodeListe.childNodes[nodeListe.childNodes.length-2]);
+  
+}
+ 
+   &lt;ul id="liste"&gt;
+    &lt;li id="elem1"&gt; 1 &lt;/li&gt;
+    &lt; li&gt; 2 &lt;/li&gt;
+    &lt; li> 2 &lt;/li&gt;
+    &lt; li&gt; 3 &lt;/li&gt;
+  &lt;/ul&gt;
+
+
+</pre>
+
+
+<h4>Suppression d'un noeud avec removeChild</h4>
+<pre class="prettyprint">
+     &lt;ul id="liste"&gt;
+    &lt;li id="elem1"&gt; 1 &lt;/li&gt;
+    &lt; li&gt; 2 &lt;/li&gt;
+    &lt; li> 2 &lt;/li&gt;
+    &lt; li&gt; 3 &lt;/li&gt;
+  &lt;/ul&gt;
+
+</pre>
+
+
+<h4>Accéder à des noeuds du DOM</h4>
+<pre class="prettyprint">
+  document.getElementById("IdNode");
+  document.getElementsByTagName("tagName");
+  document.querySelectorAll("CSS selector");
+</pre>
+
+<pre class="prettyprint">
+  function start(){
+  var nodeListe = document.getElementsByTagName("img");
+  //var nodeListe = document.querySelectorAll("p+p img");
+  //var nodeListe = document.getElementsByClassName("tableau");
+  alert(nodeListe.length);
+  alert(nodeListe[0].src);
+  alert(nodeListe.item(1).src);
+}
+&lt;p&gt; &lt;img src="http://urlz.fr/TnT"/&gt; &lt;/p&gt;
+&lt;p&gt; &lt;img src="http://urlz.fr/TnU"/&gt; &lt;/p&gt;
+&lt;p&gt; &lt;img src="http://urlz.fr/TnR"/&gt; &lt;/p&gt;
+</pre>
+
+
+<h4>Modifier un noeud du DOM</h4>
+<pre class="prettyprint">
+  node.novalue;
+  node.setAttribute("attributName", "new Value");
+</pre>
+
+<pre class="prettyprint">
+  var node = document.getElementById("p1");
+  //le texte est un fils de node
+  node.firstChild.nodeValue="mon super texte";
+  &lt;p id="p1"&gt;  &lt;/p&gt;
+
+
+  var node = document.getElementById("img1");
+  node.setAttribute("src","http://urlz.fr/TnT");
+  alert(node.src);
+
+  &lt;p&gt; &lt;img id="img1" alt="l'atelier du peintre"/&gt; &lt;/p&gt;
+</pre>
+
+
+<h4>Créer un noeud du DOM</h4>
+
+<pre class="prettyprint">
+var node=document.createElement("div");
+var node=document.createTextNode("Hello world");
+</pre>
+
+
+<pre class="prettyprint">
+var node = document.createElement("img");
+node.setAttribute("src","http://urlz.fr/TnT");
+node.title="l'atelier du peintre";
+var p1 = document.getElementById("p1");
+p1.appendChild(node);
+&lt;p id="p1"&gt; &lt;/p&gt;
+
+
+
+var node = document.createTextNode("Hellow World");
+var p1 = document.getElementById("p1") ;
+p1.appendChild(node);
+&lt;p id="p1"&gt; &lt;/p&gt;
+
+
+</pre>
+  
+
+
+<h3> Interactions en JS : HTML/DOM event</h3>
+
+<p>
+  La gestion des événements en JS est très bien documentée. Je vous encourage à aller lire les sources suivantes : 
+  <ul>
+    <Li><a href:"https://www.alsacreations.com/article/lire/578-La-gestion-des-evenements-en-JavaScript.html>LIen 1</a> : Objet Event, notion de flux d'événements,le gestionnaire d'événements </Li>
+    <Li><a href="https://www.w3schools.com/jsref/dom_obj_event.asp">lien 2</a> Pour la liste des événements accessibles en JS</Li>
+  </ul>
+</p>
+
+<p>
+  Dans le cadre de ce cours nous allons survoler cette partie. En JS nous utiliserons généralement la syntaxe suivante : 
+  
+<pre class="prettyprint">
+  element.addEventListener(event, listener);
+</pre>
+
+</p>
+
+<pre class="prettyprint">
+  var formulaire = document.getElementById("coordonnees");
+  formulaire.addEventListener("submit", envoiForm, false);
+  
+  document.getElementById("clickIt").addEventListener("click", RespondClick);
+  document.getElementById("MouseOnIT").addEventListener("mouseover", RespondMouseOver);
+
+  document.getElementById("add").addEventListener('click',function(){  
+         console.log(sum(document.getElementById("limite").value));
+      }); 
+
+  // Fonction pour modifier le contenu de t2
+  function modifyText(new_text) {
+  var t2 = document.getElementById("t2");
+  t2.firstChild.nodeValue = new_text;    
+  }
+ 
+  // Ajout d'un écouteur d'évènement au tableau avec une fonction flèche
+  var el = document.getElementById("outside");
+  el.addEventListener("click", () => { modifyText("four"); }, false); 
+</pre>
+
+
+<h4>Référence à this</h4>
+
+<p>
+  Comme défini par <a href="https://developer.mozilla.org/fr/docs/Web/API/EventTarget/addEventListener">Mozilla</a> : "Il est souvent souhaitable de référencer l'élément sur lequel le gestionnaire d’événements a été lancé. Si le gestionnaire est attaché à une fonction à l'aide de addEventListener(), la valeur de this dans le gestionnaire est une référence à l'élément.
+
+<pre class="prettyprint">
+var Something = function(element) {
+  // |this| est un nouvel objet créé
+  this.name = 'Something Good';
+  this.onclick1 = function(event) {
+    console.log(this.name); // undefined (indéfini), car |this| est l'élément
+    this.style.color='red'; //OK
+  };
+  this.onclick2 = function(event) {
+    console.log(this.name); // 'Something Good', car |this| est lié à un nouvel objet créé
+  };
+  element.addEventListener('click', this.onclick1, false);
+  element.addEventListener('click', this.onclick2.bind(this), false); // Trick
+}
+var s = new Something(document.getElementById("paragraphe"));//on récupère un p
+</pre>
+
+</p>
+
+
+<h3>Exercice  2</h3>
+
+  <p>
+    Regardez la vidéo ci-dessous et complétez le code permettant de réaliser les modifications observées. A chaque clic le fond du lien change de couleur. SI on clique sur le second lien la couleur du texte et le texte changent.
+  </p>
+
+  <video width="500" height="240" controls>
+    <source src="img/exo-interaction.m4v" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+
+    <!-- <iframe width="100%" height="700px" src="http://plnkr.co/edit/VWBE2rlumH5WzYArYIKn"></iframe> -->
+    <h3>Exercice  3</h3>
+    <p>
+      Regardez la vidéo ci-dessous et complétez le code permettant de réaliser les modifications observées. Deux champs input permettent de saisir deux entiers. Quand on choisit une opérande le résultat de l'opération d'affiche.
+    </p>
+
+    <video width="500" height="240" controls>
+      <source src="img/exo-operande.m4v" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+
+      <!-- <iframe width="100%" height="700px" src="http://plnkr.co/edit/pxJQlRBGc68BHYwUyoky"></iframe>
+ -->
+
+ <pre class="prettyprint">
+  &lt;input type="number" id="nombre1" value=0&gt;
+  &lt;select id="op" name="select" &gt;
+    &lt;option value="0" selected="selected">Choose an operator&lt;/option&gt;
+    &lt;option value="1" &gt;+&lt;/option&gt;
+    &lt;option value="2"&gt;-&lt;/option&gt;
+  &lt;/select&gt;
+  &lt;input type="number" id="nombre2" value=0&gt;
+  &lt;p id="resultat"> &lt;/p&gt;
+
+
+&lt;script type="text/javascript"&gt;  
+   document.getElementById("op").addEventListener('change', function() {    
+    });
+&lt;/script&gt;
+ </pre>
+      <h3>Exercice  4</h3>
+      <p>
+        Regardez la vidéo ci-dessous et écrivez le code permettant de réaliser les modifications observées. Le code HTML contient du texte tout simple. Le code javascript doit créer automatiquement un sommaire à partir des balises issues  du code HTML.  
+      </p>
+
+      <p>
+        <video width="500" height="240" controls>
+          <source src="img/exo-titre.m4v" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </p>
+
+    <!--     <iframe width="100%" height="700px" src="http://plnkr.co/edit/OjhgqYyqbOIsCX51tMsP"></iframe> -->
+
+
+
+
+        <h3>Exercice  5</h3>
+        <p>
+         Regardez la vidéo ci-dessous et complétez le code permettant de réaliser les fonctionnalités observées. Il est possible d'ajouter une personne à une liste. Vous utiliserez OBLIGATOIREMENT une map (<a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Map">documentation</a>). La clé sera le nom de la personne. La liste est affiché par ordre d'ajout. Il est possible de supprimer un nom dans la liste déroulante en choisissant son identité puis en appuyant sur le bouton à côté. Évidemment toute personne effacée l'est de la liste mais également de la liste déroulante.</p>
+         <p>
+          <video width="500" height="240" controls>
+            <source src="img/exercice-liste.m4v" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </p>
+          <!-- <iframe width="100%" height="700px" src="http://plnkr.co/edit/cCMiQw8URKBGiUGb3gK8?p=preview"></iframe>-->
+
+<pre class="prettyprint">
+&lt;style type="text/css"&gt; span { color: blue; } .italique { font-style: italic; color: blue; }&lt;/style&gt;
+  
+
+  &lt;h1&gt; Liste d'utilisateurs &lt;/h1&gt; 
+  
+  &lt;ul id="donnees"&gt;
+
+  &lt;/ul&gt;
+  
+  &lt;h1&gt;Ajout d'un individu&lt;/h1&gt;
+  &lt;div&gt;
+    &lt;label&gt;Nom&lt;/label&gt;&lt;input id="nom" type="text" name="nom"&gt;
+    &lt;label&gt;Prénom&lt;/label&gt;&lt;input  id="prenom" type="text" name="prenom"&gt;
+    &lt;button id="add"&gt;Add&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div style="margin-top: 30px;"&gt;
+    &lt;label&gt;Nom à effacer&lt;/label&gt;
+    &lt;select id="nomDel" style="width:100px;"&gt;
+      
+    &lt;/select&gt;
+    
+    &lt;button id="del"&gt;del&lt;/button&gt;
+  &lt;/div&gt;
+
+  &lt;script type="text/javascript"&gt; 
+
+  //https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Map
+
+  var userMap=new Map();
+
+
+&lt;/script&gt; 
+ 
+</pre>
+
+          <h3>Exercice  6</h3>
+          <p>
+           Regardez la vidéo ci-dessous et complétez le code permettant de réaliser les fonctionnalités observées. Lorsque la souris est positionnée sur l'un des liens le code doit : 
+           <ul>
+            <li>Supprimer le nœud contenant le texte</li>
+            <li>Créer un nœud de type image et y insérer l'image adéquate</li> 
+          </ul>
+
+
+          Lorsque la souris n'est plus positionnée sur l'un des liens le code doit : 
+
+          <ul>
+            <li>Supprimer le nœud contenant l'image</li>
+            <li>Créer un nœud de type texte et y insérer l'image adéquate</li> 
+          </ul>
+
+
+
+          <ul>
+            <li>Supprimer le noeud contenant le texte</li>
+            <li>Créer un noeud de type image et y insérer l'image adéquate</li> 
+          </ul>
+        </p>
+        <p>
+          <video width="500" height="240" controls>
+            <source src="img/flag.m4v" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </p>
+         <!--  <iframe width="100%" height="700px" src="http://plnkr.co/edit/Lfce1YLUoOBN1A9w4sQR"></iframe> -->
+
+
+
+
+
+
+
+          <h1 id="exo2" class="w3-xxxlarge w3-text-red"><b>Requête AJAX et données structurées</b></h1>
+          <hr style="width:50px;border:5px solid red" class="w3-round">
+          <p><img width=500px; src="img/strip2.jpg"></p>
+          <h2>Préambule</h2>
+
+          <p>Récupérez ce <a href="files/forStudentsAjax.zip">code source</a>. Il contient entre autre le HTML/CSS du site web. Il vous restera à écrire le javascript nécessaire. Les scripts php et le fichier Json contiennent respectivement les informations sur le volumes de ventes et les prix des planches. Ouvrez ces deux fichiers et jetez un coup d'oeil rapide. C'est ces deux fichiers auxquels va accéder le client par des requêtes AJAX.</p>
+
+
+
+          <div><p>Le pitch est simple : votre client vend des planches de surf, il veut pouvoir consulter la quantité de planches qu'il a vendues (3 catégories de planches) et son bénéfice total engrangé et tout ceci depuis un site web. Il peut demander une mise à jour des ventes d'un modèle précis en le sélectionnant dans la liste déroulante. Il peut aussi demander à les mettre à jours tous les modèles en même temps.</p> 
+
+            <p>Vous décidez donc de lui installer un serveur (web). Dans l'idéal, vous installerez une ubuntu et un serveur apache sur un vps OVH ou openStack de l'université. Voici toutes les informations pour installer <a href="https://www.digitalocean.com/community/tutorials/how-to-install-the-apache-web-server-on-debian-9">votre serveur apache</a>, configurer <a href="https://www.digitalocean.com/community/tutorials/how-to-install-the-apache-web-server-on-debian-9#step-5-%E2%80%94-setting-up-virtual-hosts-(recommended)"> votre VHost</a> et installer <a href="https://www.digitalocean.com/community/tutorials/how-to-secure-apache-with-let-s-encrypt-on-debian-9">un certificat</a></p>
+              </p>SI je ne peux pas vous en fournir un, vous pouvez installer un en local sur votre machine. Par exemple <a href="https://www.mamp.info/en/">mamp</a> pour mac ou windows. Ou alors simplement en lancer un en ligne de commande comme <a href="http://php.net/manual/fr/features.commandline.webserver.php"> décrit sur cette documentation</a>. Sur linux rien de compliqué, vous pouvez lancer en ligne de  commande ou installer apache. </p>
+            <p>Un script php aura simplement pour rôle de donner les volumes de vente.  Le client consultera ses volumes de vente depuis une page web qui ira chercher les informations sur le serveur (script php) à chaque fois qu'il appuiera sur le bouton "actualiser".  Les prix de vente et les prix d'achat de chaque modèle de planche sont stockés en dur dans un fichier JSON (prixDeVente.json). Au chargement de la page, il faut aller chercher les informations dans ce fichier et mettre à jour les cases.  </p>
+
+            <p>La vidéo ci-dessous illustre le résultat final attendu. Dans cette vidéo j'ai mis un point d'arrêt sur le "onload()" pour vous montrer qu'initialement le tableau contient uniquement des valeurs nulles. C'est un script qui va chercher les informations et remplit ensuite le tableau. </p>
+            <p><video width="640" height="480" controls="">
+              <source src="img/presentation.m4v" type="video/mp4">  
+                Your browser does not support the video tag.
+              </video></p> 
+            </div>
+
+
+
+
+            <h2>Principe d'une requète asynchrone</h2>
+
+            <p>L’AJAX est un terme inventé en février 2005 par Jesse James Garret pour désigner l’usage commun de différentes technologies. Pour savoir lesquelles sont utilisées, il suffit d’étudier ce que veut dire ce terme : AJAX = « Asynchronous Javascript And XML ». Visiblement, il y a du Javascript.
+              Sa présence ici indique que les sites Ajax mettront en place un certain niveau d’interaction avec l’utilisateur. Au tour du
+              XML maintenant : ce formalisme, qui permet de représenter n’importe quel ensemble structuré de données, désigne
+              ici l’utilisation du DOM (il s’agit de la représentation de la page sous la forme d’un arbre XML) pour modifier le contenu
+              des pages mais pas seulement. Le XML est aussi employé pour coder les transferts entre le navigateur Web et le
+              serveur du site visité. Il ne nous reste plus qu’à traiter le cas du « Asynchronous »... En fait, c’est à ce terme qu’Ajax
+              doit son succès. Il désigne une technologie mise au point par Microsoft en 1999 et qui longtemps n'a pas particulièrement
+              été célèbre. Celle-ci permet à un programme Javascript d’envoyer une requète au serveur puis de continuer
+              son exécution sans attendre que la réponse n’arrive. Une fois cette réponse effectivement arrivée, une fonction est
+              appelée et le résultat peut être utilisé dans la page.
+              Et c’est tout ?
+              En fait, oui, Ajax ce n’est rien que ça. Mais ceci dit, si elles sont utilisées judicieusement, les requêtes asynchrones
+              peuvent à la fois alléger la charge des serveurs et permettre la création de sites plus interactifs. Ce qui est pratique,
+              c’est qu’il est possible (grâce à DOM), de ne modifier qu’une partie de la page afin de faire apparaitre le résultat d’une
+              requête. Etant donné que le serveur n’aura pas eu besoin de renvoyer toute la page, celui-ci aura une charge moindre
+              et puisque l’on peut se passer de ce re-chargement complet de la page, le site Web devient plus interactif. L’AJAX fait
+              donc partie des technologies permettant d’améliorer significativement les IHM du WEB.
+            </p>
+
+            <p>
+              Pour envoyer une requête au serveur il vous faut créer un objet. Le côté délicat de la chose est que, selon le navigateur, il faut créer des objets différents. Le constructeur XMLHttpRequest permet de créer un objet requête pour Mozilla, Firefox et Safari. ActiveXObject permet de créer un objet requête pour IE.
+            </p>
+
+            <pre class="prettyprint">
+              var xmlhttp = new XMLHttpRequest();
+            </pre>
+
+            <h3>Question 1</h3>
+
+
+            <p>C'est la fonction Prix de vente qui va gérer l'appel au serveur et récupérer les informations présentes dans le fichier JSON. Dans la fonction prixDeVente() créez un objet XMLHttpRequest. Mettez un point d'arrêt dans le navigateur et vérifier que l'objet a bel et bien été créé (regardez également les attributs et méthodes de cet objet) </p>
+
+
+            <h3>Question 2</h3>
+            <p>Il est maintenant nécessaire de configurer cet objet afin que l'envoi de la requête AJAX puisse se faire. Il y a deux lignes de code à écrire avant d'envoyer effectivement la requête.
+
+              <ul>
+                <li>Initialiser la connexion à l’aide de la méthode open : 
+                  <pre class="prettyprint">      
+                    xmlhttp.open("GET",URL,true) ;
+                  </pre>
+                  Le premier argument
+                indique si l’envoi de la requête est en mode GET ou POST, le deuxième contient l’url du script php (ou fichier JSON) qui s’exécute sur le serveur WEB, le dernier argument indique si la requête doit être asynchrone ou non. </li>
+                <li>Définition de la méthode CallBack, le code qui sera exécuté au retour de la requête asynchrone
+
+                  <pre class="prettyprint">      
+                    xmlhttp.onreadystatechange = function () {
+                    //code exécuté lors du retour de la fonction.
+                    alert("retour de la requête ! ")
+                  }
+                </pre>
+              </li>
+              <li>Envoi de la requête au serveur via la méthode send qui prend en argument les données à envoyer au script
+                (mot-clef NULL si vous n’avez rien à lui envoyer)
+                <pre class="prettyprint"> 
+                  xmlhttp.send(null);
+                </pre>
+
+              </li>
+            </ul>
+
+          </p>
+
+          <h3>Question 3</h3>
+
+          <p>
+            Si tout marche bien, vous devriez avoir la popup qui s'ouvre plusieurs fois. 
+            Pour le moment, vous avez considéré que le serveur fait une et une seule réponse à votre requête... mais ce n’est
+            pas le cas ! Pour comprendre il faut s’intéresser aux codes d’état. L’objet requête possède un attribut (readyState) qui
+            informe le navigateur de l’état dans lequel se trouve la requête. C’est à chaque changement de ce code d’état que la
+            fonction actualiserPage() est appelée.
+            La figure suivante résume les 4 états possibles de la requête.
+
+
+
+          </p>
+
+          <p>    <img src="img/etatstate.png"></p>
+
+          <p>Complétez le code suivant afin que la popup ne s'ouvre qu'au moment où la requête contient la réponse attendue.
+
+            <pre class="prettyprint"> 
+              if (xmlhttp.??? == ??? && xmlhttp.status == 200)
+            </pre>
+
+            Regardez <a href="https://www.w3schools.com/xml/ajax_xmlhttprequest_response.asp">sur cette documentation</a> pour comprendre l'intéret de vérifier que le statut de la requête est à 200.
+          </p>
+
+          <h3>Question 4</h3>
+
+          <p>La réponse du serveur (les données JSON) a été mise dans l'attibut "responseText" de l'objet xmlhttp. 
+
+            <ul>
+              <li>Mettez un point d'arrêt au bon endroit dans le code source et regardez que cet attribut est bien rempli</li>
+              <li> parsez ces données à l'aide de la méthode <span class="code">JSON.parse()</span>. Observez que cette méthode retourne un tableau. Pour bien comprendre comment travailler sur les données retournées par <span class="code">JSON.parse()</span> allez lire la doc  <a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/JSON/parse">suivante</a> ou <a href="https://developer.mozilla.org/fr/docs/Learn/JavaScript/Objects/JSON">celle-ci.</a></li>
+              <li>Complétez la fonction "prixDeVente" permettant d'afficher les prix des planches dnas le tableau </li>
+              <pre class="prettyprint">
+                planches = JSON.parse(xmlhttp.responseText);
+                planches.forEach(function(planches) {
+                //sélection du noeud du node à modifier
+                document.querySelectorAll(?)[0].?.?=planches.?;
+                document.querySelectorAll(?)[0].?.?=planches.?;
+
+              })
+            </pre>
+
+          </ul>
+        </p>
+
+
+        <h2 > Envoi d'une requête avec des paramètres et traitement de données XML </b></h2>
+        <p>
+
+          Le site web contient un menu déroulant permettant de choisir la planche dont on souhaite récupérer les volumes vendus.
+
+          Regardez la <a href="https://www.w3schools.com/xml/ajax_xmlhttprequest_send.asp">documentation suivante</a> expliquant comment envoyer des paramètres au script php (en GET ou en POST). 
+
+        </p>
+
+        <h3>Question 5</h3>
+
+        <p>
+          Complétez la fonction getPlanchesVendues() afin qu'elle envoie une requête asynchrone au script php avec comme paramètre le nom de la planche choisie par l'utilisateur. Attention observez que dans cette version du code, le code de la fonction callBack n'est pas écrit directement dans getPlanchesVendues(). Quand le code devient un peu trop gros on préfèrera le délocaliser.
+          <pre class="prettyprint">
+            var reqPlanches = new XMLHttpRequest();
+            function getPlanchesVendues() {
+
+            #on récupère la valeur choisie dans la liste déroulante
+            var planche=?;
+            #on paramètre la requête asynchrone
+            reqPlanches.open(?);
+            #définition de la fonction callBack
+            reqPlanches.? = updatePlanchesVendues
+            #envoi de la requête
+            reqPlanches.send(null);// ou reqPlanches.send(?)
+          }
+        </pre>
+
+      </p>
+
+
+      <h3>Question 6</h3>
+
+      <p>
+
+        Complétez le code de la fonction updatePlanchesVendues() permettant de gérer la réponse du serveur au format XML. Cette réponse se trouve dans le champ responseXML de l'objet.
+        <pre class="prettyprint">
+          var reponse = reqPlanches.responseXML;
+        </pre>
+
+
+        La réponse est en XML. XML se présente sous la forme d'un arbre comme pour le DOM. Par exemple pour récupérer le nombre de planches lacanau il faut écrire : 
+        <pre class="prettyprint">
+          reponse.getElementsByTagName("lacanau")[0].firstChild.nodeValue
+        </pre>
+
+        Terminez le contenu de la fonction updatePlanchesVendues() afin de mettre à jour la première colonne du tableau puis le gain total réalisé par le vendeur de planche.
+      </p>
+
+      <h2>Les promesses </h2>
+        <p>
+          La volonté de créer du code asynchrone avec la technique vue juste avant peut devenir compliqué (peu lisible et peu modulaire, difficulté de gérer les erreurs) si on a besoin de gérer un grand nombre de requêtes asynchrones. Une possibilité est d'utiliser les promesses pour simuler un code séquentiel.
+        </p>
+
+        <p>
+          Une promesse est une fonction à laquelle on passera deux arguments : resolve et reject. Cette fonction est exécutée immédiatement par l'implémentation de Promise qui fournit les fonctions resolve et reject (elle est exécutée avant que le constructeur Promise ait renvoyé l'objet créé). Les fonctions resolve et reject, lorsqu'elles sont appelées, permettent respectivement de tenir ou de rompre la promesse. On attend de l'exécuteur qu'il démarre un travail asynchrone puis, une fois le travail terminé, appelle la fonction resolve (si tout s'est bien passé) ou la fonction reject (lorsqu'il y a eu un problème) pour définir l'état final de la promesse.
+Si une erreur est générée par l'exécuteur, la promesse est rompue et la valeur de retour de l'exécuteur est ignorée. (définition mozilla)
+        </p>
+
+        <p>
+          <img src="img/promises.png">
+        </p>
+<pre class="prettyprint">
+const maPremierePromesse = new Promise((resolve, reject) => {
+// réaliser une tâche asynchrone et appeler : 
+
+// resolve(uneValeur); // si la promesse est tenue
+// ou 
+// reject("raison d'echec"); // si elle est rompue
+});
+
+//L'objet promise contient deux méthodes : 
+//.then(f) appelée quand le résultat est disponible
+//.catch(f) appelée en cas d'erreur
+</pre>
+
+
+
+
+<p>
+  Exemple d'une promesse. 
+  <pre class="prettyprint">
+  const promise1 = new Promise(function(resolve, reject) {
+  //L'asynchronisme est simulé par le timeout aléatoire. 
+  setTimeout(function() {
+    resolve('foo');
+  }, Math.random() * 2000 + 1000);
+  });
+
+  //Quand la promesse est tenue c'est ce code (ce qui suit then) qui sera exécuté. resolve est "lié" à then.
+  promise1.then(function(value) {
+    console.log(value);
+    // expected output: "foo"
+  });
+  //exécution de la promesse
+  console.log(promise1);
+  // expected output: [object Promise]  foo
+  </pre>
+</p>
+
+
+
+<p>
+  Autre exemple d'une promesse. 
+  <pre class="prettyprint">
+
+function methode1(){
+
+  return new Promise((resolve, reject) => {
+    //peut être un chargement d'une grosse image, d'un script, une requette XHR
+    console.log("Methode 1 fait un truc asynchrone");
+
+    // réussir une fois sur deux
+    if (Math.random() > .1) {
+      resolve("Tout va bien dans la méthode asynchrone 1");
+    } else {
+      reject(Error('Problème méthode 1'));
+    }
+  })
+}
+function methode2(reponse){
+  console.log(reponse);
+  return new Promise((resolve) => {
+    //peut être un chargement d'une grosse image, d'un script, une requette XHR
+    console.log("Methode 2 fait un truc asynchrone");
+    // 100% de réussite
+    resolve("Tout va bien dans la méthode asynchrone 2");
+    
+  })
+}
+
+
+methode1()
+.then((reponse) => methode2(reponse))
+.then((reponse)=> console.log(reponse,"!"))
+.catch((alert)=>console.log(alert))
+.then(() => console.log ("tout est terminé"));
+  
+
+
+</pre>
+</p>
+
+<p>
+  Depuis ECMAScript 2017, les opérateurs async/await permettent de simplifier l'écriture des promesses.  async renvoie systématiquement une promesse. Si une erreur est levée pendant l’exécution de la fonction, la promesse est rejetée, et si une valeur est retournée, la promesse est résolue avec cette valeur. 
+<pre class="prettyprint">
+
+  async function faireQqc(){
+   return 'resultat';
+}
+//équivaut à return Promise.resolve('résultat');
+
+  async function toto() {
+  try {
+    //await attend le résultat d'une promesse
+    const result = await faireQqc();
+    const newResult = await faireQqcAutre(result);
+    const finalResult = await faireUnTroisiemeTruc(newResult);
+    console.log('Résultat final : ' + finalResult);
+  } catch(error) {
+    //la gestion des erreurs est un peu simplifiée
+    failureCallback(error);
+  }
+}
+</pre>
+</p>
+
+<h3>Promesses et Ajax</h3>
+
+<p>
+Nous allons étudier le très bon exemple proposé par <a href="https://github.com/mdn/js-examples/blob/master/promises-test/index.html">https://github.com/mdn/js-examples/blob/master/promises-test/index.html</a>  
+</p>
+
+ <pre class="prettyprint">
+function imgLoad(url) {
+    // Create new promise with the Promise() constructor;
+    // This has as its argument a function
+    // with two parameters, resolve and reject
+    return new Promise(function(resolve, reject) {
+      // Standard XHR to load an image
+      var request = new XMLHttpRequest();
+      request.open('GET', url);
+      request.responseType = 'blob';
+      // When the request loads, check whether it was successful
+
+      //observez ici qu'on n'utilise pas onreadystatechange
+      //onload: pour réagir à une requête terminée avec succès.
+      //onerror: pour réagir à une requête terminée avec erreur.
+      //onabort: pour réagir à une requête annulée par la méthode abort()
+      //ontimeout: pour réagir à une requête en timeout
+      //il y en a d'autres
+      //Ces évènements sont exclusifs, un seul sera appelé lors de chaque requête.
+      request.onload = function() {
+        if (request.status === 200) {
+        // If successful, resolve the promise by passing back the request response
+          resolve(request.response);
+        } else {
+        // If it fails, reject the promise with a error message
+          reject(Error('Image didn\'t load successfully; error code:' + request.statusText));
+        }
+      };
+      request.onerror = function() {
+      // Also deal with the case when the entire request fails to begin with
+      // This is probably a network error, so reject the promise with an appropriate message
+          reject(Error('There was a network error.'));
+      };
+      // Send the request
+      request.send();
+    });
+  }
+  // Get a reference to the body element, and create a new image object
+  var body = document.querySelector('body');
+  var myImage = new Image();
+  // Call the function with the URL we want to load, but then chain the
+  // promise then() method on to the end of it. This contains two callbacks
+  imgLoad('myLittleVader.jpg').then(function(response) {
+    // The first runs when the promise resolves, with the request.response
+    // specified within the resolve() method.
+    var imageURL = window.URL.createObjectURL(response);
+    myImage.src = imageURL;
+    body.appendChild(myImage);
+    // The second runs when the promise
+    // is rejected, and logs the Error specified with the reject() method.
+  }, function(Error) {
+    console.log(Error);
+  });
+ </pre>
+
+
+        <h3>Exercice</h3>
+
+        <p>Écrivez le code source permettant de vérifier si un login est disponible ou pas. Lorsque l'utilisateur appuie sur TAB une promesse est en charge de lancer une requête XHR afin que le serveur vérifie si le login est disponible. En fonction de la réponse le texte adéquat apparaît. Il faut gérer cela avec une promesse. C'est le script login.php qui vous indique si le login est disponible ou pas. Attention ceci n'est en aucun cas un système de sécurité. Toutes les vérifications se  font côté serveur. Ce genre de vérifications sont uniquement utiles pour l’expérience utilisateur.</p>
+<video width="1000" height="480" controls>
+            <source src="img/promesse.m4v" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          
+
+
+
+
+
+      <h1 id="exoJQuery" class="w3-xxxlarge w3-text-red"><b>JQuery</b></h1>
+      <hr style="width:50px;border:5px solid red" class="w3-round">
+
+
+      <p><img width=500px; src="img/stripJ.jpg"></p>
+      <p>Vous pouvez regarder cette vidéo proposée par Microsoft. C'est un bon complément à ce cours.</p>
+
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/M2hactsV0eQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
+      <p>La majorité des exemples et exercices qui suivent sont issus des <a href="files/JqueryS4.pdf">notes de cours de Stéphane Fossé</a> sur le JQuery.</p>
+
+
+      <p>jQuery est un framework Javascript sous licence libre qui permet de faciliter des fonctionnalités communes de Javascript. L'utilisation de cette bibliothèque permet de gagner du temps de développement lors de l'interaction sur le code HTML d'une page web, l'AJAX ou la gestion des évènements.
+      Pour pouvoir utiliser la bibliothèque jQuery, vous pouvez la télécharger sur le site jQuery.com, puis la charger dans votre page.</p>
+
+      <pre class="prettyprint">
+        <xmp>
+       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+     </xmp>
+      </pre>
+
+      <p>Tout le fonctionnement de la bibliothèque se base sur la fonction jQuery(). Cette fonction est généralement écrite de manière abrégée <span class="code">$()</span>.
+
+        Par exemple, pour accéder à tous les éléments p de notre page HTML, nous écrirons : <span class="code">$('p')</span> ou pour sélectionner tous les éléments portant la class para, en <span class="code">$('.para')</span>.
+      </p>
+
+   <pre class="prettyprint">
+    <xmp>
+    <script>
+    $( document ).ready(function() {
+        console.log( "document loaded" );
+        $('.para').hide(); 
+    });
+    </script>
+  </xmp>
+  </pre>
+<!-- 
+      <iframe width="100%" height="700px" src="http://plnkr.co/edit/JCzjv8aD98jW6MjFgglJ"></iframe> -->
+
+
+      <p>
+        Le jQuery simplifie la gestion d'évènements en mettant à notre disposition différentes méthodes prêtes à l’emploi.
+        Ces méthodes vont tout simplement généralement porter le nom des évènements auxquels on souhaite réagir, comme par exemple la méthode <span class="code">click()</span> qui va nous permettre de gérer l’évènement <span class="code">click</span>. Il existe également des interactions avec le clavier. Les méthodes <span class="code">keydown()</span>, <span class="code">keyup()</span> et <span class="code">keypress()</span> vont nous permettre de répondre à des évènements relatifs au clavier de l’utilisateur.
+      </p>
+
+      <!-- <iframe width="100%" height="700px" src="http://plnkr.co/edit/ybw4rqc6cOhUIbtoVWH5"></iframe> -->
+
+   <pre class="prettyprint">
+    <xmp>
+      <script>
+      $(document).ready(function() {
+         $('p').click(function() {
+            $(this).hide();
+         });
+         /*Observez la différence entre this et p*/
+         $("p").mouseenter(function() {
+            $("p").css("background-color", "yellow");
+         });
+
+         $("p").mouseleave(function() {
+            $(this).css("background-color", "red");
+         });
+
+         /*Il est possible de remplacer les deux dernières lignes par */
+         
+         /*$("p").hover(function() {
+            $(this).css("background-color", "yellow");
+         }, function() {
+            $(this).css("background-color", "pink");
+         });*/
+      });
+   </script>
+</head>
+
+<body>
+   <h1>Découverte de jQuery</h1>
+   <p class='para'>paragraphe 1</p>
+   <p>paragraphe 2</p>
+</body>
+</xmp>
+</pre>
+
+
+
+
+
+
+
+
+
+      <p>Avec JQuery la gestion des formulaires est simplifiée. Dans l'exemple ci-dessous vous pouvez voir comment il est possible de récupérer la valeur sélectionnée. Vous pouvez également observer comment intercepté l'envoie du formulaire.</p>
+<pre class="prettyprint">
+    <xmp>
+      <script>
+      $(document).ready(function() {
+         $("select").change(function() {
+            var str = "";
+            $("select option:selected").each(function() {
+               str += $(this).text() + " ";
+            });
+            $("div").text(str);
+         })
+         $('form').submit(function() {
+            alert('Formulaire envoyé');
+         });
+      });
+   </script>
+   <style>
+      .focused {
+         background-color: #00f0ff;
+      }
+   </style>
+</head>
+
+<body>
+   <h1>Découverte de jQuery</h1>
+   <form method="GET" action="#">
+      <select name="bonbon" multiple="multiple">
+         <option>Chocolat</option>
+         <option selected="selected">Candy</option>
+         <option>Taffy</option>
+         <option selected="selected">Caramel</option>
+         <option>Cookie</option>
+      </select>
+      <input type="submit" value="Envoyer">
+   </form>
+   <div></div>
+</body>
+    </xmp>
+</pre>
+      <!-- <iframe width="100%" height="700px" src="http://plnkr.co/edit/ondleGCL79VfLtbMJ6D2?p=info"></iframe> -->
+
+
+
+
+
+
+      <p>
+        Depuis la version 1.7 de jQuery, la documentation officielle recommande d’utiliser <span class="code">on()</span> plutôt que les notations raccourcies précédentes.
+        La méthode <span class="code">on()</span>  va prendre en arguments le nom d’un évènement et une fonction à exécuter en cas de déclenchement de l’évènement passé en premier argument. 
+        L'intérêt de la méthode <span class="code">on()</span> est qu'elle sera effective même sur un élément qui n'a pas été créé au chargement du DOM.
+
+        La méthode jQuery <span class="code">off()</span> va nous permettre de supprimer des gestionnaires d’évènements attachés avec la méthode <span class="code">on()</span>.<br>
+
+        Regardez l'aide de <a href="http://api.jquery.com/toggleclass/"><span class="code">.toggleClass(className)</span></a> et de <a href="http://api.jquery.com/slidetoggle/"><span class="code">.slideToggle()</span></a>
+        pour bien comprendre l'exemple.<br>
+        Pour forcer le déclenchement d’un évènement. : <span class="code">trigger()</span> et <span class="code">triggerHandler()</span>
+        Ces deux méthodes vont prendre en argument le nom d’un évènement. On peut également leur passer d'autres arguments optionnels.
+        <span class="code">trigger()</span> va déclencher l’évènement spécifié en argument ainsi que le comportement par défaut de l’évènement tandis que <span class="code">triggerHandler()</span> ne va pas déclencher le comportement par défaut de l’évènement.
+        <span class="code">trigger()</span> va être exécutée pour tous les éléments possédant les caractéristiques ciblées tandis que <span class="code">triggerHandler()</span> ne va s'exécuter que pour le premier élément ciblé rencontré.
+      </p>
+
+<pre class="prettyprint">
+    <xmp>
+      <script>
+      $(document).ready(function() {
+         $("p").on("mouseover mouseout", function() {
+            $(this).toggleClass("intro");
+         });
+         // $("div").on("click", "p", function() {
+         //    $(this).slideToggle();
+         //    $("<p>This is a new paragraph.</p>").insertAfter($(this));
+         // });
+         
+         $("#add").on("click",function(){
+            $("<p>This is a new paragraph.</p>").insertAfter($(this));
+         })
+         $("div").on("click", "p",toggleSlide);
+         
+         function toggleSlide(){
+          $(this).slideToggle();
+         }
+         $("#stop").on("click", function(){
+            $("div").off("click",toggleSlide);
+         });
+         /*Il faut maintenant éviter de faire :
+         $("button").click(function() {
+            $("<p>This is a new paragraph.</p>").insertAfter("button");
+         });*/
+         $("#old").click(function() {
+            $("input").trigger("focus");
+         });
+         $("#new").click(function() {
+            $("input").triggerHandler("focus");
+         });
+         $("input").focus(function() {
+            $("<span>Focused!</span>").insertAfter($(this));
+         });
+      });
+   </script>
+   <style>
+      .intro {
+         background-color: #00f0ff;
+      }
+   </style>
+</head>
+
+<body>
+   <h1>Découverte de jQuery</h1>
+   <div style="background-color:yellow">
+      <p>This is a paragraph.</p>
+      <p>Click any p element to make it disappear. Including this one.</p>
+      <button id="add">Insert a new p element after this button</button>
+   </div>
+      <button id="stop">test Off()</button>
+
+   <button id="old">.trigger("focus")</button>
+   <button id="new">.triggerHandler("focus")
+   </button>
+   <br/>
+   <br/>
+   <input type="text" value="To Be Focused 1" />
+   <br>
+   <input type="text" value="To Be Focused 2" />
+</body>
+    </xmp>
+</pre>
+      <!-- <iframe width="100%" height="700px" src="http://plnkr.co/edit/7E2gcjmqYowx9ObtL0q1"></iframe> -->
+
+      <p><img width="50%" src="img/JDOM.jpg"></p>
+      <p>La manipulation du DOM est rendue simple car des méthodes jQuery ont été créées pour servir à la fois de getter ou de setter selon le type d'arguments qu’on va leur passer.</p>
+
+      <p>Commencez par regarder l'API des méthodes permettant d'accéder aux ascendants et testez le code ci-dessous.  
+
+        <ul>
+          <li><a href="http://api.jquery.com/parent/"><span class="code">.parent()</span></a>qui retourne l'élément parent direct de l'élément sélectionné. Cette méthode ne traverse qu'un seul niveau dans l'arborescence DOM.</li>
+          <li><a href="http://api.jquery.com/parents/"><span class="code">.parents()</span></a> qui retourne tous les éléments ancêtres de l'élément sélectionné.</li>
+          <li><a href="http://api.jquery.com/parentsUntil/"> <span class="code">.parentsUntil()</span></a> qui retourne tous les éléments ancêtres entre deux arguments donnés.</li>
+          <li><a href="http://api.jquery.com/closest/"> <span class="code">.closest()</span></a> retourne le plus proche élément ancêtre de l'élément sélectionné.</li>
+        </ul>
+      </p>
+
+
+
+<pre class="prettyprint">
+    <xmp>      
+<body>
+ 
+<ul class="level-1 yes">
+  <li class="item-i">I</li>
+  <li class="item-ii">II
+    <ul class="level-2 yes">
+      <li class="item-a">A</li>
+      <li class="item-b">B
+        <ul class="level-3">
+          <li class="item-1">1</li>
+          <li class="item-2">2</li>
+          <li class="item-3">3</li>
+        </ul>
+      </li>
+      <li class="item-c">C</li>
+    </ul>
+  </li>
+  <li class="item-iii">III</li>
+</ul>
+<div id="result"></div> 
+<script>
+$("li.item-a").parent().css("background-color","red");
+
+var parentEls = $( "li.item-a" ).parents()
+  .map(function() { //crée un nouveau tableau avec les résultats de l'appel d'une fonction 
+    return this.tagName;
+  })
+  .get()  //renvoie un élément d'un objet Map.
+  .join( ", " );// crée et renvoie une nouvelle chaîne de caractères en concaténant tous les éléments d'un tableau 
+  
+$("#result").append( "<strong>" + parentEls + "</strong>" );
+
+//match avec tous les parents de li.item-2 de classe "yes" jusqu'à trouver ul.level-1 (exclu)
+$("li.item-2").parentsUntil( $("ul.level-1"),".yes").css( "border", "3px solid green" );
+
+$("li.item-2").closest($("ul"),".yes").css( "border", "3px solid yellow" );
+
+
+
+</script>
+ 
+</body>
+    </xmp>
+  </pre>
+      <!-- <iframe width="100%" height="700px" src="http://plnkr.co/edit/j2rJiv3Bi4Dgzi3wu1TA"></iframe> -->
+
+      <p>Lisez rapidement la suite. Je liste les méthodes permettant de manipuler facilement les nœuds du DOM. Si vous avez compris comment le faire en JS, alors le faire en JQuery ne posera pas de problème.</p>
+
+      <p>Sur le même principe voici les méthodes à connaitre pour parcourir les nœuds enfants. </p>
+      <ul>
+        <li><a href="http://api.jquery.com/children/"><span class="code">.children()</span></a>qui retourne tous les enfants directs de l'élément sélectionné. Cette méthode ne traverse qu'un seul niveau dans l'arbre DOM.</li>
+
+        <li><a href="http://api.jquery.com/find/"><span class="code">.find()</span></a>qui retourne tous les enfants passés en paramètre.</li>
+
+        <li> et toutes les méthodes pour parcourir un fratrie de nœuds : <span class="code">.siblings()</span>, <span class="code">.next()</span>, <span class="code">.nextAll()</span>, <span class="code">.nextUntil()</span>, <span class="code">.prev()</span>, <span class="code">.prevAll()</span> et <span class="code">.prevUntil()</span></li>
+        <li>Parmi les méthodes les plus utiles il vous faut connaitre : 
+          <ul>
+            <li><span class="code">.eq()</span> retourne un élément avec un numéro d'index spécifique. Les numéros d'index commencent à 0. Par exemple <span class="code">$('ul.item').eq(1).addClass('selected');</span> retourne le second li d'une liste ul</li>
+            <li><span class="code">.filter()</span> les éléments qui ne correspondent pas aux critères sont retirés de la sélection, et ceux qui correspondent seront retournés. Par exemple <span class="code">$('ul.item').filter('.other-class');</span> retourne uniquement les éléments de classe .other-class d'une liste ul</li>
+            <li><span class="code">.not()</span> fait l'inverse de la méthode précédente</li>
+          </ul></li>
+
+        </ul>
+
+        <p>
+          Il existe également de méthode pour manipuler le texte.
+
+          <ul>
+            <li><span class="code">$('.box').text('Hello world');</span> remplace le texte contenu dans .box et le remplace par celui passé en paramètre</li>
+            <li><img src="img/hack.png"> remplace le texte contenu dans .box et le remplace par celui passé en paramètre en interprétant le html.</li>
+            <li>La méthode <span class="code">.val()</span> est très utile. Elle permet de récupérer ou remplacer la <span class="code">value</span> d'un élément de formulaire <span class="code">input</span> <span class="code">text</span>, <span class="code">textarea</span> etc. Dans les champs de type radio et <span class="code">checked</span> elle renvoie <span class="code">:checked</span> ou pas.</li>
+          </ul>
+        </p>
+
+
+<pre class="prettyprint">
+    <xmp>
+      <style>
+      p {
+         margin: 0;
+         color: blue;
+      }
+      
+      div,
+      p {
+         margin-left: 10px;
+      }
+      
+      span {
+         color: red;
+      }
+   </style>
+   <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+</head>
+
+<body>
+
+   <p>Type 'correct' to validate.</p>
+   <form action="javascript:alert( 'success!' );">
+      <div>
+         <input type="text">
+         <input type="submit">
+      </div>
+   </form>
+   <span></span>
+
+   <script>
+      $("form").submit(function(event) {
+         if ($("input:first").val() === "correct") {
+            $("span").text("Validated...").show();
+         }
+         else{
+            $("span").text("Not valid!").show().fadeOut(1000);
+         }
+         event.preventDefault();
+      });
+   </script>
+
+</body>
+
+    </xmp>
+</pre>
+   <!--      <iframe width="100%" height="700px" src="http://plnkr.co/edit/WtrY7pARnn4ktJI6UrAf"></iframe> -->
+
+
+        <p>
+          Ou supprimer du contenu
+          <ul>
+            <li> <span class="code">.remove()</span> supprime du DOM l'élément sélectionné</li>
+            <li><span class="code">.empty()</span> vide le contenu de l'élément sélectionné.</li>
+          </ul>
+
+        </p>
+
+
+
+        <p>JQuery permet également de simplifier l'utilisation de requêtes AJAX. Jquery propose plusieurs variantes bien résumées sur le site de <a href="https://www.w3schools.com/jquery/jquery_ref_ajax.asp">W3 school</a>. Ici nous verrons uniquement la méthode <span class="code">.ajax()</span> </p>
+
+        <p>Pour bien comprendre comment l'utiliser, il faut comprendre le schéma suivant expliquant les différentes étapes suivantes : </p>
+        <p>
+          <img src="img/ajaxpipeLine.png">
+        </p>
+
+        <p>
+          <ul>
+            <li>Le callBack <span class="code">success()</span> est appelé uniquement si la requête est revenu avec un statut "succès" (pas d'erreur sur le serveur qui retourne le code 200).</li>
+            <li>Le callBack <span class="code">error()</span> est appelé si une erreur est retournée par le serveur</li>
+            <li>Le callBack <span class="code">complete()</span> est appelé dans n'importe quel cas.</li>
+          </ul>
+
+          Généralement on utilise <span class="code">success()</span> si on a simplement besoin d'avoir accès aux données et <span class="code">complete()</span> si on souhaite avoir accès à l'objet <span class="code">XMLHttpRequest</span>.
+        </p>
+
+        <p>Étudiez et complétez ce code source permettant de faire une requête AJAX à un script qui retourne une valeur en fonction du paramètre qui lui est passé (regardez le vidéo pour comprendre le comportement souhaité). 
+        </p>
+
+
+        <p>
+          <video width="1000" height="480" controls>
+            <source src="img/ajax.m4v" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </p>
+
+
+
+          <p>Le code php</p>
+
+          <pre class="prettyprint">
+            <xmp>
+              <?php
+              $id=$_GET["band"];
+              if ($id=="pearl"){
+              $arr = array ("name"=>"PearlJam","city"=>"Seattle");
+              echo json_encode($arr);
+            }
+            else if ($id=="acdc"){
+            $arr = array ("name"=>"AC-DC","city"=>"Sydney");
+            echo json_encode($arr);
+          }
+          ?>
+        </xmp>
+      </pre>
+
+      <p>Le code JS à compléter</p>
+
+      <pre class="prettyprint">
+        <xmp>
+          <html>
+
+          <head>
+            <meta charset="utf-8">
+            <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+          </head>
+
+          <body>
+           <h1>Exercice .ajax() </h1>
+           <select id="band">
+            <option value="">--Please choose an option--</option>
+            <option value="pearl">Pearl Jam</option>
+            <option value="acdc">AC/DC</option>
+          </select>
+          <button id="envoyer">Get Result</button>
+          <script>
+            $("#envoyer").click(function() {
+             $.ajax({
+              url: 'rock.php',
+            type: 'get', // Le type de la requête HTTP, ici devenu POST
+            data: 'band=' + $("#band").val(), // On fait passer notre vairable au script
+            dataType: 'json', //type de données à recevoir
+            success: function(data, status) { 
+             //A COMPLETER
+           },
+           error: function(data, status, error) {
+                 //A COMPLETER
+               }
+             });
+           });
+         </script>
+       </body>
+
+       </html>
+     </xmp>
+   </pre>
+
+
+
+
+   <p>Réalisez quelques exercices permettant de vous faire un peu la main sur les fonctionalités de base de JQuery</p>
+
+
+   <ol>
+    <ul>
+      <li>Manipulation des sélecteurs JQuery
+        <ul>
+          <li>Changer la couleur de tous les titres appartenant à la classe  <span class="code">.title</span> en vert</li>
+          <li>Retirer le padding des éléments h2 se situant dans la div <span class="code">#sidebar</span></li>
+          <li>Changer la couleur des liens qui contiennent le texte Jack en orange</li>
+          <li>Aligner à droite les liens "Lire l'article au complet"</li>
+          <li>Cocher toutes les input de type <span class="code">checkbox</span> de la page</li>
+        </ul>
+      </li>
+    </ul>
+
+    <ul>
+      <li>Manipuler le document HTML avec JQuery
+        <ul>
+          <li>Ajouter un élément de <span class="code">#menu</span> pointant vers le site de JQuery</li>
+          <li>Ajouter un élément à la <span class="code">#sidebar</span> ayant pour titre Jquery et pour texte "jQuery is a fast javaScript Library»</li>
+          <li>Supprimer l'élément "Encore du texte" et son texte de la <span class="code">#sidebar</span></li>
+          <li>Ajouter la classe <span class="code">.red</span> à l'élément Accueil du <span class="code">#menu</span></li>
+          <li>Remplacer le texte de tous les boutons "Lire l'article complet" par "Lire la suite..."</li>
+          <li>Compter et numéroter chaque élément <span class="code">.post</span> de la page</li>
+        </ul>
+      </li>
+    </ul>
+
+
+    <ul>
+      <li>Gestion d'évènements avec JQuery
+        <ul>
+          <li>Quand on clique sur un <span class="code">h2</span> de la <span class="code">#sidebar</span>, sa couleur doit devenir orange, si on re-clique à nouveau, il repasse blanc et ainsi de suite (utilisez la classe .orange déjà définie)</li>
+          <li>Changer la couleur du texte dans le menu principal au survol</li>
+          <li>Appliquez la classe <span class="code">.error</span> aux deux <span class="code">input</span> email et mot de passe si leur contenu est vide quand le formulaire est soumis.</li>
+          <li>Quand on clique sur un <span class="code">h2.title</span> l'élément qui le suit doit passer en display:none</li>
+        </ul>
+      </li>
+    </ul>
+  </ol>
+
+
+ <p>
+  <video width="1000" height="480" controls>
+    <source src="img/exo.m4v" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </p>
+<pre class="prettyprint">
+        <xmp>
+          <body>
+<div id="header">
+      <div id="menu">
+        <ul>
+          <li><a href="#">Accueil</a></li>
+          <li><a href="#">Contenu</a></li>
+          <li><a href="#">Matériel</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      <div id="logo">
+        <h1 class="title">le joli titre</h1>
+        <h2>Programmation web</h2>
+      </div>
+    </div>
+
+    <div id="page">
+      <div id="sidebar">
+        <ul>
+          <li>
+            <h2>Du texte...</h2>
+            <p>Un paragraphe.</p>
+          </li>
+          <li>
+            <h2>Encore du texte...</h2>
+            <p>Toujours plus de texte. </p>
+            <p>Toujours plus de texte./p>
+          </li>
+        </ul>
+      </div>
+
+      <div id="content">
+        <div class="post">
+          <p class="meta">
+            <span class="date">aujourd'hui</span>
+            Publié par <a href="#">Jack</a>
+          </p>
+          <h2 class="title">Exemple de post</h2>
+          <div class="entry">
+            <p>Il est toujours difficile de trouver du texte pertinent à
+              écrire dans un exemple de page web.Ainsi est né Lorem Ipsum.</p>
+            <p>
+              On ajoute aussi un exemple de lien: <a href="http://www.lipsum.com/">Lorem ipsum</a>
+            </p>
+          </div>
+          <div>
+            <a href="#" class="links">Lire l'article au complet</a>
+          </div>
+        </div>
+        <div class="post">
+          <p class="meta">
+            <span class="date">Mardi, le 6 septembre 2011 01:00</span>
+            Publié par <a href="#">Jack</a>
+          </p>
+          <h2 class="title">Exemple de post</h2>
+          <div class="entry">
+            <p>Il est toujours difficile de trouver du texte pertinent à
+              écrire dans un exemple de page web. Ainsi est né Lorem Ipsum.</p>
+            <p>
+              On ajoute aussi un exemple de lien : <a href="http://www.lipsum.com/">Lorem ipsum</a>
+            </p>
+          </div>
+          <div>
+            <a href="#" class="links">Lire l'article au complet</a>
+          </div>
+        </div>
+
+        <div class="post">
+          <h2 class="title">Formulaire d'inscription</h2>
+          <div class="entry">
+            <form method="post" action="javascript:controlAndSendForm ();">
+              <table>
+                <tr>
+                  <td><label for="email">Email :</label></td>
+                  <td>
+                    <input type="text" name="email" id="email" maxlength="25" />
+                  </td>
+                </tr>
+                <tr>
+                  <td><label for="password">Mot de passe :</label></td>
+                  <td>
+                    <input type="password" name="password" id="password" maxlength="10" />
+                  </td>
+                </tr>
+                <tr>
+                  <td><label>Sexe :</label></td>
+                  <td>
+                    <input type="radio" name="sexe" value="H" /> Homme
+                    <br/>
+                    <input type="radio" name="sexe" value="F" /> Femme
+                  </td>
+                </tr>
+                <tr>
+                  <td><label>Date de naissance :</label></td>
+                  <td>
+                    <select name="d_jour">
+                      <option>1</option>
+                      <option>2</option>
+                      <option>...</option>
+                      <option>31</option>
+                    </select>
+                    &nbsp;
+                    <select name="d_mois">
+                      <option>1</option>
+                      <option>2</option>
+                      <option>...</option>
+                      <option>12</option>
+                    </select>
+                    &nbsp;
+                    <select name="d_annee">
+                      <option>1940</option>
+                      <option>1941</option>
+                      <option>...</option>
+                      <option selected="selected">2009</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <label for="desc">Entrez une courte description sur vous :</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <textarea name="desc" id="desc" cols="50" rows="5"></textarea>
+                  </td>
+                </tr>
+                <tr>
+                  <td><label>Vos centres d'intérêts :</label></td>
+                  <td>
+                    <input type="checkbox" name="interets[]" value="informatique" />
+                    &nbsp; Informatique
+                    <br/>
+                    <input type="checkbox" name="interets[]" value="musique" />
+                    &nbsp; Musique
+                    <br/>
+                    <input type="checkbox" name="interets[]" value="cinema" />
+                    &nbsp; Cinéma
+                  </td>
+                </tr>
+                <tr>
+                  <td><label for="hobbies">Vos Hobbies :</label></td>
+                  <td>
+                    <select name="hobbies[]" id="hobbies" multiple="multiple">
+                      <option value="sport">J'aime le sport</option>
+                      <option value="cinema">J'aime le cinéma</option>
+                      <option value="musique">J'aime la musique</option>
+                      <option value="culture">J'aime la culture</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <input type="submit" value="M'inscrire" />
+                  </td>
+                </tr>
+              </table>
+            </form>
+          </div>
+        </div>
+
+        <div id="footer">
+          <p>
+            Copyright &copy; 
+          </p>
+        </div>
+      </div>
+    </div>
+       <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="script.js"></script>
+  </body>
+        </xmp>
+      </pre>
+
+
+      <pre class="prettyprint">
+        <xmp>
+          body {
+   margin: 0px;
+   background: #101010;
+   font-family: Arial, Helvetica, sans-serif;
+   font-size: 12px;
+   color: #72809F;
+}
+
+h1,
+h2 {
+   margin: 0px;
+   font-weight: normal;
+}
+
+h1 {
+   font-size: 44px;
+}
+
+h2 {
+   font-size: 18px;
+}
+
+p,
+ul,
+ol {
+   margin-top: 0px;
+   line-height: 240%;
+   text-align: justify;
+}
+
+a {
+   color: #ADBFE1;
+}
+
+a:hover {
+   text-decoration: none;
+}
+
+#header {
+   width: 960px;
+   height: 160px;
+   margin: auto;
+}
+
+#menu {
+   float: left;
+   width: 900px;
+   height: 44px;
+}
+
+#menu ul {
+   padding: 0px;
+   list-style: none;
+   line-height: normal;
+}
+
+#menu li {
+   display: block;
+   float: left;
+   background: #182739;
+}
+
+#menu a {
+   float: left;
+   height: 34px;
+   padding: 30px 30px 0px 30px;
+   text-align: center;
+   font-weight: normal;
+   color: #FFFFFF;
+}
+
+#menu .red {
+   background: red;
+}
+
+#page {
+   width: 960px;
+   margin: 0px auto 20px auto;
+}
+
+#logo {
+   width: 960px;
+   height: 100px;
+   margin: auto;
+   font-family: Georgia, "Times New Roman", Times, serif;
+   color: #FFFFFF;
+}
+
+#logo h1 {
+   padding-top: 80px;
+   font-size: 52px;
+   font-style: italic;
+   text-transform: lowercase;
+}
+
+#content {
+   float: right;
+   width: 640px;
+   padding: 40px 30px 0px 20px;
+}
+
+.post {
+   margin-bottom: 45px;
+   padding-bottom: 30px;
+   border-bottom: #203253 dashed 1px;
+}
+
+.post .title {
+   padding-bottom: 10px;
+   text-transform: uppercase;
+   font-weight: bold;
+   font-size: 28px;
+   color: #FFFFFF;
+   border-bottom: 4px dashed #203253;
+}
+
+.post .date {
+   color: #FFFFFF;
+}
+
+.post .meta {
+   margin-left: 2px;
+   padding: 4px 30px 0px 0px;
+   font-weight: normal;
+   font-size: 10px;
+   font-style: italic;
+}
+
+.post .meta a {
+   text-decoration: none;
+   color: #FFFFFF;
+}
+
+.post .entry {
+   padding: 10px 0px 20px 0px;
+}
+
+.post .links {
+   height: 18px;
+   margin: 0px 0px 4px 0px;
+   padding: 6px 10px 5px 10px;
+   background: #182739;
+   font-size: 11px;
+   text-decoration: none;
+   font-weight: bold;
+   color: #FFFFFF;
+}
+
+#sidebar {
+   float: left;
+   width: 250px;
+   padding-top: 40px;
+}
+
+#sidebar ul {
+   padding: 0px;
+   list-style: none;
+}
+
+#sidebar p {
+   padding-top: 10px;
+   line-height: 200%;
+}
+
+#sidebar h2 {
+   height: 37px;
+   padding: 15px 0px 0px 20px;
+   text-transform: uppercase;
+   font-size: 18px;
+   font-weight: bold;
+   color: #FFFFFF;
+}
+
+#sidebar h2.orange {
+   color: orange;
+}
+
+#footer {
+   height: 110px;
+}
+
+#footer p {
+   text-align: center;
+   font-size: 12px;
+   line-height: normal;
+}
+
+.error {
+   border: 3px solid red;
+}
+        </xmp>
+      </pre>
+  <!--  <iframe width="100%" height="700px" src="http://plnkr.co/edit/O3YLQ0sd9t6mRcKWhDlU?p=preview"></iframe>
+ -->
+
+
+<p><img src="img/jcvd.png"></p>
+
+<p>Récupérez, <a href="files/exoJCVDetu.zip">l'archive suivante</a>. Elle contient la base du code source  (html/css) permettant de réaliser un site web qui affiche une citation de JCVD quand on clique sur le picto. Quand il n'y a plus de citation un message s'affiche. Regardez la vidéo et écrivez le javaScript permettant de reproduise le même comportement.</p>
+<p>
+  <video width="1000" height="480" controls>
+    <source src="img/jcvd.m4v" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </p>
+
+
+
+
+  <h1 id="exo3" class="w3-xxxlarge w3-text-red"><b>Service Worker</b></h1>
+  <hr style="width:50px;border:5px solid red" class="w3-round">
+  <p><img width=500px; src="img/strip3.jpg"></p>
+
+  <p>Mettre en œuvre des sites web offrant une expérience utilisateur riche et fonctionnant aussi bien sur tablette, smartphone et site web est devenu maintenant un standard. On parle de "progressive web applications". Désormais, un site web doit offrir des fonctionnalités telles que : l'envoi de notifications push, l'utilisation du site même sans connexion internet, assurer la synchronisation du contenu sans avoir à rafraichir le site (Définition et exercices largement inspirés du très <a href="https://developers.google.com/web/fundamentals/primers/service-workers/">bon tutoriel</a> de Google ).  </p>
+
+
+  <p>Un service worker est un script que votre navigateur exécute en arrière-plan, indépendamment d'une page Web, sans nécessité d'une interaction utilisateur. Concrètement, un service worker joue le rôle d'un proxy vous permettant de contrôler la façon dont les requêtes réseau de votre page sont traitées. Il peut se stopper s'il n'est plus utilisé et redémarrer lorsque nécessaire. Le cycle de vie d'un service worker est totalement distinct de celui d'une page web. </p>
+
+  <p>Les services workers sont basés sur le concept de "promesses". Lisez <a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Guide/Utiliser_les_promesses">ce tutoriel</a> si vous souhaitez creuser un peu le sujet.  </p>
+
+
+  <p>Pour installer un service worker vous devez l'enregistrer. Ceci se fait en JavaScript. Cet enregistrement fait que le navigateur lance l'étape d'installation, en arrière-plan, du service worker. Une fois activé, le service worker contrôlera les pages qui se sont abonnées à lui. Un service worker est soit dans un état "à l'arrêt" pour économiser de la mémoire, soit il est dans un état "récupération d'évènements" à l'écoute de requêtes réseaux.  </p>
+
+  <p>Si vous souhaitez mettre en ligne un site avec des services workers, il faut que votre serveur soit configuré en HTTPS. Mais comme nous travaillons en local dans le cadre de ce tp cette étape n'est pas nécessaire.</p>
+
+
+  <p>Nous allons nous inspirer de l'exemple trouvé sur <a href="https://github.com/mdn/sw-test">GitHub</a> et qui permet d'afficher une page toute simple puis de pouvoir la rafaichir même sans être conencté au réseau.  Partez de <a href="files/starWarsEtu.zip">l'archive suivante</a> pour réaliser l'éxercice.</p>
+
+  <p>Le HTML est tout simple. Il fait référence à un fichier <span class="code">image-list.js</span> qui contient les URL des images à afficher et un fichier <span class="code">app.js</span> qui va nous servir à installer le service worker. </p>
+
+  <pre class="prettyprint">
+    <xmp>
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width">
+        <title>Service worker demo</title>
+        <link rel="stylesheet" href="style.css">
+      </head>
+
+      <body>
+        <h1>Lego Star Wars gallery</h1>
+        <section></section>
+
+        <script src="image-list.js"></script>
+        <script src="app.js"></script>
+      </body>
+      </html>
+    </xmp>
+  </pre>
+
+
+  <p>Dans <span class="code">app.js</span> copiez ce code. Il permet successivement de vérifier que votre navigateur supporte l'exécution d'un service worker puis d’enregistrer votre navigateur auprès du service worker définit dans  <span class="code">sw.js</span>. On affiche dans la console les différents cas de figure d'exécution (installation, sw actif, echec, ...).  </p>
+
+
+  <pre class="prettyprint">
+    var CACHE_NAME = 'my-site-cache-v1';
+    if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js', { scope: '.' }).then(function(reg) {
+
+    if(reg.installing) {
+    console.log('Service worker installing');
+  } else if(reg.waiting) {
+  console.log('Service worker installed');
+} else if(reg.active) {
+console.log('Service worker active');
+}
+
+}).catch(function(error) {
+// registration failed
+console.log('Registration failed with ' + error);
+});
+}
+
+</pre>
+
+<!-- 
+<p>Pour tester, il vous faut maintenant exécuter votre code source sur un serveur web. Je vous propose d'installer celui de chrome. Il se présente  <a href="https://chrome.google.com/webstore/detail/web-server-for-chrome/ofhbbkphhbklhfoeikjpcbhemlocgigb">sous la forme d'une extension</a></p>
+
+<p>Une fois installé et lancé vous devriez obtenir une fenêtre comme celle-ci indiquant ue le serveur est accessible en local (127.0.0.1) et sur le réseau local (10.X.X.X). Pensez également à définir le répertoire racine de votre serveur (bouton "choose folder").</p>
+
+<p><img height=400px src="img/serveur.png"></p>
+-->
+
+
+
+
+<p>Normalement si tout s'est bien passé, un message s'est affiché dans la console et votre service worker est visible dans l'onglet "application". Ce code est a exécuter sur un serveur web.</p>
+
+<p><img width="700px" src="img/sw1.png"></p>
+<p><img width="700px" src="img/sw2.png"></p>
+
+
+<p>
+  Nous allons maintenant configurer le service-worker. Dans un premier temps il faut indiquer toutes les ressources qui vont devoir être mises en cache. Complétez le code suivant dans le fichier <span class="code">sw.js</span>.
+  <pre class="prettyprint">
+    <xmp>
+      self.addEventListener('install', function(event) {
+      event.waitUntil(
+      caches.open('my-site-cache-v1').then(function(cache) {
+      return cache.addAll([
+      '.',
+      'index.html',
+      [à compléter]
+      'gallery/snowTroopers.jpg'
+      ]);
+    })
+    );
+  });
+
+</xmp>
+</pre>
+
+</p>
+
+<p>
+  Lorsque la procédure d'installation du service worker est captée (ligne 1) alors la mise en cache peut commencer. La méthode <span class="code">caches.open()</span> permet de définir le nom du cache  (ici celui créé dans <span class="code">app.js</span> auquel vous souhaitez associer des données à mettre en cache pour une exécution du site sans connexion web. Si une seule ressource ne se charge pas, le service worker ne sera pas installé.
+</p>
+
+<p>
+ Dans le service worker il faut également définir les réponses aux requêtes qui peuvent être faites sans connexion (rafraichissement, navigation).  Le service worker recevra des évènements de type <span class="code">fetch</span> qu'il faudra gérer avec 
+ la méthode <span class="code">caches.match()</span>. Elle regarde si la requête est en cache et retourne un résultat le cas échéant. Si la requète n'est pas en cache, la seconde partie du code sert à mettre en cache de nouvelles requêtes.
+
+</p>
+
+<pre class="prettyprint">
+  <xmp>
+    self.addEventListener('fetch', function(event) {
+    event.respondWith(caches.match(event.request).then(function(response) {
+    // caches.match() always resolves
+    // but in case of success response will have value
+    if (response !== undefined) {
+    return response;
+  } else {
+  return fetch(event.request).then(function (response) {
+  // response may be used only once
+  // we need to save clone to put one copy in cache
+  // and serve second one
+  let responseClone = response.clone();
+
+  caches.open('my-site-cache-v1').then(function (cache) {
+  cache.put(event.request, responseClone);
+});
+return response;
+}).catch(function () {
+return caches.match('gallery/myLittleVader.jpg');
+});
+}
+}));
+});
+</xmp>
+</pre>
+
+
+<p>La première version de votre service worker est prête. Nous allons compléter le code de <span class="code">app.js </span> afin que celui-ci génère des requêtes que votre service worker sera à même de pouvoir gérer s'il y a une coupure de réseau.</p>
+
+
+<p>Regardez le code suivant. Vous reconnaitrez une requête AJAX qui charge les images (depuis un Json). Images qui seront intégrées plus tard dans le HTML. La spécificité de cette requête Ajax est qu'elle est encapsulée dans une promesse qui permet d'appeler de manière asynchrone la suite des traitements tout en gérant la réussite ou l'échec de cette requête.</p>
+
+<pre class="prettyprint">
+  <xmp>
+
+    function imgLoad(imgJSON) {
+    // return a promise for an image loading
+    return new Promise(function(resolve, reject) {
+    var request = new XMLHttpRequest();
+    request.open('GET', imgJSON.url);
+    request.responseType = 'blob'; //on indique que la réponse sera une donnée binaire (l'image)
+
+    request.onload = function() {
+    if (request.status == 200) {
+    var arrayResponse = [];
+    arrayResponse[0] = request.response;
+    arrayResponse[1] = imgJSON;
+    resolve(arrayResponse);
+    //Promise.resolve()
+    //Renvoie un objet Promise qui est tenu (résolu) avec la valeur donnée. 
+    //Si la valeur possède une méthode then, la promesse renvoyée « suivra » cette méthode 
+    //pour arriver dans son état. (définition developper.mozilla)
+  } else {
+  reject(Error('Image didn\'t load successfully; error code:' + request.statusText));
+}
+};
+
+request.onerror = function() {
+reject(Error('There was a network error.'));
+};
+
+// Send the request
+request.send();
+});
+}
+</xmp>
+</pre>
+
+
+
+<p>Il ne reste plus qu'à écrire le code permettant, pour entrée dans le JSON (objet Gallery), d'exécuter une requête AJAX de permet de récupérer le contenu binaire de l'image et toutes les informations que l'on souhaite afficher. La suite du code est toute simple. Elle permet d'intégrer les images.</p>
+
+
+<pre class="prettyprint">
+  <xmp>
+
+    var imgSection = document.querySelector('section');
+
+    window.onload = function() {
+
+    // load each set of image, alt text, name and caption
+    for(var i = 0; i<=Gallery.images.length-1; i++) {
+    imgLoad(Gallery.images[i]).then(function(arrayResponse) {
+    //Si succès alors le "resolves" s'exécutera sur arrayResponse
+
+    var myImage = document.createElement('img');
+    var myFigure = document.createElement('figure');
+    var myCaption = document.createElement('caption');
+    var imageURL = window.URL.createObjectURL(arrayResponse[0]);
+
+    /*COMPLETER LE CODE*/
+
+  }, function(Error) {
+  //exécution du reject
+  console.log(Error);
+});
+}
+};
+</xmp>
+</pre>
+
+<p>Si tout marche bien, votre site devrait ressembler à cela : <br>
+  <img src="img/sw3.png">
+</p>
+
+
+<p>Pour tester votre travail en conditions réelles il faudrait que vous ayez déployer votre code sur un serveur implémentant https. <br>
+  Rien de plus simple : suivez le tutoriel <a href="https://pages.github.com/">suivant</a> qui explique comment déployer grace à github. <br>
+  Si vous n'avez pas le temps de le faire, regardez <a href="https://njournet.github.io/index.html"> ce que donne ce code</a> sur mon github. Comme sur la vidéo ci-dessous, faites le test montrant que même sans réseau les requêtes sont bien exécutées grâce à la gestion du cache.
+</p>
+
+<p>J'ai également déployé le même code sur un serveur web en http. Vérifiez <a href="#">ICI</a> que sans le https, le même code ne permet pas de gérer le cache si le réseau est coupé.</p>
+
+<p>
+  <video width="1000" height="480" controls>
+    <source src="img/swtest.m4v" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </p>
+  <p>Pour aller plus loin sur les services worker, vous pouvez aller regarder les derniers tutoriels proposés par <a href="https://developers.google.com/web/fundamentals/push-notifications/">Google</a></p>
+
+
+  <h1 id="exo4" class="w3-xxxlarge w3-text-red"><b>Sauvegarde de données en local</b></h1>
+
+  <hr style="width:50px;border:5px solid red" class="w3-round">
+
+
+  <h3>Local Storage : une solution de stockage synchrone</h3>
+
+<p>
+Cette partie est très largement inspirée des (bons) tutoriels de <a href="https://developer.mozilla.org/fr/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API">mozilla</a> et   <a href="https://www.alsacreations.com/article/lire/1402-web-storage-localstorage-sessionstorage.html">d'alsacréation</a>. N'hésitez pas à vous y référer pour compléter vos connaissances.
+</p>
+
+<p>Si vous devez développer une application (mobile ou web) qui doit s'exécuter dans un contexte hors-ligne. Il est possible de stocker des informations sur la forme de "clé/valeur" de manière plus performante que les cookies (qui sont par exemple limités en taille).</p>
+
+<p>
+Stockage de session <span class="code">sessionStorage</span><br>
+L'interface sessionStorage mémorise les données sur la durée d'une session de navigation, et sa portée est limitée à la fenêtre ou l'onglet actif. Lors de sa fermeture, les données sont effacées. Contrairement au cookies,  il n'y a pas d'interférence. Chaque stockage de session est limité à un domaine.
+</p>
+
+<p>
+Stockage local <span class="code">localStorage</span> <br>
+L'interface localStorage mémorise les données sans limite de durée de vie. Contrairement à sessionStorage, elles ne sont pas effacées lors de la fermeture d'un onglet ou du navigateur. La portée de localStorage est de facto plus large : il est possible de l'exploiter à travers plusieurs onglets ouverts pour le même domaine ou plusieurs fenêtres ; à partir du moment où il s'agit bien sûr du même navigateur.
+
+Il n'y a pas de partage des données Web Storage entre les différents navigateurs qui peuvent être installés sur une même machine.
+</p>
+
+<p>Comme pour une gestion classique des <span class="code">map</span>, il existe 5 méthodes permettant de manipuler ce stockage local.
+
+
+
+
+
+  <ul>
+    <li><span class="code">setItem(clé,valeur)</span> : stocke une paire clé/valeur</li>
+    <li><span class="code">getItem(clé)</span> : retourne la valeur associée à une clé</li>
+    <li><span class="code">getItem(clé)</span> : retourne la valeur associée à une clé</li>
+    <li><span class="code">getItem(clé)</span> : retourne la valeur associée à une clé</li>
+    <li><span class="code">key(index)</span> : retourne la clé stockée à l'index spécifié</li>
+      <li><span class="code">clear() </span> : efface toutes les paires</li>
+  </ul>
+</p>
+
+
+
+<p>Reprenez le code de l'exercice sur l'ajout de personnes dans des listes.
+Nous allons transformer ce code afin qu'il stocke en local les noms/prénoms saisis. Ainsi à chaque rechargement de la page il faut que les données saisies précédement soient toujours présentes dans les listes. La vidéo illustre ce que vous devez faire.
+</p>
+
+<video width="750" height="360" controls>
+    <source src="img/exolocalSotrage.m4v" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+
+
+<p>
+  Etablir la stratégie permettant de sauvegarder les données dans le localStorage et de charger la map avec fait partie de l'exercice.Je vous donne néanmoins quelques pistes. Il existe plusieurs manières de réaliser cet exercices. 
+
+</p>
+
+<pre class="prettyprint">
+<xmp>
+<script>
+// Détection du support
+if(typeof sessionStorage!='undefined') {
+    alert("sessionStorage est supporté");
+    //des choses à faire pour récupérer des noms dans le localStorage
+} else {
+  alert("sessionStorage n'est pas supporté");
+}
+</script>
+</xmp>
+</pre>
+
+
+<pre class="prettyprint">
+<xmp>
+<script>
+userMap=new Map(JSON.parse(localStorage.getItem("listeNoms")));
+localStorage.setItem("listeNoms", JSON.stringify(Array.from(userMap.entries()))); 
+</script>
+</xmp>
+</pre>
+
+
+
+
+  <h3>LocalForage : une solution de stockage asynchrone</h3>
+  
+  <p>Le problème avec localStorage, c'est que qu'il n'est pas la solution idéale pour la mise en production d'applications où le nombre d'accès et la quantité de données à stockées est important. En effet, localStorage réalise des actions synchrones. Il faut donc attendre que l'écriture ou la lecture en base soit terminée pour pouvoir continuer à exécuter du code JS. Cela peut donc ralentir l'exécution de votre application.  </p>
+  
+  <p>Il existe plusieurs librairies JS permettant de réaliser du localSotrage de manière asynchrone. Une intéressante est  <a href="https://localforage.github.io/localForage/"> localForage</a>. Vous pouvez télécharger cette bibliothèque sur <a href="https://github.com/localForage/localForage/releases"> le gitHub officiel</a> et inclure ce code depuis votre page web.</p>  
+<pre class="prettyprint">
+<xmp>
+
+  <script src="localForage-1.7.3/dist/localforage.js"></script>
+</xmp>
+</pre>
+  
+
+<p>Par exemple, là où dans l'exercice précédent le chargement du localStorage vers une map était synchrone,</p>
+<pre class="prettyprint">
+<xmp>
+<script>
+  userMap=new Map(JSON.parse(localStorage.getItem("listeNoms")));
+  // opération suivante 
+  //..
+  // opération suivante
+</script>
+</xmp>
+</pre> 
+
+
+<p>Vous pouvez maintenant écrire : </p>
+
+
+<pre class="prettyprint">
+<xmp>
+<script>
+localforage.getItem('listeNoms').then(function(value) {
+      // opération suivante 
+      //..
+      // opération suivante
+    }).catch(function(err) {
+        console.log(err);
+});
+</script>
+</xmp>
+</pre> 
+
+<p>Modifiez le code de l'exercice précédent pour qu'il fonctionne maintenant en asynchrone.</p>
+
+
+<h1 id="exo5" class="w3-xxxlarge w3-text-red"><b>Etude d'une PWA</b></h1>
+
+  <hr style="width:50px;border:5px solid red" class="w3-round">
+
+<p>Rendez-vous sur l'application <a href="https://meteo.cours.iutlppro.devops.u-bordeaux.fr/">météo</a> que j'ai déployée sur mon serveur. Nous allons ensemble étudier comment elle fonctionne.</p>
+<p>Cette application est extraite d'un tutoriel sur les PWA créé par <a href="https://codelabs.developers.google.com/codelabs/your-first-pwapp/#0">Google</a>.</p>
+<p><img width="600px" src="img/meteo.png"></p>
+
+
+
+
+<h1 id="exo6" class="w3-xxxlarge w3-text-red"><b>FrameWork Vues.js</b></h1>
+
+  <hr style="width:50px;border:5px solid red" class="w3-round">
+<p>Cette section n'est initialement pas prévue pour faire partie de ce cours, mais il me semble important que vous regardiez (sur votre temps libre) comment marche un framework tel que Vue.js.
+</p>
+
+
+
+<p>Lisez les très bons cours faits par les développeurs de <a href="https://fr.vuejs.org/v2/guide/">Vue.js</a> 
+
+Les concepts essentiels à retenir sont :
+<ul>
+  <li>la notion de directives (tout ce qui commence par "v-" ). Par exemple ici v-bind, v-if, v-for, v-on</li>
+ <!-- <iframe width="100%" height="700px" src="http://plnkr.co/edit/OMSpVTLkcS28t8pIh2zf"></iframe> -->
+ <li>la notion de liaison bidirectionnelles (data-binding) : v-model</li>
+
+  <li> la notion de composant et l'intérêt qu'il y a à découpler du code </li>
+</ul>
+</p>
+
+<p>J'ai adapté quelques exercices issus des cours de Stéphane fossé. Regardez les pour comprendre ce qu'on peut faire avec du vue.js</p>
+
+<p>Exercice introductif</p>
+<!-- <iframe width="100%" height="700px" src="http://plnkr.co/edit/wQZSgFRrb45TzceSqF4H"></iframe>
+ -->
+<pre class="prettyprint">
+<xmp>
+<!DOCTYPE html>
+<html>
+
+<head>
+   <link rel="stylesheet" href="style.css">
+
+   <script src="https://unpkg.com/vue"></script>
+</head>
+<!--
+   création d'un container qui donne accès à l'instance de la vue 
+-->
+<div id="app" class="container">
+   <h2>{{ title }}</h2>
+   <ul>
+      <!--
+         boucle sur la liste d'items de #app
+         on initialise la classe de chaque <li>  à "removed" si item.checked vaut vrai
+      -->
+      <li v-for="item in items" v-bind:class="{ 'removed':item.checked }">
+         <div class="checkbox">
+            <label>
+               <!--
+                  chaque "checkbox" créée est liée à l'item de la liste
+                  v-model (pour les input de type checkBox) permet de spécifier si la case est cochée ou non
+                  le texte de l'item (de l'instance) est affiché
+               -->
+               <input type="checkbox" v-model="item.checked"> {{ item.text }}
+            </label>
+         </div>
+      </li>
+   </ul>
+   <!--
+      le model est le newItem de l'instance (lien entre valeur du champ input et l'attribut newItem de l'instance)
+      v-on:keyup.enter et v-on:click-> on bind ma méthode add 
+           sur l'appui de la touche entrée ou le click sur le bouton
+      
+   -->
+   <input v-model="newItem" v-on:keyup.enter="addItem" placeholder="add shopping list item" type="text">
+   <button v-on:click="addItem" type="button">Add!</button>
+   <div class="footer">
+      <hr/>
+      <em>Change the title of your shopping list here</em>
+      <input v-model="title" />
+      <button v-on:click="liste_course" type="button">liste des courses restantes !</button>
+   </div>
+</div>
+
+<script>
+// Tableau de données classique indépendant de la vue 
+// il pourrait ^être chargé depuis un Json
+var data = {
+    items: [{ text: 'Bananas', checked: true },
+        { text: 'Apples', checked: false },
+        { text: 'Applepines', checked: true }],
+    title: 'My Shopping List',
+    newItem: ''
+};
+//instance de la vue
+new Vue({
+   //définition de l'id qui peremttra de faire le rendu dans le html
+    el: '#app',
+    //données de l'instance (vaut la liste de courses dans l'exemple)
+    data: data,
+    //méthodes de l'instance
+    //découplage --> on ne souscie pas du rendu.
+    //on pense uniquement à la logique métier (données et méthodes)
+    methods: {
+        addItem: function () {
+            var text;
+            text = this.newItem.trim();
+            if (text) {
+               //on ajoute une chaine de caratères dans la liste
+                this.items.push({
+                    text: text,
+                    checked: false
+                });
+                this.newItem = '';
+            }
+        },
+        liste_course:function() {
+           //liste des courses restantes
+            this.items.forEach(function(element) {
+               if (element.checked==false)
+                  alert(element.text);
+            });
+        },
+    }
+});
+
+
+</script>
+</body>
+
+</html> 
+</xmp>
+</pre>
+
+
+<p>Votre premier composant</p>
+<!-- <iframe width="100%" height="700px" src="http://plnkr.co/edit/OMSpVTLkcS28t8pIh2zf"></iframe> -->
+
+<pre class="prettyprint">
+<xmp>
+<!DOCTYPE html>
+<html>
+
+<head>
+   <link rel="stylesheet" href="style.css">
+
+   <script src="https://unpkg.com/vue"></script>
+</head>
+
+<body>
+   <div id="tuto">
+      <!--intégration du conteneur-->
+      <input v-model="nomSaisi">
+      <!-- 
+            Intégration du composant, 
+            il possède un paramètre d'entrée
+            que l'on "lie" à l'input 
+      -->
+        <mon-composant :nom="nomSaisi">
+           
+        </mon-composant>
+        <!-- 
+            Mais j'aurais très bien pu également
+            entrer en dur la valeur de ce paramètre
+        -->
+        <mon-composant nom="Stéphane">
+           
+        </mon-composant>
+        
+        
+   </div>
+
+   <script>
+   //Un composant est un élément isolé, autonome, 
+   //qui possède des propriétés et des comportements et 
+   //qu'on peut utiliser directement dans le HTML
+   //Ce composant n'est pas lié à une seule instance d'une Vue
+   // C'est pour cela qu'il est inclus dans une <div> d'id de la vue (ici '#tuto')
+      Vue.component('mon-composant', {
+          // Le composant mon-composant accepte maintenant une
+         // « prop » qui est comme un attribut personnalisé.
+         // Cette prop est appelée 'nom'.
+         props: ['nom'],
+         template: '<p>Mon nom est <strong>{{nom}}</strong> !</p>'
+      });
+   //Il faut aussi initialiser la VueModèle comme d'habitude 
+      new Vue({
+         //el est ce qui va être utilisé pour faire le rendu dans le html
+         el: '#tuto',
+         //donnée de l'instance qui sera liée 
+         data:{
+            nomSaisi:""
+         }
+      });
+   </script>
+</body>
+
+</html>  
+</xmp>
+</pre>
+
+<p>Composant permettant d'afficher les livres d'un auteur (infos récupérées sur l'api de google play)
+</p>
+<!-- <iframe width="100%" height="700px" src="http://plnkr.co/edit/l2UlQeGonC9YgkNXacur"></iframe>
+ -->
+
+
+<pre class="prettyprint">
+<xmp>
+<!DOCTYPE html>
+<html>
+
+<head>
+   <link rel="stylesheet" href="style.css">
+
+   <script src="https://unpkg.com/vue"></script>
+
+</head>
+
+<body>
+
+   <div id="exemple">
+      <header>
+         <div id="formulaire">
+            <!-- on bind cet input avec le data.auteur de l'instance-->
+            <input v-model="auteur">
+            <!-- méthode de l'instance qui fait la requête à l'API-->
+            <button id="valide" v-on:click="lance">valider ici</button>
+         </div>
+      </header>
+      <div class="container">
+         <!--intégration du composant qui itère sur les résultats présents à un instant donné dans post-->
+         <liste v-for="post in posts" v-bind:post="post"></liste>
+      </div>
+   </div>
+
+
+   <!--
+   Le template de votre component commence à être un peu volumineux,
+   mieux vaut le sortir (lien fait avec #temp)
+   -->
+   <template id="temp">
+      <div class="post">
+         <!--
+         l'attribut background-image du thumbnail vaut ce qui 
+         est retourné par la fonction getImageBackgroundCSS 
+         qui prend elle même en paramètre ce qui est dans "post"
+         -->
+         <div class="thumbnail" v-bind:style="getImageBackgroundCSS(post.volumeInfo.imageLinks.smallThumbnail)"></div>
+         <!--le titre est celui passé en paramètre "posts"-->
+         <h2><a v-bind:href="post.saleInfo.buyLink" target="_blank"> {{post.volumeInfo.title}} </a></h2>
+         <p>{{post.volumeInfo.description | truncate}}</p>
+      </div>
+   </template>
+
+   <script>
+      var data = {
+         auteur: '',
+         posts: []
+      };
+
+      new Vue({
+         el: '#exemple',
+         data: data,
+         methods: {
+            lance: function() {
+               this.$http.get("https://www.googleapis.com/books/v1/volumes?q=inauthor:" + data.auteur)
+                  .then(function(resp) {
+                     var s=JSON.parse(JSON.stringify(resp.data))
+                     data.posts = s.items;
+                  });
+            }
+         }
+         });
+         
+         Vue.component('liste',{
+               props: ['post'],
+               template: "#temp",
+               methods: {
+                  getImageBackgroundCSS: function(img) {
+                     if (img && img != 'self' && img != 'nsfw') {
+                        return 'background-image: url(' + img + ')';
+                     } else {
+                        return '';
+                     }
+                  }
+               }
+            });
+      //permet de limiter la taille du texte à 200 caractères
+      Vue.filter('truncate', function(value) {
+         var length = 200;
+
+         if (value.length <= length) {
+            return value;
+         } else {
+            return value.substring(0, length) + '...';
+         }
+      });
+   </script>
+
+   <script src="vue-ressource.min.js"></script>
+</body>
+
+</html>
+</xmp>
+</pre>
+
+
+
+<h1 id="exo7" class="w3-xxxlarge w3-text-red"><b>Projet iGoogle</b></h1>
+  <hr style="width:50px;border:5px solid red" class="w3-round">
+<p>
+iGoogle était un service gratuit lancé par la société américaine Google en mai 2005. Il s'agissait d'un portail Web personnalisable permettant d'agréger en une seule page des flux d'information continue (notamment des flux RSS), des jeux, des services personnalisés (Agenda, météo, Gmail…) et différents modules de type widget. 
+
+Le 3 juillet 2012, Google annonce que le retrait du service pour le 1er novembre 2013 (définition Wikipédia).
+</p>
+
+
+<p>
+
+Ce projet ambitionne de faire (un peu) revivre IGoogle.
+
+p
+
+Ci-dessous sont décrits les besoins fonctionnels et l'ergonomie souhaitée.
+Je donne également des liens vers des webservices donnant accès à des informations en temps réel.
+
+En termes de technologie de développement vous pouvez utiliser n'importe quelle technologie/concept vue lors des cours de WEB. Pour la partie ergonomie, vous êtes vivement encouragés à utiliser un framework CSS. 
+
+</p>
+
+<p><img src="img/igoogle.png"></p>
+
+<h4>Spécifications fonctionnelles</h4>
+<p>
+Comme sur IGoogle :
+
+<ul>
+<li> Il faut que l'utilisateur puisse ajouter autant de widgets qu'il le souhaite</li>
+<li> L'utilisateur peut ajouter un widget parmi un ensemble de widget prédéfinis</li>
+<li> L'utilisateur doit pouvoir supprimer un widget</li>
+<li> Le site doit être responsive et donc gérer un affichage lisible sur tablette et smartphone</li>
+<li> L'utilisateur peut choisir la couleur de widgets (même couleur pour tous les widgets)</li>
+</ul>
+
+Vous devez (au minimum) intégrer les widgets décrits ci-dessous :
+
+<ul>
+<li> Heure / Date. Le widget n'est pas paramétrable et affiche par défaut l'heure et la date fournie par votre système.</a>  </li>
+<li> Météo  : widget paramétrable. L'utilisateur doit pouvoir saisir la ville dont il veut connaitre la météo (par exemple la température). Vous pouvez utiliser <a href="https://www.apixu.com/">cette api</a> qui est gratuite (il faut néanmoins vous inscrire et générer un token), mais vous pouvez utiliser celle que vous voulez. </li>
+<li> Photos  (widget paramétrable): L'utilisateur doit pouvoir saisir un mot-clef et que cela affiche au moins 1 image correspondant à ce mot-clef. vous pouvez par exemple utiliser <a href="https://www.flickr.com/services/developer/api/">l'API Flickr</a> et la méthode <a href="https://www.flickr.com/services/api/flickr.photos.search.html">Photo.search</a>. JE vous laisse lire la documentation de cette méthode qui vous retournera des "id" d'images correspondant à votre requête. Pour générer l'URL des images lisez <a href="https://www.flickr.com/services/api/misc.urls.html">cette documentation</a>. SI vous utilisez l'API de flickr, il vous faudra un créer un compte et générer un clef d'API. </li>
+<li> Twitter : afficher la timeLine du compte @MichelBillaud . C'est très simple à faire. Allez jeter un coup d'oeil <a href="https://publish.twitter.com/#"> ici</a>.</li>
+<li> News : Une liste de news : photo, description et lien vers la news.   L'utilisateur doit pouvoir saisir un mot-clef et que cela permette d'afficher 5 news relatives àce thème. Regardez l'api <a href="https://newsapi.org/docs/get-started"> de newsapi.</a></li>
+<li> Tous les widgets sont rectangulaires et doivent pouvoir être échangés les uns à la place des autres (sur le mode du drag and drop).</li>
+</ul>
+
+
+
+
+ 
+<h4>Aller plus loin</h4>
+
+<p>
+  
+  <ul>
+    <Li>Gérer le localStorage (pour enregister les widgets positionnées et ne pas avoir à tout reconfigurer à chaque fois)</Li>
+    <Li>Ajouter des webServices (les vôtres ou pas)</Li>
+    <Li>Gérer le cache (service workers)</Li>
+    <li>Du Vue.js</li>
+    <Li>Déployer sur un serveur</Li>
+    <Li>Qualité du code (Opquast, RG2A, google speed, ...) </Li>
+  </ul>
+
+</p>
+
+</p>
+<h4>Idée du rendu attendu</h4>
+
+<p>La vidéo ci dessous un ideé du résultat attendu. Cette vidéo est là pour vous donner une idée du rendu final, ne cherchez pas forcément à reproduire ce rendu."</p>
+
+<video width="750" height="360" controls>
+    <source src="img/igoogle.m4v" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+
+
+  </div>
+
+</div>
+
+
+
+<script>
+// Script to open and close sidebar
+function w3_open() {
+  document.getElementById("mySidebar").style.display = "block";
+  document.getElementById("myOverlay").style.display = "block";
+}
+
+function w3_close() {
+  document.getElementById("mySidebar").style.display = "none";
+  document.getElementById("myOverlay").style.display = "none";
+}
+
+// Modal Image Gallery
+function onClick(element) {
+  document.getElementById("img01").src = element.src;
+  document.getElementById("modal01").style.display = "block";
+  var captionText = document.getElementById("caption");
+  captionText.innerHTML =  element.alt;
+}
+</script>
+
+</body>
+</html>

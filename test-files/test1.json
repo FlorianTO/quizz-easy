@@ -5,7 +5,7 @@
         {
             "type": "QCM",
             "name": "Combien font 2+3 ?",
-            "hints": ["",""],
+            "hints": ["indice1","indice2"],
             "optionals": [
                 {
                     "type": "IMAGE",
