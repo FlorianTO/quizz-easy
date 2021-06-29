@@ -12,17 +12,9 @@ var loader = setInterval(function () {
 function createNewQuizz(jsonObject) {
     var dom = document.getElementById("quizz-app");
 
-    var quizzName = jsonObject.name;
-    var h = document.createElement(MAIN_TITLE_TYPE);
-    var textName = document.createTextNode(quizzName);
-    h.appendChild(textName);
-    h.id = "quizz-app-name";
-    dom.appendChild(h);
+	displayTitleNode(jsonObject.name, MAIN_TITLE_TYPE, "quizz-app-name", dom);
 
-    var quizzDescription = jsonObject.description;
-    var textDesc = document.createTextNode(quizzDescription);
-    textDesc.id = "quizz-app-description";
-    dom.appendChild(textDesc);
+	displayTextNode(jsonObject.description, "quizz-app-description", dom);
 
     var quizzQuestions = jsonObject.questions;
     var divQuestions = document.createElement("div");
@@ -40,12 +32,7 @@ function createNewQuizz(jsonObject) {
 }
 
 function createNewQCM(question, dom, questionId) {
-    var questionName = question.name;
-    var h = document.createElement(QUESTION_TITLE_TYPE);
-    var textName = document.createTextNode(questionName);
-    h.appendChild(textName);
-    h.id = "quizz-app-questions-" + questionId + "-name";
-    dom.appendChild(h);
+	displayTitleNode(question.name, QUESTION_TITLE_TYPE, "quizz-app-questions-" + questionId + "-name", dom);
 
     var questionAnswers = question.answers;
     var divAnswers = document.createElement("div");
@@ -62,20 +49,12 @@ function createNewQCM(question, dom, questionId) {
         checkboxAnswer.id = "quizz-app-questions-" + questionId + "-answers-" + index + "-checkbox";
         divAnswer.appendChild(checkboxAnswer);
 
-
-        var textanswer = document.createTextNode(answer);
-        textanswer.id = "quizz-app-questions-" + questionId + "-answers-" + index + "-text";
-        divAnswer.appendChild(textanswer);
+		displayTextNode(answer, "quizz-app-questions-" + questionId + "-answers-" + index + "-text", divAnswer);
     });
 }
 
 function createNewOpen(question, dom, questionId) {
-    var questionName = question.name;
-    var h = document.createElement(QUESTION_TITLE_TYPE);
-    var textName = document.createTextNode(questionName);
-    h.appendChild(textName);
-    h.id = "quizz-app-questions-" + questionId + "-name";
-    dom.appendChild(h);
+	displayTitleNode(question.name, QUESTION_TITLE_TYPE, "quizz-app-questions-" + questionId + "-name", dom);
 
     var inputSolution = document.createElement("input");
     inputSolution.type = "text";
@@ -84,12 +63,7 @@ function createNewOpen(question, dom, questionId) {
 }
 
 function createNewLinked(question, dom, questionId) {
-    var questionName = question.name;
-    var h = document.createElement(QUESTION_TITLE_TYPE);
-    var textName = document.createTextNode(questionName);
-    h.appendChild(textName);
-    h.id = "quizz-app-questions-" + questionId + "-name";
-    dom.appendChild(h);
+    displayTitleNode(question.name, QUESTION_TITLE_TYPE, "quizz-app-questions-" + questionId + "-name", dom);
 
     var questionAnswers = question.answers;
     var questionSolutions = shuffle(question.solution);
@@ -102,9 +76,7 @@ function createNewLinked(question, dom, questionId) {
         divAnswer.id = "quizz-app-questions-" + questionId + "-answers-" + index;
         divAnswersAndSolutions.appendChild(divAnswer);
         
-        var textanswer = document.createTextNode(answer);
-        textanswer.id = "quizz-app-questions-" + questionId + "-answers-" + index + "-text";
-        divAnswer.appendChild(textanswer);
+        displayTextNode(answer, "quizz-app-questions-" + questionId + "-answers-" + index + "-text", divAnswer);
 
         var inputSolution = document.createElement("select");
         inputSolution.id = "quizz-app-questions-" + questionId + "-answers-" + index + "-select";
@@ -117,10 +89,22 @@ function createNewLinked(question, dom, questionId) {
             inputSolution.appendChild(option);
         }
 
-        var textSolution = document.createTextNode(questionSolutions[index]);
-        textSolution.id = "quizz-app-questions-" + questionId + "-answers-" + index + "-textSolution";
-        divAnswer.appendChild(textSolution);
+		displayTextNode(questionSolutions[index], "quizz-app-questions-" + questionId + "-answers-" + index + "-textSolution", divAnswer);
     });
+}
+
+function displayTextNode(text, id, dom) {
+	var textNode = document.createTextNode(text);
+	textNode.id = id;
+	dom.appendChild(textNode);
+}
+
+function displayTitleNode(text, textType, id, dom) {
+    var h = document.createElement(QUESTION_TITLE_TYPE);
+    var textNode = document.createTextNode(text);
+    h.appendChild(textNode);
+    h.id = id;
+    dom.appendChild(h);
 }
 
 function getJSON() {
@@ -136,12 +120,13 @@ function getJSON() {
 }
 
 function shuffle(array) {
-    var currentIndex = array.length,  randomIndex;
+    var currentIndex = array.length, randomIndex;
     while (0 !== currentIndex) {
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex--;
-      [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+        var current = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = current;
     }
-  
     return array;
-  }
+}
