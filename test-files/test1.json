@@ -42,7 +42,7 @@
             "hints": ["",""],
             "optionals": [],
             "answers": ["oui", "non"],
-            "solution": ["effectivement", "bof"]
+            "solution": ["1", "bof"]
         }
     ]
 }

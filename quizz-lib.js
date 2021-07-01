@@ -39,7 +39,8 @@ function createNewQuizz(jsonObject) {
 function createNewQCM(question, dom, questionId) {
 	displayTitleNode(question.name, QUESTION_TITLE_TYPE, "quizz-app-questions-" + questionId + "-name", dom);
 
-	displayHints(question.hints, questionId, dom);
+	if(DISPLAY_HINTS)
+        displayHints(question.hints, questionId, dom);
 
     var questionAnswers = question.answers;
     var divAnswers = createDivNode("quizz-app-questions-" + questionId + "-answers", dom);
@@ -59,6 +60,9 @@ function createNewQCM(question, dom, questionId) {
 function createNewOpen(question, dom, questionId) {
 	displayTitleNode(question.name, QUESTION_TITLE_TYPE, "quizz-app-questions-" + questionId + "-name", dom);
 
+    if(DISPLAY_HINTS)
+        displayHints(question.hints, questionId, dom);
+
     var inputSolution = document.createElement("input");
     inputSolution.type = "text";
     inputSolution.required = true;
@@ -67,6 +71,9 @@ function createNewOpen(question, dom, questionId) {
 
 function createNewLinked(question, dom, questionId) {
     displayTitleNode(question.name, QUESTION_TITLE_TYPE, "quizz-app-questions-" + questionId + "-name", dom);
+
+    if(DISPLAY_HINTS)
+        displayHints(question.hints, questionId, dom);
 
     var questionAnswers = question.answers;
     var questionSolutions = shuffle(question.solution);
@@ -113,8 +120,9 @@ function displayHints(hints, questionId, dom) {
 	var divHints = createDivNode("quizz-app-questions-" + questionId + "hints", dom);
 
 	hints.forEach(function(hint, index) {
-		createButton("Afficher indice " + (index + 1), "quizz-app-questions-" + questionId + "hints-button", divHints, function() {
-			var button = document.getElementById("quizz-app-questions-" + questionId + "hints-button");
+        if(hint == "") return;
+		createButton("Afficher indice " + (index + 1), "quizz-app-questions-" + questionId + "hints-button-" + index, divHints, function() {
+			var button = document.getElementById("quizz-app-questions-" + questionId + "hints-button-" + index);
 			displayTitleNode(hints[index], NORMAL_TEXT_TYPE, "quizz-app-questions-" + questionId + "hints-" + index, divHints);
 			button.remove();
 		});
@@ -159,6 +167,7 @@ function shuffle(array) {
     }
     return array;
 }
+
 /*
 function send(array){
     var finalUserArray = [];
