@@ -1,19 +1,8 @@
 var JSON_FILE = './test-files/test1.json';
 var DISPLAY_HINTS = true; //true : hints are displayed //false : hints aren't displayed
-var MAIN_TITLE_TYPE = "h1"; //h1 to h6
-var QUESTION_TITLE_TYPE = "h2"; //h1 to h6
+var MAIN_TITLE_TYPE = "h2"; //h1 to h6
+var QUESTION_TITLE_TYPE = "h3"; //h1 to h6
 var NORMAL_TEXT_TYPE = "p";
-
-var QUESTION_QCM = "QCM", 
-    QUESTION_OPEN = "OPEN", 
-    QUESTION_LINKED = "LINKED";
-
-var ELEMENT_BUTTON = "button";
-
-var ID_MAIN_DIV = "quizz-app", 
-    ID_MAIN_TITLE = "quizz-app-name", 
-    ID_MAIN_DESCRIPTION = "quizz-app-description", 
-    ID_MAIN_QUESTIONS = "quizz-app-questions";
 
 var loader = setInterval(function () {
     if(document.readyState !== "complete") return;
@@ -22,39 +11,39 @@ var loader = setInterval(function () {
 }, 300);
 
 function createNewQuizz(jsonObject) {
-    var dom = document.getElementById(ID_MAIN_DIV);
+    var dom = document.getElementById("quizz-app");
     console.log(dom);
 
-	displayTitleNode(jsonObject.name, MAIN_TITLE_TYPE, ID_MAIN_TITLE, dom);
+	displayTitleNode(jsonObject.name, MAIN_TITLE_TYPE, "quizz-app-name", dom);
 
-	displayTextNode(jsonObject.description, ID_MAIN_DESCRIPTION, dom);
+	displayTextNode(jsonObject.description, "quizz-app-description", dom);
 
     var quizzQuestions = jsonObject.questions;
-    var divQuestions = createDivNode(ID_MAIN_QUESTIONS, dom);
+    var divQuestions = createDivNode("quizz-app-questions", "questions", dom);
 
     quizzQuestions.forEach(function(question, index) {
-        if(question.type == QUESTION_QCM)
+        if(question.type == "QCM")
             createNewQCM(question, divQuestions, index);
-        else if(question.type == QUESTION_OPEN)
+        else if(question.type == "OPEN")
             createNewOpen(question, divQuestions, index);
-        else if(question.type == QUESTION_LINKED)
+        else if(question.type == "LINKED")
             createNewLinked(question, divQuestions, index);
     });
 
-    createButton("Valider", ID_MAIN_VALIDATE, dom, validateQuizz);
+	//button
+    var buttonValidate = document.createElement("button");
+    buttonValidate.innerHTML="valider";
+    divQuestions.appendChild(buttonValidate);
 }
 
 function createNewQCM(question, dom, questionId) {
 	displayTitleNode(question.name, QUESTION_TITLE_TYPE, "quizz-app-questions-" + questionId + "-name", dom);
 
-	if(DISPLAY_HINTS)
-        displayHints(question.hints, questionId, dom);
-
     var questionAnswers = question.answers;
-    var divAnswers = createDivNode("quizz-app-questions-" + questionId + "-answers", dom);
+    var divAnswers = createDivNode("quizz-app-questions-" + questionId + "-answers", "answers", dom);
 
     questionAnswers.forEach(function(answer, index) {
-        var divAnswer = createDivNode("quizz-app-questions-" + questionId + "-answers-" + index, divAnswers);
+        var divAnswer = createDivNode("quizz-app-questions-" + questionId + "-answers-" + index, "answer", divAnswers);
         
         var checkboxAnswer = document.createElement("input");
         checkboxAnswer.type = "checkbox";
@@ -63,32 +52,32 @@ function createNewQCM(question, dom, questionId) {
 
 		displayTextNode(answer, "quizz-app-questions-" + questionId + "-answers-" + index + "-text", divAnswer);
     });
+
+    if(DISPLAY_HINTS)
+        displayHints(question.hints, questionId, dom);
 }
 
 function createNewOpen(question, dom, questionId) {
 	displayTitleNode(question.name, QUESTION_TITLE_TYPE, "quizz-app-questions-" + questionId + "-name", dom);
 
-    if(DISPLAY_HINTS)
-        displayHints(question.hints, questionId, dom);
-
     var inputSolution = document.createElement("input");
     inputSolution.type = "text";
     inputSolution.required = true;
-    dom.appendChild(inputSolution); 
+    dom.appendChild(inputSolution);
+
+    if(DISPLAY_HINTS)
+        displayHints(question.hints, questionId, dom);
 }
 
 function createNewLinked(question, dom, questionId) {
     displayTitleNode(question.name, QUESTION_TITLE_TYPE, "quizz-app-questions-" + questionId + "-name", dom);
 
-    if(DISPLAY_HINTS)
-        displayHints(question.hints, questionId, dom);
-
     var questionAnswers = question.answers;
     var questionSolutions = shuffle(question.solution);
-	var divAnswersAndSolutions = createDivNode("quizz-app-questions-" + questionId + "-answersAndSolutions", dom);
+	var divAnswersAndSolutions = createDivNode("quizz-app-questions-" + questionId + "-answersAndSolutions", "solutions", dom);
 
     questionAnswers.forEach(function(answer, index) {
-		var divAnswer = createDivNode("quizz-app-questions-" + questionId + "-answers-" + index, divAnswersAndSolutions);
+		var divAnswer = createDivNode("quizz-app-questions-" + questionId + "-answers-" + index, "answers", divAnswersAndSolutions);
         
         displayTextNode(answer, "quizz-app-questions-" + questionId + "-answers-" + index + "-text", divAnswer);
 
@@ -105,6 +94,9 @@ function createNewLinked(question, dom, questionId) {
 
 		displayTextNode(questionSolutions[index], "quizz-app-questions-" + questionId + "-answers-" + index + "-textSolution", divAnswer);
     });
+
+    if(DISPLAY_HINTS)
+        displayHints(question.hints, questionId, dom);
 }
 
 function displayTextNode(text, id, dom) {
@@ -125,11 +117,11 @@ function displayTitleNode(text, textType, id, dom) {
 function displayHints(hints, questionId, dom) {
 	if(hints.length <= 0) return;
 
-	var divHints = createDivNode("quizz-app-questions-" + questionId + "hints", dom);
+	var divHints = createDivNode("quizz-app-questions-" + questionId + "hints", "hints", dom);
 
 	hints.forEach(function(hint, index) {
         if(hint == "") return;
-		createButton("Afficher indice " + (index + 1), "quizz-app-questions-" + questionId + "hints-button-" + index, divHints, function() {
+		createButton("Afficher indice " + (index + 1), "quizz-app-questions-" + questionId + "hints-button-" + index, "hint", divHints, function() {
 			var button = document.getElementById("quizz-app-questions-" + questionId + "hints-button-" + index);
 			displayTitleNode(hints[index], NORMAL_TEXT_TYPE, "quizz-app-questions-" + questionId + "hints-" + index, divHints);
 			button.remove();
@@ -137,17 +129,19 @@ function displayHints(hints, questionId, dom) {
 	});
 }
 
-function createButton(text, id, dom, onclick) {
+function createButton(text, id, classe, dom, onclick) {
 	var button = document.createElement("button");
 	button.innerHTML = text;
 	button.id = id;
+    button.className = classe;
 	dom.appendChild(button);
 	button.addEventListener("click", onclick);
 }
 
-function createDivNode(id, dom) {
+function createDivNode(id, classe, dom) {
 	var divNode = document.createElement("div");
 	divNode.id = id;
+	divNode.className = classe;
 	dom.appendChild(divNode);
 	return divNode;
 }
@@ -183,7 +177,3 @@ function send(array){
     
 } 
 */
-
-function validateQuizz() {
-
-}
