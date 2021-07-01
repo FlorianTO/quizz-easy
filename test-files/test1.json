@@ -42,7 +42,7 @@
             "hints": ["",""],
             "optionals": [],
             "answers": ["oui", "non"],
-            "solution": ["1", "bof"]
+            "solution": ["certainement", "bof"]
         }
     ]
 }

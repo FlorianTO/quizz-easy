@@ -4,6 +4,17 @@ var MAIN_TITLE_TYPE = "h1"; //h1 to h6
 var QUESTION_TITLE_TYPE = "h2"; //h1 to h6
 var NORMAL_TEXT_TYPE = "p";
 
+var QUESTION_QCM = "QCM", 
+    QUESTION_OPEN = "OPEN", 
+    QUESTION_LINKED = "LINKED";
+
+var ELEMENT_BUTTON = "button";
+
+var ID_MAIN_DIV = "quizz-app", 
+    ID_MAIN_TITLE = "quizz-app-name", 
+    ID_MAIN_DESCRIPTION = "quizz-app-description", 
+    ID_MAIN_QUESTIONS = "quizz-app-questions";
+
 var loader = setInterval(function () {
     if(document.readyState !== "complete") return;
     clearInterval(loader);
@@ -11,29 +22,26 @@ var loader = setInterval(function () {
 }, 300);
 
 function createNewQuizz(jsonObject) {
-    var dom = document.getElementById("quizz-app");
+    var dom = document.getElementById(ID_MAIN_DIV);
     console.log(dom);
 
-	displayTitleNode(jsonObject.name, MAIN_TITLE_TYPE, "quizz-app-name", dom);
+	displayTitleNode(jsonObject.name, MAIN_TITLE_TYPE, ID_MAIN_TITLE, dom);
 
-	displayTextNode(jsonObject.description, "quizz-app-description", dom);
+	displayTextNode(jsonObject.description, ID_MAIN_DESCRIPTION, dom);
 
     var quizzQuestions = jsonObject.questions;
-    var divQuestions = createDivNode("quizz-app-questions", dom);
+    var divQuestions = createDivNode(ID_MAIN_QUESTIONS, dom);
 
     quizzQuestions.forEach(function(question, index) {
-        if(question.type == "QCM")
+        if(question.type == QUESTION_QCM)
             createNewQCM(question, divQuestions, index);
-        else if(question.type == "OPEN")
+        else if(question.type == QUESTION_OPEN)
             createNewOpen(question, divQuestions, index);
-        else if(question.type == "LINKED")
+        else if(question.type == QUESTION_LINKED)
             createNewLinked(question, divQuestions, index);
     });
 
-	//button
-    var buttonValidate = document.createElement("button");
-    buttonValidate.innerHTML="valider";
-    divQuestions.appendChild(buttonValidate);
+    createButton("Valider", ID_MAIN_VALIDATE, dom, validateQuizz);
 }
 
 function createNewQCM(question, dom, questionId) {
@@ -175,3 +183,7 @@ function send(array){
     
 } 
 */
+
+function validateQuizz() {
+
+}
