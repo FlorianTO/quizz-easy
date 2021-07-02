@@ -13,6 +13,10 @@
     margin: 0 10px;
 }
 
+#quizz-app input[type=text] {
+    max-width: 300px;
+}
+
 .hints {
     display: flex;
     justify-content: space-around;
