@@ -13,7 +13,8 @@ var ELEMENT_BUTTON = "button";
 var ID_MAIN_DIV = "quizz-app", 
     ID_MAIN_TITLE = "quizz-app-name", 
     ID_MAIN_DESCRIPTION = "quizz-app-description", 
-    ID_MAIN_QUESTIONS = "quizz-app-questions";
+    ID_MAIN_QUESTIONS = "quizz-app-questions",
+    ID_MAIN_VALIDATE = "quizz-app-validate";
 
 var loader = setInterval(function () {
     if(document.readyState !== "complete") return;
@@ -90,13 +91,15 @@ function createNewLinked(question, dom, questionId) {
     questionAnswers.forEach(function(answer, index) {
 		var divAnswer = createDivNode("quizz-app-questions-" + questionId + "-answers-" + index, divAnswersAndSolutions);
         
-        displayTextNode(answer, "quizz-app-questions-" + questionId + "-answers-" + index + "-text", divAnswer);
+        displayTextNode((index + 1) + ". " + answer, "quizz-app-questions-" + questionId + "-answers-" + index + "-text", divAnswer);
 
         var inputSolution = document.createElement("select");
         inputSolution.id = "quizz-app-questions-" + questionId + "-answers-" + index + "-select";
         divAnswer.appendChild(inputSolution);
 
         for (var i = 1; i <= questionAnswers.length; i++) {
+            
+
             var option = document.createElement("option");
             option.value = i;
             option.text = i;
