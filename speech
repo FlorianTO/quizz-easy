@@ -1,5 +1,14 @@
 Solution permettant de générer des quizzs personnalisés sans serveur.
 
-Nous somme  une alternative à google quizz
+Nous somme  une alternative à google quizz et autres applications
+
+inconvénienents autres applications :
+- peut nécessiter un compte
+- peut nécessiter un serveur dédié (donc difficile d'accès pour qqn qui n'as pas de connaissances en informatique)
+- parfois payant
+
+avantages :
 - sans serveur
 - tout en local
+- format facilement lisible
+- gratuit et accesible au public
