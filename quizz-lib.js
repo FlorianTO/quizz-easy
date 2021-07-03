@@ -13,12 +13,13 @@ var ELEMENT_BUTTON = "button";
 var ID_MAIN_DIV = "quizz-app", 
     ID_MAIN_TITLE = "quizz-app-name", 
     ID_MAIN_DESCRIPTION = "quizz-app-description", 
-    ID_MAIN_QUESTIONS = "quizz-app-questions";
+    ID_MAIN_QUESTIONS = "quizz-app-questions",
+    ID_MAIN_VALIDATE = "quizz-app-validate";
 
 var loader = setInterval(function () {
     if(document.readyState !== "complete") return;
     clearInterval(loader);
-    getJSON();
+    createNewQuizz(json);
 }, 300);
 
 function createNewQuizz(jsonObject) {
@@ -41,7 +42,7 @@ function createNewQuizz(jsonObject) {
             createNewLinked(question, divQuestions, index);
     });
 
-    createButton("Valider", ID_MAIN_VALIDATE, dom, validateQuizz);
+    createButton("Valider", ID_MAIN_VALIDATE, dom, validateQuizz(quizzQuestions));
 }
 
 function createNewQCM(question, dom, questionId) {
@@ -90,7 +91,7 @@ function createNewLinked(question, dom, questionId) {
     questionAnswers.forEach(function(answer, index) {
 		var divAnswer = createDivNode("quizz-app-questions-" + questionId + "-answers-" + index, divAnswersAndSolutions);
         
-        displayTextNode(answer, "quizz-app-questions-" + questionId + "-answers-" + index + "-text", divAnswer);
+        displayTextNode((index + 1) + ". " + answer, "quizz-app-questions-" + questionId + "-answers-" + index + "-text", divAnswer);
 
         var inputSolution = document.createElement("select");
         inputSolution.id = "quizz-app-questions-" + questionId + "-answers-" + index + "-select";
@@ -152,18 +153,6 @@ function createDivNode(id, dom) {
 	return divNode;
 }
 
-function getJSON() {
-    var xmlhttp = new XMLHttpRequest();
-
-    xmlhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200)
-            createNewQuizz(JSON.parse(this.responseText));
-    };
-
-    xmlhttp.open("GET", JSON_FILE, true);
-    xmlhttp.send(); 
-}
-
 function shuffle(array) {
     var currentIndex = array.length, randomIndex;
     while (0 !== currentIndex) {
@@ -176,14 +165,6 @@ function shuffle(array) {
     return array;
 }
 
-/*
-function send(array){
-    var finalUserArray = [];
-    var SolutionArray = [];
-    
-} 
-*/
-
-function validateQuizz() {
+function validateQuizz(questions) {
 
 }
