@@ -166,5 +166,15 @@ function shuffle(array) {
 }
 
 function validateQuizz(questions) {
+    var questionNumber = questions.length;
+    var score = 0;
 
+    questions.forEach(function(question, index) {
+        if(question.type == QUESTION_QCM)
+            score += validateQCM(question, index);
+        else if(question.type == QUESTION_OPEN)
+            score += validateOpen(question, index);
+        else if(question.type == QUESTION_LINKED)
+            score += validateLinked(question, index);
+    });
 }
