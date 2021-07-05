@@ -1,5 +1,5 @@
 var config = {
-    JSON_FILE: './test-files/test1.json',
+    JSON_FILE: './test-files/test1.js',
     DISPLAY_HINTS: true, //true : hints are displayed //false : hints aren't displayed
     MAIN_TITLE_TYPE: "h2", //h1 to h6
     QUESTION_TITLE_TYPE: "h3", //h1 to h6
@@ -27,6 +27,7 @@ var config = {
         ID_MAIN_QUESTIONS: "quizz-app-questions",
         ID_MAIN_VALIDATE: "quizz-app-validate",
         questions: {
+            ID_QUESTION_MAIN: "quizz-app-questions-{0}-main",
             ID_QUESTION_NAME: "quizz-app-questions-{0}-name",
             ID_QUESTION_ANSWERS: "quizz-app-questions-{0}-answers",
             ID_QUESTION_ANSWER: "quizz-app-questions-{0}-answers-{1}",
@@ -37,7 +38,12 @@ var config = {
         }
     },
     class: {
-
+        QUESTIONS: "questions",
+        QUESTION: "question",
+        ANSWERS: "answers",
+        ANSWER: "answer",
+        SOLUTIONS: "solutions",
+        HINTS: "hints"
     }
 };
 
@@ -59,7 +65,7 @@ function createNewQuizz(jsonObject) {
 	displayTextNode(jsonObject.description, config.ids.ID_MAIN_DESCRIPTION, dom);
 
     var quizzQuestions = jsonObject.questions;
-    var divQuestions = createDivNode(config.ids.ID_MAIN_QUESTIONS, "questions", dom);
+    var divQuestions = createDivNode(config.ids.ID_MAIN_QUESTIONS, config.class.QUESTIONS, dom);
 
     quizzQuestions.forEach(function(question, index) {
         if(question.type == config.types.QUESTION_QCM)
@@ -74,15 +80,15 @@ function createNewQuizz(jsonObject) {
 }
 
 function createNewQCM(question, dom, questionId) {
-	var divQuestion = createDivNode(config.ids.questions.ID_QUESTION_MAIN.format(questionId), "question", dom);
+	var divQuestion = createDivNode(config.ids.questions.ID_QUESTION_MAIN.format(questionId), config.class.QUESTION, dom);
 
     displayTitleNode(question.name, config.QUESTION_TITLE_TYPE, config.ids.questions.ID_QUESTION_NAME.format(questionId), divQuestion);
 
     var questionAnswers = question.answers;
-    var divAnswers = createDivNode(config.ids.questions.ID_QUESTION_ANSWERS.format(questionId), "answers", divQuestion);
+    var divAnswers = createDivNode(config.ids.questions.ID_QUESTION_ANSWERS.format(questionId), config.class.ANSWERS, divQuestion);
 
     questionAnswers.forEach(function(answer, index) {
-        var divAnswer = createDivNode(config.ids.questions.ID_QUESTION_ANSWER.format(questionId, index), "answer", divAnswers);
+        var divAnswer = createDivNode(config.ids.questions.ID_QUESTION_ANSWER.format(questionId, index), config.class.ANSWER, divAnswers);
         
         var checkboxAnswer = document.createElement(config.elements.ELEMENT_INPUT);
         checkboxAnswer.type = config.elements.ELEMENT_CHECKBOX;
@@ -97,7 +103,7 @@ function createNewQCM(question, dom, questionId) {
 }
 
 function createNewOpen(question, dom, questionId) {
-	var divQuestion = createDivNode(config.ids.questions.ID_QUESTION_MAIN.format(questionId), "question", dom);
+	var divQuestion = createDivNode(config.ids.questions.ID_QUESTION_MAIN.format(questionId), config.class.QUESTION, dom);
 
     displayTitleNode(question.name, config.QUESTION_TITLE_TYPE, config.ids.questions.ID_QUESTION_NAME.format(questionId), divQuestion);
 
@@ -112,13 +118,13 @@ function createNewOpen(question, dom, questionId) {
 }
 
 function createNewLinked(question, dom, questionId) {
-    var divQuestion = createDivNode(config.ids.questions.ID_QUESTION_MAIN.format(questionId), "question", dom);
+    var divQuestion = createDivNode(config.ids.questions.ID_QUESTION_MAIN.format(questionId), config.class.QUESTION, dom);
 
     displayTitleNode(question.name, config.QUESTION_TITLE_TYPE, config.ids.questions.ID_QUESTION_NAME.format(questionId), divQuestion);
 
     var questionAnswers = question.answers;
     var questionSolutions = shuffle(question.solution);
-	var divAnswersAndSolutions = createDivNode("quizz-app-questions-" + questionId + "-answersAndSolutions", "solutions", divQuestion);
+	var divAnswersAndSolutions = createDivNode("quizz-app-questions-" + questionId + "-answersAndSolutions", config.class.SOLUTIONS, divQuestion);
 
     createUlNode("quizz-app-questions-" + questionId + "-answers", divAnswersAndSolutions, questionAnswers);
         
@@ -148,7 +154,7 @@ function displayTitleNode(text, textType, id, dom) {
 function displayHints(hints, questionId, dom) {
 	if(hints.length <= 0) return;
 
-	var divHints = createDivNode("quizz-app-questions-" + questionId + "hints", "hints", dom);
+	var divHints = createDivNode("quizz-app-questions-" + questionId + "hints", config.class.HINTS, dom);
 
 	hints.forEach(function(hint, index) {
         if(hint == "") return;
@@ -243,6 +249,8 @@ function validateQCM(question, questionId) {
         if(document.getElementById(config.ids.questions.ID_QUESTION_CHECKBOX.format(questionId, index)).checked)
             if(solution.includes(index+1))
                 rightAnswers++;
+                else
+                    return true;
     });
     return rightAnswers == solution.length;
 }
