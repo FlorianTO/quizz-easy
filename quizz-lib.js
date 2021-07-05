@@ -117,7 +117,7 @@ function createNewLinked(question, dom, questionId) {
     var questionSolutions = shuffle(question.solution);
 	var divAnswersAndSolutions = createDivNode("quizz-app-questions-" + questionId + "-answersAndSolutions", dom);
 
-    var ulAnswers = createUlNode("quizz-app-questions-" + questionId + "-answers", divAnswersAndSolutions, questionAnswers);
+    createUlNode("quizz-app-questions-" + questionId + "-answers", divAnswersAndSolutions, questionAnswers);
         
     var ulSolutions = createUlNode("quizz-app-questions-" + questionId + "-solutions", divAnswersAndSolutions, questionSolutions);
 
@@ -220,8 +220,10 @@ function validateQuizz(questions) {
             if(validateOpen(question, index))
                 rightQuestions++;
         }
-        // else if(question.type == config.types.QUESTION_LINKED)
-        //     validateLinked(question, index);
+        else if(question.type == config.types.QUESTION_LINKED) {
+            if(validateLinked(question, index))
+                rightQuestions++;
+        }
     });
     console.log(rightQuestions);
 }
@@ -241,7 +243,6 @@ function validateQCM(question, questionId) {
 function validateOpen(question, questionId) {
     var solution = question.solution;
     var elem = document.getElementById(config.ids.questions.ID_QUESTION_INPUT.format(questionId));
-    console.log(elem.value);
     if(question.caseSensitive) {
         if(elem.value == solution)
             return true;
@@ -253,12 +254,45 @@ function validateOpen(question, questionId) {
     return false;
 }
 
+function validateLinked(question, questionId) {
+    var ulSolutions = document.getElementById("quizz-app-questions-" + questionId + "-solutions");
+    
+    var userInput = [];
+    for(i = 0; i < ulSolutions.children.length; i++) {
+        var child = ulSolutions.children[i];
+        userInput.push(child.textContent);
+    }
+    return compare(question.solution, userInput);
+}
+
 String.prototype.format = function() {
     var args = arguments;
     return this.replace(/{(\d+)}/g, function(match, number) { 
         return typeof args[number] != 'undefined' ? args[number] : match;
     });
 };
+
+/**
+ * @author FlorianTO
+ * Compare two arrays of the same size
+ * Comparison isn't type sensitive
+ * 
+ * @param {Array} arr1 an array
+ * @param {Array} arr2 another array
+ * @returns true if arrays have similar content false if arrays are not the same
+ */
+function compare(arr1, arr2) {
+    if (!Array.isArray(arr1) || !Array.isArray(arr2) || arr1.length !== arr2.length)
+        return false;
+
+    var _arr1 = arr1.concat();
+    var _arr2 = arr2.concat();
+    
+    for (i = 0; i < _arr1.length; i++)
+        if (_arr1[i] != _arr2[i])
+            return false;
+    return true;
+}
 
 /**
  * @author alsolovyev
