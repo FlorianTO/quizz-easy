@@ -117,29 +117,11 @@ function createNewLinked(question, dom, questionId) {
     var questionSolutions = shuffle(question.solution);
 	var divAnswersAndSolutions = createDivNode("quizz-app-questions-" + questionId + "-answersAndSolutions", dom);
 
-    questionAnswers.forEach(function(answer, index) {
-		var divAnswer = createDivNode("quizz-app-questions-" + questionId + "-answers-" + index, divAnswersAndSolutions);
+    var ulAnswers = createUlNode("quizz-app-questions-" + questionId + "-answers", divAnswersAndSolutions, questionAnswers);
         
-        displayTextNode((index + 1) + ". " + answer, "quizz-app-questions-" + questionId + "-answers-" + index + "-text", divAnswer);
+    var ulSolutions = createUlNode("quizz-app-questions-" + questionId + "-solutions", divAnswersAndSolutions, questionSolutions);
 
-        var divSolution = createDivNode("quizz-app-questions-" + questionId + "-answersAndSolutions-" + index + "-sol", divAnswer);
-        divSolution.draggable = true;
-        // divSolution.ondrop = drop(ev);
-        // divSolution.ondragover = allowDrop(ev);
-
-        var inputSolution = document.createElement("select");
-        inputSolution.id = "quizz-app-questions-" + questionId + "-answers-" + index + "-select";
-        divSolution.appendChild(inputSolution);
-
-        for (var i = 1; i <= questionAnswers.length; i++) {
-            var option = document.createElement("option");
-            option.value = i;
-            option.text = i;
-            inputSolution.appendChild(option);
-        }
-
-		displayTextNode(questionSolutions[index], "quizz-app-questions-" + questionId + "-answers-" + index + "-textSolution", divSolution);
-    });
+    new Sorter(ulSolutions);
 }
 
 function displayTextNode(text, id, dom) {
@@ -185,6 +167,20 @@ function createDivNode(id, dom) {
 	divNode.id = id;
 	dom.appendChild(divNode);
 	return divNode;
+}
+
+function createUlNode(id, dom, liElements) {
+    var ul = document.createElement('ul');
+    ul.id = id;
+    dom.appendChild(ul);
+
+    liElements.forEach(function(content, index) {
+        var li = document.createElement('li');
+        li.innerHTML += content;
+        li.id = id + "-" + index;
+        ul.appendChild(li);
+    });
+    return ul;
 }
 
 function shuffle(array) {
@@ -263,3 +259,77 @@ String.prototype.format = function() {
         return typeof args[number] != 'undefined' ? args[number] : match;
     });
 };
+
+/**
+ * @author alsolovyev
+ * @license MIT
+ * https://www.cssscript.com/draggable-list-sorter/
+ */
+var Sorter = (function () {
+    "use strict";
+    function e() {
+        return (e =
+            Object.assign ||
+            function (e) {
+                for (var t = 1; t < arguments.length; t++) {
+                    var n = arguments[t];
+                    for (var i in n) Object.prototype.hasOwnProperty.call(n, i) && (e[i] = n[i]);
+                }
+                return e;
+            }).apply(this, arguments);
+    }
+    return (function () {
+        function t(e) {
+            if (!(e instanceof Element)) throw TypeError("Sorter: 'container' must be an HTMLElement, not " + {}.toString.call(e));
+            (this._container = e), (this._children = Array.from(this._container.children)), (this._isDragging = !1), (this._draggedItem = null), (this._draggedIndex = null), this._bind(), this._addListeners();
+        }
+        var n = t.prototype;
+        return (
+            (n._findChild = function (e) {
+                for (; e.parentNode !== this._container; ) e = e.parentNode;
+                return e;
+            }),
+            (n._insertChild = function (e) {
+                var t = this._findIndex(e);
+                this._draggedIndex !== t &&
+                    (this._container.insertBefore(this._draggedItem, this._draggedIndex < t ? e.nextSibling : e), this._children.splice(this._draggedIndex, 1), this._children.splice(t, 0, this._draggedItem), (this._draggedIndex = t));
+            }),
+            (n._findIndex = function (e) {
+                var t = this._children.indexOf(e);
+                if (t < 0) throw new Error("Element is not a child of the container");
+                return t;
+            }),
+            (n._toggleElementStyles = function (t, n) {
+                if (t.hasAttribute("style")) return t.removeAttribute("style");
+                if ("object" != typeof n) throw new Error("The 'styles' expects a mapping from style properties to values");
+                e(t.style, n);
+            }),
+            (n._onMouseDown = function (e) {
+                e.target !== this._container &&
+                    (e.preventDefault(),
+                    (this._isDragging = !0),
+                    (this._draggedItem = this._findChild(e.target)),
+                    (this._draggedIndex = this._findIndex(this._draggedItem)),
+                    this._toggleElementStyles(this._draggedItem, { opacity: "0.75" }),
+                    this._toggleElementStyles(this._container, { cursor: "move" }));
+            }),
+            (n._onMouseOver = function (e) {
+                var t = e.target;
+                this._isDragging && t !== this._container && this._insertChild(this._findChild(t));
+            }),
+            (n._onMouseUp = function () {
+                this._isDragging && (this._toggleElementStyles(this._draggedItem), this._toggleElementStyles(this._container), (this._isDragging = !1), (this._draggedItem = null), (this._draggedIndex = null));
+            }),
+            (n._addListeners = function () {
+                this._container.addEventListener("mousedown", this._onMouseDown), this._container.addEventListener("mouseover", this._onMouseOver), document.addEventListener("mouseup", this._onMouseUp);
+            }),
+            (n._bind = function () {
+                (this._onMouseDown = this._onMouseDown.bind(this)), (this._onMouseOver = this._onMouseOver.bind(this)), (this._onMouseUp = this._onMouseUp.bind(this));
+            }),
+            (n.destroy = function () {
+                this._container.removeEventListener("mousedown", this._onMouseDown), this._container.removeEventListener("mouseover", this._onMouseOver), document.removeEventListener("mouseup", this._onMouseUp);
+            }),
+            t
+        );
+    })();
+})();
