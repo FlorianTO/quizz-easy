@@ -9,11 +9,12 @@
 }
 
 .answer input[type=checkbox], .answer input[type=radio] {
-    margin: 0 10px;
+    margin-right: 10px;
 }
 
 .questions input[type=text] {
     max-width: 400px;
+    margin-left: 2rem;
 }
 
 .hints {
@@ -25,7 +26,6 @@
 #quizz-app {
     display: flex;
     flex-direction: column;
-    max-width: 80%;
     margin: auto;
 }
 
