@@ -1,6 +1,7 @@
-const json = {
+var json = {
     name: "Quizz de test",
     description: "ce quizz est fait pour les tests",
+    display_hints: true,
     questions: [
         {
             type: "QCM",
@@ -34,7 +35,8 @@ const json = {
             name: "Quel est le prénom de Mr.GUIBERT ?",
             hints: ["commence par un O","Est le nom d'une plante"],
             optionals: [],
-            solution: "Olivier"
+            solution: "Olivier",
+            caseSensitive: false
         },
         {
             type: "LINKED",
@@ -45,4 +47,4 @@ const json = {
             solution: ["certainement", "bof"]
         }
     ]
-}
+};
