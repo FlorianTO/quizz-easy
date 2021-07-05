@@ -1,12 +1,12 @@
 var config = {
     JSON_FILE: './test-files/test1.json',
     DISPLAY_HINTS: true, //true : hints are displayed //false : hints aren't displayed
-    MAIN_TITLE_TYPE: "h1", //h1 to h6
-    QUESTION_TITLE_TYPE: "h2", //h1 to h6
+    MAIN_TITLE_TYPE: "h2", //h1 to h6
+    QUESTION_TITLE_TYPE: "h3", //h1 to h6
     NORMAL_TEXT_TYPE: "p",
     lang: {
         button: {
-            validate: "Valider",
+            validate: "Valider les réponses du quizz",
             displayHint: "Afficher l'indice {0}"
         }
     },
@@ -59,7 +59,7 @@ function createNewQuizz(jsonObject) {
 	displayTextNode(jsonObject.description, config.ids.ID_MAIN_DESCRIPTION, dom);
 
     var quizzQuestions = jsonObject.questions;
-    var divQuestions = createDivNode(config.ids.ID_MAIN_QUESTIONS, dom);
+    var divQuestions = createDivNode(config.ids.ID_MAIN_QUESTIONS, "questions", dom);
 
     quizzQuestions.forEach(function(question, index) {
         if(question.type == config.types.QUESTION_QCM)
@@ -76,14 +76,11 @@ function createNewQuizz(jsonObject) {
 function createNewQCM(question, dom, questionId) {
 	displayTitleNode(question.name, config.QUESTION_TITLE_TYPE, config.ids.questions.ID_QUESTION_NAME.format(questionId), dom);
 
-	if(config.DISPLAY_HINTS)
-        displayHints(question.hints, questionId, dom);
-
     var questionAnswers = question.answers;
-    var divAnswers = createDivNode(config.ids.questions.ID_QUESTION_ANSWERS.format(questionId), dom);
+    var divAnswers = createDivNode(config.ids.questions.ID_QUESTION_ANSWERS.format(questionId), "answers", dom);
 
     questionAnswers.forEach(function(answer, index) {
-        var divAnswer = createDivNode(config.ids.questions.ID_QUESTION_ANSWER.format(questionId, index), divAnswers);
+        var divAnswer = createDivNode(config.ids.questions.ID_QUESTION_ANSWER.format(questionId, index), "answer", divAnswers);
         
         var checkboxAnswer = document.createElement(config.elements.ELEMENT_INPUT);
         checkboxAnswer.type = config.elements.ELEMENT_CHECKBOX;
@@ -92,36 +89,39 @@ function createNewQCM(question, dom, questionId) {
 
 		displayTextNode(answer, config.ids.questions.ID_QUESTION_TEXT.format(questionId, index), divAnswer);
     });
+
+    if(config.DISPLAY_HINTS)
+        displayHints(question.hints, questionId, dom);
 }
 
 function createNewOpen(question, dom, questionId) {
 	displayTitleNode(question.name, config.QUESTION_TITLE_TYPE, config.ids.questions.ID_QUESTION_NAME.format(questionId), dom);
-
-    if(config.DISPLAY_HINTS)
-        displayHints(question.hints, questionId, dom);
 
     var inputSolution = document.createElement(config.elements.ELEMENT_INPUT);
     inputSolution.type = "text";
     inputSolution.required = true;
     inputSolution.id = config.ids.questions.ID_QUESTION_INPUT.format(questionId);
     dom.appendChild(inputSolution); 
+
+    if(config.DISPLAY_HINTS)
+        displayHints(question.hints, questionId, dom);
 }
 
 function createNewLinked(question, dom, questionId) {
     displayTitleNode(question.name, config.QUESTION_TITLE_TYPE, config.ids.questions.ID_QUESTION_NAME.format(questionId), dom);
 
-    if(config.DISPLAY_HINTS)
-        displayHints(question.hints, questionId, dom);
-
     var questionAnswers = question.answers;
     var questionSolutions = shuffle(question.solution);
-	var divAnswersAndSolutions = createDivNode("quizz-app-questions-" + questionId + "-answersAndSolutions", dom);
+	var divAnswersAndSolutions = createDivNode("quizz-app-questions-" + questionId + "-answersAndSolutions", "solutions", dom);
 
     createUlNode("quizz-app-questions-" + questionId + "-answers", divAnswersAndSolutions, questionAnswers);
         
     var ulSolutions = createUlNode("quizz-app-questions-" + questionId + "-solutions", divAnswersAndSolutions, questionSolutions);
 
     new Sorter(ulSolutions);
+
+    if(config.DISPLAY_HINTS)
+        displayHints(question.hints, questionId, dom);
 }
 
 function displayTextNode(text, id, dom) {
@@ -142,7 +142,7 @@ function displayTitleNode(text, textType, id, dom) {
 function displayHints(hints, questionId, dom) {
 	if(hints.length <= 0) return;
 
-	var divHints = createDivNode("quizz-app-questions-" + questionId + "hints", dom);
+	var divHints = createDivNode("quizz-app-questions-" + questionId + "hints", "hints", dom);
 
 	hints.forEach(function(hint, index) {
         if(hint == "") return;
@@ -162,9 +162,10 @@ function createButton(text, id, dom, onclick) {
 	button.addEventListener("click", onclick);
 }
 
-function createDivNode(id, dom) {
+function createDivNode(id, classe, dom) {
 	var divNode = document.createElement("div");
 	divNode.id = id;
+	divNode.className = classe;
 	dom.appendChild(divNode);
 	return divNode;
 }
