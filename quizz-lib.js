@@ -1,12 +1,12 @@
 var config = {
     JSON_FILE: './test-files/test1.json',
     DISPLAY_HINTS: true, //true : hints are displayed //false : hints aren't displayed
-    MAIN_TITLE_TYPE: "h1", //h1 to h6
-    QUESTION_TITLE_TYPE: "h2", //h1 to h6
+    MAIN_TITLE_TYPE: "h2", //h1 to h6
+    QUESTION_TITLE_TYPE: "h3", //h1 to h6
     NORMAL_TEXT_TYPE: "p",
     lang: {
         button: {
-            validate: "Valider",
+            validate: "Valider les réponses du quizz",
             displayHint: "Afficher l'indice {0}"
         }
     },
@@ -59,7 +59,7 @@ function createNewQuizz(jsonObject) {
 	displayTextNode(jsonObject.description, config.ids.ID_MAIN_DESCRIPTION, dom);
 
     var quizzQuestions = jsonObject.questions;
-    var divQuestions = createDivNode(config.ids.ID_MAIN_QUESTIONS, dom);
+    var divQuestions = createDivNode(config.ids.ID_MAIN_QUESTIONS, "questions", dom);
 
     quizzQuestions.forEach(function(question, index) {
         if(question.type == config.types.QUESTION_QCM)
@@ -76,14 +76,11 @@ function createNewQuizz(jsonObject) {
 function createNewQCM(question, dom, questionId) {
 	displayTitleNode(question.name, config.QUESTION_TITLE_TYPE, config.ids.questions.ID_QUESTION_NAME.format(questionId), dom);
 
-	if(config.DISPLAY_HINTS)
-        displayHints(question.hints, questionId, dom);
-
     var questionAnswers = question.answers;
-    var divAnswers = createDivNode(config.ids.questions.ID_QUESTION_ANSWERS.format(questionId), dom);
+    var divAnswers = createDivNode(config.ids.questions.ID_QUESTION_ANSWERS.format(questionId), "answers", dom);
 
     questionAnswers.forEach(function(answer, index) {
-        var divAnswer = createDivNode(config.ids.questions.ID_QUESTION_ANSWER.format(questionId, index), divAnswers);
+        var divAnswer = createDivNode(config.ids.questions.ID_QUESTION_ANSWER.format(questionId, index), "answer", divAnswers);
         
         var checkboxAnswer = document.createElement(config.elements.ELEMENT_INPUT);
         checkboxAnswer.type = config.elements.ELEMENT_CHECKBOX;
@@ -92,36 +89,39 @@ function createNewQCM(question, dom, questionId) {
 
 		displayTextNode(answer, config.ids.questions.ID_QUESTION_TEXT.format(questionId, index), divAnswer);
     });
+
+    if(config.DISPLAY_HINTS)
+        displayHints(question.hints, questionId, dom);
 }
 
 function createNewOpen(question, dom, questionId) {
 	displayTitleNode(question.name, config.QUESTION_TITLE_TYPE, config.ids.questions.ID_QUESTION_NAME.format(questionId), dom);
-
-    if(config.DISPLAY_HINTS)
-        displayHints(question.hints, questionId, dom);
 
     var inputSolution = document.createElement(config.elements.ELEMENT_INPUT);
     inputSolution.type = "text";
     inputSolution.required = true;
     inputSolution.id = config.ids.questions.ID_QUESTION_INPUT.format(questionId);
     dom.appendChild(inputSolution); 
+
+    if(config.DISPLAY_HINTS)
+        displayHints(question.hints, questionId, dom);
 }
 
 function createNewLinked(question, dom, questionId) {
     displayTitleNode(question.name, config.QUESTION_TITLE_TYPE, config.ids.questions.ID_QUESTION_NAME.format(questionId), dom);
 
-    if(config.DISPLAY_HINTS)
-        displayHints(question.hints, questionId, dom);
-
     var questionAnswers = question.answers;
     var questionSolutions = shuffle(question.solution);
-	var divAnswersAndSolutions = createDivNode("quizz-app-questions-" + questionId + "-answersAndSolutions", dom);
+	var divAnswersAndSolutions = createDivNode("quizz-app-questions-" + questionId + "-answersAndSolutions", "solutions", dom);
 
-    var ulAnswers = createUlNode("quizz-app-questions-" + questionId + "-answers", divAnswersAndSolutions, questionAnswers);
+    createUlNode("quizz-app-questions-" + questionId + "-answers", divAnswersAndSolutions, questionAnswers);
         
     var ulSolutions = createUlNode("quizz-app-questions-" + questionId + "-solutions", divAnswersAndSolutions, questionSolutions);
 
     new Sorter(ulSolutions);
+
+    if(config.DISPLAY_HINTS)
+        displayHints(question.hints, questionId, dom);
 }
 
 function displayTextNode(text, id, dom) {
@@ -142,7 +142,7 @@ function displayTitleNode(text, textType, id, dom) {
 function displayHints(hints, questionId, dom) {
 	if(hints.length <= 0) return;
 
-	var divHints = createDivNode("quizz-app-questions-" + questionId + "hints", dom);
+	var divHints = createDivNode("quizz-app-questions-" + questionId + "hints", "hints", dom);
 
 	hints.forEach(function(hint, index) {
         if(hint == "") return;
@@ -162,9 +162,10 @@ function createButton(text, id, dom, onclick) {
 	button.addEventListener("click", onclick);
 }
 
-function createDivNode(id, dom) {
+function createDivNode(id, classe, dom) {
 	var divNode = document.createElement("div");
 	divNode.id = id;
+	divNode.className = classe;
 	dom.appendChild(divNode);
 	return divNode;
 }
@@ -220,8 +221,10 @@ function validateQuizz(questions) {
             if(validateOpen(question, index))
                 rightQuestions++;
         }
-        // else if(question.type == config.types.QUESTION_LINKED)
-        //     validateLinked(question, index);
+        else if(question.type == config.types.QUESTION_LINKED) {
+            if(validateLinked(question, index))
+                rightQuestions++;
+        }
     });
     console.log(rightQuestions);
 }
@@ -241,7 +244,6 @@ function validateQCM(question, questionId) {
 function validateOpen(question, questionId) {
     var solution = question.solution;
     var elem = document.getElementById(config.ids.questions.ID_QUESTION_INPUT.format(questionId));
-    console.log(elem.value);
     if(question.caseSensitive) {
         if(elem.value == solution)
             return true;
@@ -253,12 +255,45 @@ function validateOpen(question, questionId) {
     return false;
 }
 
+function validateLinked(question, questionId) {
+    var ulSolutions = document.getElementById("quizz-app-questions-" + questionId + "-solutions");
+    
+    var userInput = [];
+    for(i = 0; i < ulSolutions.children.length; i++) {
+        var child = ulSolutions.children[i];
+        userInput.push(child.textContent);
+    }
+    return compare(question.solution, userInput);
+}
+
 String.prototype.format = function() {
     var args = arguments;
     return this.replace(/{(\d+)}/g, function(match, number) { 
         return typeof args[number] != 'undefined' ? args[number] : match;
     });
 };
+
+/**
+ * @author FlorianTO
+ * Compare two arrays of the same size
+ * Comparison isn't type sensitive
+ * 
+ * @param {Array} arr1 an array
+ * @param {Array} arr2 another array
+ * @returns true if arrays have similar content false if arrays are not the same
+ */
+function compare(arr1, arr2) {
+    if (!Array.isArray(arr1) || !Array.isArray(arr2) || arr1.length !== arr2.length)
+        return false;
+
+    var _arr1 = arr1.concat();
+    var _arr2 = arr2.concat();
+    
+    for (i = 0; i < _arr1.length; i++)
+        if (_arr1[i] != _arr2[i])
+            return false;
+    return true;
+}
 
 /**
  * @author alsolovyev

@@ -1,6 +1,6 @@
 var json = {
     name: "Quizz de test",
-    description: "ce quizz est fait pour les tests",
+    description: "L'objectif de ce quizz est de tester la bibliothèque JS",
     display_hints: true,
     questions: [
         {
