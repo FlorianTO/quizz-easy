@@ -256,26 +256,6 @@ function validateOpen(question, questionId) {
     }
     return false;
 }
-// function createNewQCM(question, dom, questionId) {
-// 	displayTitleNode(question.name, config.QUESTION_TITLE_TYPE, "quizz-app-questions-" + questionId + "-name", dom);
-
-// 	if(config.DISPLAY_HINTS)
-//         displayHints(question.hints, questionId, dom);
-
-//     var questionAnswers = question.answers;
-//     var divAnswers = createDivNode("quizz-app-questions-" + questionId + "-answers", dom);
-
-//     questionAnswers.forEach(function(answer, index) {
-//         var divAnswer = createDivNode("quizz-app-questions-" + questionId + "-answers-" + index, divAnswers);
-        
-//         var checkboxAnswer = document.createElement("input");
-//         checkboxAnswer.type = "checkbox";
-//         checkboxAnswer.id = "quizz-app-questions-" + questionId + "-answers-" + index + "-checkbox";
-//         divAnswer.appendChild(checkboxAnswer);
-
-// 		displayTextNode(answer, "quizz-app-questions-" + questionId + "-answers-" + index + "-text", divAnswer);
-//     });
-// }
 
 String.prototype.format = function() {
     var args = arguments;
