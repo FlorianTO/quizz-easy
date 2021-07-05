@@ -1,5 +1,21 @@
-Solution permettant de générer des quizzs personnalisés sans serveur.
+Présentation orateur/équipe :
+- Bonjour je suis [prénom] étudiant licence professionelle DAWIN à l'IUT de Bordeaux
+- nous avons développer une solution permettant de générer des quizzs personnalisés sans serveur.
 
-Nous somme  une alternative à google quizz
+Motivation de la création de l'application :
+- Nous somme  une alternative à google quizz et autres applications
+
+inconvénienents des autres applications :
+- peut nécessiter un compte
+- peut nécessiter un serveur dédié (donc difficile d'accès pour qqn qui n'as pas de connaissances en informatique)
+- parfois payant
+
+avantages de notre application :
 - sans serveur
 - tout en local
+- création de différents types de questions
+- format facilement lisible
+- gratuit et accesible au public
+- tout automatique -> pas besoin de connaissances
+
+pour mardi => point documentation + script twitch
