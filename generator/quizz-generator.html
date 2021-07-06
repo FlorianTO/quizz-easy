@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<header>
+    <meta charset="utf-8" />
+    <script src="./generator-script.js"></script>
+    <title>Générateur de Quizz</title>
+</header>
+
+<body>
+    <div>
+        <h1>Gestionnaire de génération de Quizz</h1>
+        <div id="quizz-informations">
+            <label for="file-name" id="file-name-label">Nom du fichier</label>
+            <input type="text" id="file-name" />
+
+            <label for="quizz-name" id="quizz-name-label">Titre du Quizz</label>
+            <input type="text" id="quizz-name" />
+
+            <label for="quizz-description" id="quizz-description-label">Brève description du Quizz</label>
+            <input type="text" id="quizz-description" />
+
+            <label for="quizz-hints" id="quizz-hints-label">Afficher les indices ?</label>
+            <input type="checkbox" id="quizz-hints" />
+        </div>
+
+        <div id="questions-add">
+            <label for="select-type">Type de question</label>
+            <select id="select-type">
+                <option value="QCM">QCM</option>
+                <option value="OPEN">Question/Réponse</option>
+                <option value="LINKED">Relier les mots</option>
+            </select>
+            <input type="button" name="add-question" id="button-add-question" />
+        </div>
+
+        <ul id="questions">
+        </ul>
+
+        <!--<label for="type">Type de Quizz</label>
+                    <select name="types" id="type">
+                        <option value="qcm">QCM</option>
+                        <option value="q&r">Question/Réponse</option>
+                        <option value="linked">Relier les mots</option>
+                    </select>
+                    -->
+    </div>
+</body>
+
+</html>

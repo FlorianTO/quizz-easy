@@ -1,0 +1,64 @@
+.questions {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.answers {
+    margin-left: 2rem;
+}
+
+.answer input[type=checkbox], .answer input[type=radio] {
+    margin-right: 10px;
+}
+
+.questions input[type=text] {
+    max-width: 400px;
+    margin-left: 2rem;
+}
+
+.hints {
+    display: flex;
+    justify-content: space-around;
+    margin: 10px 0;
+}
+
+#quizz-app {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
+
+#quizz-app h2 {
+    font-weight: bold;
+    margin: 2rem auto 3rem;
+    text-decoration: underline;
+}
+
+#quizz-app-questions-2-answersAndSolutions {
+    display: flex;
+    justify-content: space-around;
+}
+
+#quizz-app-validate {
+    margin: auto;
+}
+
+button {
+    margin: 1rem;
+    padding: 0.5rem;
+}
+
+table tr th,td{
+    border:1px solid black;
+  } 
+  body,h1,h2,h3,h4,h5 {font-family: "Poppins", sans-serif}
+  body {font-size:16px;}
+  .w3-half img{margin-bottom:-6px;margin-top:16px;opacity:0.8;cursor:pointer}
+  .w3-half img:hover{opacity:1}
+  .ajout-oga {background-color: green;}
+  .todo-oga {background-color: red;}
+  pre.enLigne{display: inline;}
+  .nicho-modif{border-left: Lime 5px solid;padding-left: 5px;background: yellow;}
+  video {border: 2px solid black;}
+  .code{background: black; color:white;padding:2px;font: 500 90%/1 Roboto Mono,monospace};
