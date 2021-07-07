@@ -68,6 +68,10 @@
     justify-content: space-around;
 }
 
+#quizz-app-score {
+    margin: 1rem auto;
+}
+
 #quizz-app-validate {
     width: 100%;
     max-width: 50%;

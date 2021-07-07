@@ -251,7 +251,7 @@ function validateQuizz(questions, dom) {
     });
     console.log(rightQuestions);
 
-    displayTitleNode(`Votre score est de ${rightQuestions}/${questions.length} !`, config.QUESTION_TITLE_TYPE, config.ids.ID_MAIN_SCORE, dom);
+    displayTitleNode(`Votre score est de ${rightQuestions}/${questions.length} !`, config.SCORE_TITLE_TYPE, config.ids.ID_MAIN_SCORE, dom);
 }
 
 function validateQCM(question, questionId) {
