@@ -20,3 +20,30 @@ avantages de notre application :
 
 pour mardi => point documentation + script twitch
 pour jeudi => démo prete + effort graphique
+
+SCRIPT : 
+
+Présentation demain=>
+    Présentation equipe ommission loic{
+        Bonjour machin, nous sommes une equipe de 3 devloppeur et avons été contactés par un de nos professeurs afin de realiser une solution pratique et innovante a son problème.
+    }
+
+    Présentation problème{
+        En effet, notre professeur desirait ajouter des quiz a ses supports de cours afin d'y rajouter une dimension d'auto évalutaion, cependant, les seuls altérnatives du marché etaient des solutions telles que google quiz ou open quiz. Ces solutions entrainaient des complications et des restrictions qui n'avaient pas lieu d'être comme par exemple, une nécessité de compte ou de connexion internet, ce qui, dans notre cas, n'est pas justifié car ce sont des supports offline.
+    }
+
+    Solution retenue{
+        La solution que nous avons retenue est une librairie JavaScript completement OFFLINE accompagnée d'un fichier JSON pour les questions. Nous nous sommes orientés sur cette solution car elle permettait a un très grand nombre d'uttilisateur de trouver chaussure a leur pied grâce a sa facilitée d'uttilisation.
+    }
+
+    Description du GIT(Opensource + DOC)
+
+    Démonstration d'instalation et de mise en place()
+
+    Présentation du JSON de question()
+
+    Visualisation du test par défaut()
+
+    Démonstration de la fléxibilitée de la librarie()
+
+    Todo list()
