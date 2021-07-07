@@ -224,20 +224,6 @@ function drop(ev) {
 }
 
 function validateQuizz(questions) {
-<<<<<<< HEAD
-    var questionNumber = questions.length;
-    var score = 0;
-
-    questions.forEach(function(question, index) {
-        if(question.type == QUESTION_QCM)
-            score += validateQCM(question, index);
-        else if(question.type == QUESTION_OPEN)
-            score += validateOpen(question, index);
-        else if(question.type == QUESTION_LINKED)
-            score += validateLinked(question, index);
-    });
-}
-=======
     var rightQuestions = 0;
     questions.forEach(function(question, index) {
         if (question.type == config.types.QUESTION_QCM) {
@@ -395,4 +381,3 @@ var Sorter = (function() {
         );
     })();
 })();
->>>>>>> c547eb807ea3cb97897ec8af2c86d1cb8e6bf8a7
