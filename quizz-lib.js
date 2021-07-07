@@ -127,10 +127,11 @@ function createNewOpen(question, dom, questionId) {
 function createNewLinked(question, dom, questionId) {
     var divQuestion = createDivNode(config.ids.questions.ID_QUESTION_MAIN.format(questionId), config.class.DIV_QUESTION, dom);
 
-    displayTitleNode(question.name + help, config.QUESTION_TITLE_TYPE, config.ids.questions.ID_QUESTION_NAME.format(questionId), divQuestion); 
+    displayTitleNode(question.name, config.QUESTION_TITLE_TYPE, config.ids.questions.ID_QUESTION_NAME.format(questionId), divQuestion); 
 
     var questionAnswers = question.answers;
-    var questionSolutions = shuffle(question.solution);
+    var questionSolutions = [...question.solution];
+    questionSolutions = shuffle(questionSolutions);
     var divAnswersAndSolutions = createDivNode("quizz-app-questions-" + questionId + "-answersAndSolutions", config.class.DIV_SOLUTIONS, divQuestion);
 
     createUlNode("quizz-app-questions-" + questionId + "-answers", divAnswersAndSolutions, config.class.LIST_ANSWERS, questionAnswers);
