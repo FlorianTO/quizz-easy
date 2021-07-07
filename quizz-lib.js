@@ -61,6 +61,9 @@ function createNewQuizz(jsonObject) {
     if (jsonObject.display_hints != config.DISPLAY_HINTS)
         config.DISPLAY_HINTS = jsonObject.display_hints;
 
+    if (jsonObject.element_id != config.DISPLAY_HINTS)
+        config.ids.ID_MAIN_DIV = config.DISPLAY_HINTS;
+
     var dom = document.getElementById(config.ids.ID_MAIN_DIV);
     console.log(dom);
 
@@ -128,7 +131,7 @@ function createNewOpen(question, dom, questionId) {
 function createNewLinked(question, dom, questionId) {
     var divQuestion = createDivNode(config.ids.questions.ID_QUESTION_MAIN.format(questionId), config.class.DIV_QUESTION, dom);
 
-    displayTitleNode(question.name, config.QUESTION_TITLE_TYPE, config.ids.questions.ID_QUESTION_NAME.format(questionId), divQuestion); 
+    displayTitleNode(question.name, config.QUESTION_TITLE_TYPE, config.ids.questions.ID_QUESTION_NAME.format(questionId), divQuestion);
 
     var questionAnswers = question.answers;
     var questionSolutions = [...question.solution];
@@ -262,8 +265,7 @@ function validateQCM(question, questionId) {
         if (document.getElementById(config.ids.questions.ID_QUESTION_CHECKBOX.format(questionId, index)).checked) {
             if (solution.includes(index + 1)) {
                 rightAnswers++;
-            }
-            else {
+            } else {
                 rightAnswers = -1;
                 return false;
             }
