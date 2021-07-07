@@ -36,3 +36,12 @@ Fonctionnalités facultatives
 Ɵ Il est possible de modifier la feuille de style ou de créer la sienne soit avec le [default-style.css], soit en modifiant les liens
 
 Ɵ Notre bibliothèque est pleinement customisable, jetez un coup d'oeil au fichier [quizz-lib.js] pour un premier aperçu ou consultez la documentation.
+
+TODO List
+===========
+
+- Champs optionnels : images, vidéos, code, audio, etc
+- Pouvoir implémenter plusieurs quizz à différents endroits dans la même page
+- Avoir un générateur de fichiers permettant de créer facilement le fichier requis par la bibliothèque
+- Une gestion du style
+- Elargir le champ des types de quizz possibles (texte à trous, vrai/faux, échelle de Likert, etc)
