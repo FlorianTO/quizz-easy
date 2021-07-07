@@ -224,7 +224,11 @@ function drop(ev) {
     ev.target.appendChild(document.getElementById(data));
 }
 
+<<<<<<< HEAD
 function validateQuizz(questions, dom) {
+=======
+function validateQuizz(questions) {
+>>>>>>> 066d9c2f38ea62bdbb0714995949054a2c8b2218
     var rightQuestions = 0;
     questions.forEach(function(question, index) {
         if (question.type == config.types.QUESTION_QCM) {
