@@ -1,3 +1,6 @@
+
+#
+
                     ___                  ______               
                    /   )     o          (  /                  
                   /_  /  , ,,  __, __,    /--   __,  (   __  ,
@@ -6,11 +9,11 @@
 
 01010001 01110101 01101001 01111010 01111010  01000101 01100001 01110011 01111001
 
-## Installation et utilisation basique:
+## Installation et utilisation basique
 
-    1) Télécharger la release sur [https://gitlab-ce.iut.u-bordeaux.fr/ftourinel/quizz-api;
+    1) Télécharger la release sur [https://gitlab-ce.iut.u-bordeaux.fr/ftourinel/quizz-api
 
-    2) Modifier le fichier de configuration par défaut pour correspondre à vos besoins[quizz.js;
+    2) Modifier le fichier de configuration par défaut pour correspondre à vos besoins[quizz.js
 
     3) Ouvrir votre fichier HTML et importer les scripts grâce à ces deux lignes à placer dans le header => 
     ```
@@ -23,7 +26,7 @@
     <div id="quizz-app"></div>
     ```
 
-## Fonctionnalités facultatives:
+## Fonctionnalités facultatives
 
     ⋅⋅* il est possible de modifier la feuille de style ou de créer la sienne soit avec le ficher [default-style Css] soit en modifiant les liens
 
