@@ -13,15 +13,15 @@
     2) Modifier le fichier de configuration par défaut pour correspondre à vos besoins[quizz.js;
 
     3) Ouvrir votre fichier HTML et importer les scripts grâce à ces deux lignes à placer dans le header => 
-        ```html
+        ~~~html
         <script src="../quizz-lib.js"></script>
         <script src="../examples-quizz/quizz1.js"></script>
-        ```
+        ~~~
 
     4) Dans le HTML a l'endroit où vous désirez mettre le quiz inserez une balise 
-        ```html
+        ~~~html
         <div id="quizz-app"></div>
-        ```
+        ~~~
 
 ## Fonctionnalités facultatives:
 
