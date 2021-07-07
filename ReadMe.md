@@ -11,9 +11,9 @@
 Installation et utilisation basique
 ===========
 
-1) Télécharger la release sur [https://gitlab-ce.iut.u-bordeaux.fr/ftourinel/quizz-api]
+1) Télécharger la release sur [https://github.com/FlorianTO/quizz-easy]
 
-2) Modifier le fichier de configuration par défaut pour correspondre à vos besoins[quizz.js
+2) Modifier le fichier de configuration par défaut pour correspondre à vos besoins [quizz.js]
 
 3) Ouvrir votre fichier HTML et importer les scripts grâce à ces deux lignes à placer dans le header
 
@@ -22,7 +22,7 @@ Installation et utilisation basique
     <script src="../examples-quizz/quizz1.js"></script>
     ~~~
 
-4) Dans le HTML a l'endroit où vous désirez mettre le quiz inserez une balise 
+4) Dans le HTML, à l'endroit où vous souhaitez mettre le quizz, inserez la balise suivante :
 
     ~~~html
     <div id="quizz-app"></div>
@@ -33,6 +33,6 @@ Installation et utilisation basique
 Fonctionnalités facultatives
 ===========
 
-Ɵ il est possible de modifier la feuille de style ou de créer la sienne soit avec le[default-style Css] soit en modifiant les liens
+Ɵ Il est possible de modifier la feuille de style ou de créer la sienne soit avec le [default-style.css], soit en modifiant les liens
 
-Ɵ Notre bibliothèque est extrêmement customisable, jetez un coup d'oeil au fichier [quiz-lib.js]pour un premier aperçu où consultez la documentation.
+Ɵ Notre bibliothèque est pleinement customisable, jetez un coup d'oeil au fichier [quizz-lib.js] pour un premier aperçu ou consultez la documentation.
