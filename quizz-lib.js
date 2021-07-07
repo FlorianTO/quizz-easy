@@ -3,6 +3,7 @@ var config = {
     DISPLAY_HINTS: true, //true : hints are displayed //false : hints aren't displayed
     MAIN_TITLE_TYPE: "h2", //h1 to h6
     QUESTION_TITLE_TYPE: "h3", //h1 to h6
+    SCORE_TITLE_TYPE: "h4", //h1 to h6
     NORMAL_TEXT_TYPE: "p",
     lang: {
         button: {
@@ -250,7 +251,7 @@ function validateQuizz(questions, dom) {
     });
     console.log(rightQuestions);
 
-    displayTitleNode(`Votre score est de ${rightQuestions}/${questions.length} !`, config.types.QUESTION_TITLE_TYPE, config.ids.ID_MAIN_SCORE, dom);
+    displayTitleNode(`Votre score est de ${rightQuestions}/${questions.length} !`, config.QUESTION_TITLE_TYPE, config.ids.ID_MAIN_SCORE, dom);
 }
 
 function validateQCM(question, questionId) {

@@ -43,8 +43,8 @@ var json = {
             name: "Lier chaque mot à son synonyme",
             hints: ["",""],
             optionals: [],
-            answers: ["oui", "non"],
-            solution: ["certainement", "bof"]
+            answers: ["<img src='./assets/crayon.png' alt='crayon'>", "<img src='./assets/gomme.png' alt='gomme'>", "stylo"],
+            solution: ["crayon", "gomme", "stylo"]
         }
     ]
 };

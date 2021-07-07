@@ -12,6 +12,22 @@
     border: 0;
 }
 
+.list_answers li img {
+    max-width: 50px;
+}
+
+#quizz-app h3 {
+    counter-increment: h3;
+    display: list-item;
+}
+
+#quizz-app h3::marker {
+    display: list-item;
+    content: counter(h3) ". ";
+    color: #f44336;
+    font-weight: bold;
+}
+
 .list_solutions li {
     cursor: grab;
 }
@@ -53,6 +69,8 @@
 }
 
 #quizz-app-validate {
+    width: 100%;
+    max-width: 50%;
     margin: auto;
 }
 
@@ -69,6 +87,10 @@ button {
 button:hover {
     transform: scale(1.1);
     transition: all 1s;
+}
+
+body {
+    counter-reset: h3;
 }
 
 table tr th,td{
