@@ -44,7 +44,9 @@ var config = {
             DIV_ANSWERS: "answers",
             DIV_ANSWER: "answer",
             DIV_SOLUTIONS: "solutions",
-            DIV_HINTS: "hints"
+            DIV_HINTS: "hints",
+            LIST_ANSWERS: "list_answers",
+            LIST_SOLUTIONS: "list_solutions"
     }
 };
 
@@ -101,6 +103,8 @@ function createNewQCM(question, dom, questionId) {
 
     if (config.DISPLAY_HINTS)
         displayHints(question.hints, questionId, divQuestion);
+
+    dom.appendChild(document.createElement("hr"));
 }
 
 function createNewOpen(question, dom, questionId) {
@@ -116,25 +120,29 @@ function createNewOpen(question, dom, questionId) {
 
     if (config.DISPLAY_HINTS)
         displayHints(question.hints, questionId, divQuestion);
+
+    dom.appendChild(document.createElement("hr"));
 }
 
 function createNewLinked(question, dom, questionId) {
     var divQuestion = createDivNode(config.ids.questions.ID_QUESTION_MAIN.format(questionId), config.class.DIV_QUESTION, dom);
 
-    displayTitleNode(question.name, config.QUESTION_TITLE_TYPE, config.ids.questions.ID_QUESTION_NAME.format(questionId), divQuestion);
+    displayTitleNode(question.name + help, config.QUESTION_TITLE_TYPE, config.ids.questions.ID_QUESTION_NAME.format(questionId), divQuestion); 
 
     var questionAnswers = question.answers;
     var questionSolutions = shuffle(question.solution);
     var divAnswersAndSolutions = createDivNode("quizz-app-questions-" + questionId + "-answersAndSolutions", config.class.DIV_SOLUTIONS, divQuestion);
 
-    createUlNode("quizz-app-questions-" + questionId + "-answers", divAnswersAndSolutions, questionAnswers);
+    createUlNode("quizz-app-questions-" + questionId + "-answers", divAnswersAndSolutions, config.class.LIST_ANSWERS, questionAnswers);
 
-    var ulSolutions = createUlNode("quizz-app-questions-" + questionId + "-solutions", divAnswersAndSolutions, questionSolutions);
+    var ulSolutions = createUlNode("quizz-app-questions-" + questionId + "-solutions", divAnswersAndSolutions, config.class.LIST_SOLUTIONS, questionSolutions);
 
     new Sorter(ulSolutions);
 
     if (config.DISPLAY_HINTS)
         displayHints(question.hints, questionId, divQuestion);
+
+    dom.appendChild(document.createElement("hr"));
 }
 
 function displayTextNode(text, id, dom) {
@@ -183,9 +191,10 @@ function createDivNode(id, classe, dom) {
     return divNode;
 }
 
-function createUlNode(id, dom, liElements) {
+function createUlNode(id, dom, classe, liElements) {
     var ul = document.createElement('ul');
     ul.id = id;
+    ul.className = classe;
     dom.appendChild(ul);
 
     liElements.forEach(function(content, index) {

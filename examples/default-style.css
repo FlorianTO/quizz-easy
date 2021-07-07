@@ -4,10 +4,16 @@
     justify-content: center;
 }
 
-.question {
-    border-top: black solid 2px;
-    border-bottom: black solid 2px;
-    margin: 10px 0;
+#quizz-app hr {
+    width: 50%;
+    margin: 2rem auto;
+    background-color: black; 
+    height: 1px;
+    border: 0;
+}
+
+.list_solutions li {
+    cursor: grab;
 }
 
 .answers {
