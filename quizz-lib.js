@@ -258,11 +258,12 @@ function validateQCM(question, questionId) {
     var answers = question.answers;
     var rightAnswers = 0;
     answers.forEach(function(answer, index) {
-        if (document.getElementById(config.ids.questions.ID_QUESTION_CHECKBOX.format(questionId, index)).checked)
+        if (document.getElementById(config.ids.questions.ID_QUESTION_CHECKBOX.format(questionId, index)).checked) {
             if (solution.includes(index + 1))
                 rightAnswers++;
             else
-                return true;
+                return false;
+        }
     });
     return rightAnswers == solution.length;
 }
