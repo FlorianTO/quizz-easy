@@ -26,6 +26,7 @@ var config = {
         ID_MAIN_DESCRIPTION: "quizz-app-description",
         ID_MAIN_QUESTIONS: "quizz-app-questions",
         ID_MAIN_VALIDATE: "quizz-app-validate",
+        ID_MAIN_SCORE: "quizz-app-score",
         questions: {
             ID_QUESTION_MAIN: "quizz-app-questions-{0}-main",
             ID_QUESTION_NAME: "quizz-app-questions-{0}-name",
@@ -76,7 +77,7 @@ function createNewQuizz(jsonObject) {
             createNewLinked(question, divQuestions, index);
     });
 
-    createButton(config.lang.button.validate, config.ids.ID_MAIN_VALIDATE, dom, function() { validateQuizz(quizzQuestions); });
+    createButton(config.lang.button.validate, config.ids.ID_MAIN_VALIDATE, dom, function() { validateQuizz(quizzQuestions, dom); });
 }
 
 function createNewQCM(question, dom, questionId) {
@@ -223,21 +224,11 @@ function drop(ev) {
     ev.target.appendChild(document.getElementById(data));
 }
 
-function validateQuizz(questions) {
 <<<<<<< HEAD
-    var questionNumber = questions.length;
-    var score = 0;
-
-    questions.forEach(function(question, index) {
-        if(question.type == QUESTION_QCM)
-            score += validateQCM(question, index);
-        else if(question.type == QUESTION_OPEN)
-            score += validateOpen(question, index);
-        else if(question.type == QUESTION_LINKED)
-            score += validateLinked(question, index);
-    });
-}
+function validateQuizz(questions, dom) {
 =======
+function validateQuizz(questions) {
+>>>>>>> 066d9c2f38ea62bdbb0714995949054a2c8b2218
     var rightQuestions = 0;
     questions.forEach(function(question, index) {
         if (question.type == config.types.QUESTION_QCM) {
@@ -252,6 +243,8 @@ function validateQuizz(questions) {
         }
     });
     console.log(rightQuestions);
+
+    displayTitleNode(`Votre score est de ${rightQuestions}/${questions.length} !`, config.types.QUESTION_TITLE_TYPE, config.ids.ID_MAIN_SCORE, dom);
 }
 
 function validateQCM(question, questionId) {
@@ -395,4 +388,3 @@ var Sorter = (function() {
         );
     })();
 })();
->>>>>>> c547eb807ea3cb97897ec8af2c86d1cb8e6bf8a7

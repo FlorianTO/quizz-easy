@@ -73,13 +73,11 @@ function addQCMForm(dom) {
                 json.questions[idQuestion].hints.push(ev.target.value);
                 var divHintsDisplayHint = createDivNode(`question-${idQuestion}-hints-prompt-hint-${hintCount}`, "", divHintsDisplay);
                 var hintText = displayTextNode(ev.target.value, `question-${idQuestion}-hints-prompt-hint-${hintCount}-value`, divHintsDisplayHint);
-                var remove = createInput("remove hint", `question-${idQuestion}-hints-prompt-hint-${hintCount}-remove`, "", "button", false, divHintsDisplayHint, [{
+                createInput("remove hint", `question-${idQuestion}-hints-prompt-hint-${hintCount}-remove`, "", "button", false, divHintsDisplayHint, [{
                     name: "click",
                     action: function(ev) {
-                        console.log(json.questions[idQuestion].hints);
                         json.questions[idQuestion].hints = json.questions[idQuestion].hints.filter(e => e !== hintText.textContent);
                         divHintsDisplayHint.remove();
-                        console.log(json.questions[idQuestion].hints);
                     }
                 }]);
             }
