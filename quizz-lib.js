@@ -8,7 +8,12 @@ var config = {
     lang: {
         button: {
             validate: "Valider les réponses du quizz",
-            displayHint: "Afficher l'indice {0}"
+            displayHint: "Afficher l'indice {0}",
+            displaySoluce: "Afficher la solution"
+        },
+        text: {
+            multipleSolutions: "Les solutions sont : ",
+            solution: "La solution est {0} !"
         }
     },
     types: {
@@ -41,7 +46,10 @@ var config = {
             ID_QUESTION_SOLUTIONS: "{0}-{1}-questions-{2}-solutions",
             ID_QUESTION_HINTS: "{0}-{1}-questions-{2}-hints",
             ID_QUESTION_HINTS_BUTTON: "{0}-{1}-questions-{2}-hints-button-{3}",
-            ID_QUESTION_HINTS_TEXT: "{0}-{1}-questions-{2}-hints-text-{3}"
+            ID_QUESTION_HINTS_TEXT: "{0}-{1}-questions-{2}-hints-text-{3}",
+            ID_QUESTION_SOLUCE: "{0}-{1}-questions-{2}-soluce",
+            ID_QUESTION_SOLUCE_BUTTON: "{0}-{1}-questions-{2}-soluce-button",
+            ID_QUESTION_SOLUCE_TEXT: "{0}-{1}-questions-{2}-soluce-text"
         }
     },
     class: {
@@ -117,6 +125,10 @@ function createNewQCM(question, dom, questionId, quizzId) {
     if (config.DISPLAY_HINTS)
         displayHints(question.hints, questionId, divQuestion);
 
+    var solutions = [];
+    question.solution.forEach(function(item) { solutions.push(questionAnswers[item - 1]); });
+    displaySoluce(questionId, quizzId, divQuestion, solutions);
+
     dom.appendChild(document.createElement("hr"));
 }
 
@@ -133,6 +145,8 @@ function createNewOpen(question, dom, questionId, quizzId) {
 
     if (config.DISPLAY_HINTS)
         displayHints(question.hints, questionId, divQuestion);
+
+    displaySoluce(questionId, quizzId, divQuestion, [question.solution]);
 
     dom.appendChild(document.createElement(config.elements.ELEMENT_HR));
 }
@@ -156,7 +170,27 @@ function createNewLinked(question, dom, questionId, quizzId) {
     if (config.DISPLAY_HINTS)
         displayHints(question.hints, questionId, divQuestion);
 
+    displaySoluce(questionId, quizzId, divQuestion, question.solution);
+
     dom.appendChild(document.createElement(config.elements.ELEMENT_HR));
+}
+
+function displaySoluce(questionId, quizzId, dom, solutions) {
+    var divSoluce = createDivNode(config.ids.questions.ID_QUESTION_SOLUCE.format(config.ids.ID_MAIN_DIV, quizzId, questionId), "", dom);
+    createButton(config.lang.button.displaySoluce, config.ids.questions.ID_QUESTION_SOLUCE_BUTTON.format(config.ids.ID_MAIN_DIV, quizzId, questionId), "", divSoluce, function(ev) {
+        var soluceString;
+        
+        if(solutions.length == 1) {
+            soluceString = config.lang.text.solution.format(...solutions);
+        }else {
+            soluceString = config.lang.text.multipleSolutions;
+            for(i = 1; i <= solutions.length; i++) {
+                soluceString += i == solutions.length ? ` {${i - 1}} !` : ` {${i - 1}},`;
+            } 
+        }
+        displayTitleNode(soluceString.format(...solutions), config.SCORE_TITLE_TYPE, config.ids.questions.ID_QUESTION_SOLUCE_TEXT.format(config.ids.ID_MAIN_DIV, quizzId, questionId), divSoluce);
+        document.getElementById(config.ids.questions.ID_QUESTION_SOLUCE_BUTTON.format(config.ids.ID_MAIN_DIV, quizzId, questionId)).remove();
+    });
 }
 
 function displayTextNode(text, id, dom) {
