@@ -19,24 +19,29 @@ var config = {
     elements: {
         ELEMENT_BUTTON: "button",
         ELEMENT_INPUT: "input",
-        ELEMENT_CHECKBOX: "checkbox"
+        ELEMENT_CHECKBOX: "checkbox",
+        ELEMENT_HR: "hr"
     },
     ids: {
         ID_MAIN_DIV: "quizz-app",
-        ID_MAIN_TITLE: "quizz-app-name",
-        ID_MAIN_DESCRIPTION: "quizz-app-description",
-        ID_MAIN_QUESTIONS: "quizz-app-questions",
-        ID_MAIN_VALIDATE: "quizz-app-validate",
-        ID_MAIN_SCORE: "quizz-app-score",
+        ID_MAIN_TITLE: "{0}-{1}-name",
+        ID_MAIN_DESCRIPTION: "{0}-{1}-description",
+        ID_MAIN_QUESTIONS: "{0}-{1}-questions",
+        ID_MAIN_VALIDATE: "{0}-{1}-validate",
+        ID_MAIN_SCORE: "{0}-{1}-score",
         questions: {
-            ID_QUESTION_MAIN: "quizz-app-questions-{0}-main",
-            ID_QUESTION_NAME: "quizz-app-questions-{0}-name",
-            ID_QUESTION_ANSWERS: "quizz-app-questions-{0}-answers",
-            ID_QUESTION_ANSWER: "quizz-app-questions-{0}-answers-{1}",
-            ID_QUESTION_CHECKBOX: "quizz-app-questions-{0}-answers-{1}-checkbox",
-            ID_QUESTION_TEXT: "quizz-app-questions-{0}-answers-{1}-text",
-            ID_QUESTION_INPUT: "quizz-app-questions-{0}-input"
-
+            ID_QUESTION_MAIN: "{0}-{1}-questions-{2}-main",
+            ID_QUESTION_NAME: "{0}-{1}-questions-{2}-name",
+            ID_QUESTION_ANSWERS: "{0}-{1}-questions-{2}-answers",
+            ID_QUESTION_ANSWER: "{0}-{1}-questions-{2}-answers-{3}",
+            ID_QUESTION_CHECKBOX: "{0}-{1}-questions-{2}-answers-{3}-checkbox",
+            ID_QUESTION_TEXT: "{0}-{1}-questions-{2}-answers-{3}-text",
+            ID_QUESTION_INPUT: "{0}-{1}-questions-{2}-input",
+            ID_QUESTION_ANSWERS_SOLUTIONS: "{0}-{1}-questions-{2}-answersAndSolutions",
+            ID_QUESTION_SOLUTIONS: "{0}-{1}-questions-{2}-solutions",
+            ID_QUESTION_HINTS: "{0}-{1}-questions-{2}-hints",
+            ID_QUESTION_HINTS_BUTTON: "{0}-{1}-questions-{2}-hints-button-{3}",
+            ID_QUESTION_HINTS_TEXT: "{0}-{1}-questions-{2}-hints-text-{3}"
         }
     },
     class: {
@@ -54,55 +59,57 @@ var config = {
 var loader = setInterval(function() {
     if (document.readyState !== "complete") return;
     clearInterval(loader);
-    createNewQuizz(json);
+    json.forEach(function(quizz, index) {
+        createNewQuizz(quizz, index);
+    });
 }, 300);
 
-function createNewQuizz(jsonObject) {
-    if (jsonObject.display_hints != config.DISPLAY_HINTS)
-        config.DISPLAY_HINTS = jsonObject.display_hints;
+function createNewQuizz(quizz, quizzId) {
+    if (quizz.display_hints != config.DISPLAY_HINTS)
+        config.DISPLAY_HINTS = quizz.display_hints;
 
-    if (jsonObject.element_id != config.ids.ID_MAIN_DIV)
-        config.ids.ID_MAIN_DIV = jsonObject.element_id;
+    if (quizz.element_id != config.ids.ID_MAIN_DIV)
+        config.ids.ID_MAIN_DIV = quizz.element_id;
 
     var dom = document.getElementById(config.ids.ID_MAIN_DIV);
     console.log(dom);
 
-    displayTitleNode(jsonObject.name, config.MAIN_TITLE_TYPE, config.ids.ID_MAIN_TITLE, dom);
+    displayTitleNode(quizz.name, config.MAIN_TITLE_TYPE, config.ids.ID_MAIN_TITLE, dom);
 
-    displayTextNode(jsonObject.description, config.ids.ID_MAIN_DESCRIPTION, dom);
+    displayTextNode(quizz.description, config.ids.ID_MAIN_DESCRIPTION, dom);
 
-    var quizzQuestions = jsonObject.questions;
+    var quizzQuestions = quizz.questions;
     var divQuestions = createDivNode(config.ids.ID_MAIN_QUESTIONS, config.class.DIV_QUESTIONS, dom);
 
     quizzQuestions.forEach(function(question, index) {
         if (question.type == config.types.QUESTION_QCM)
-            createNewQCM(question, divQuestions, index);
+            createNewQCM(question, divQuestions, index, quizzId);
         else if (question.type == config.types.QUESTION_OPEN)
-            createNewOpen(question, divQuestions, index);
+            createNewOpen(question, divQuestions, index, quizzId);
         else if (question.type == config.types.QUESTION_LINKED)
-            createNewLinked(question, divQuestions, index);
+            createNewLinked(question, divQuestions, index, quizzId);
     });
 
-    createButton(config.lang.button.validate, config.ids.ID_MAIN_VALIDATE, dom, function() { validateQuizz(quizzQuestions, dom); });
+    createButton(config.lang.button.validate, config.ids.ID_MAIN_VALIDATE, dom, function() { validateQuizz(quizzQuestions, dom, quizzId); });
 }
 
-function createNewQCM(question, dom, questionId) {
-    var divQuestion = createDivNode(config.ids.questions.ID_QUESTION_MAIN.format(questionId), config.class.DIV_QUESTION, dom);
+function createNewQCM(question, dom, questionId, quizzId) {
+    var divQuestion = createDivNode(config.ids.questions.ID_QUESTION_MAIN.format(config.ids.ID_MAIN_DIV, quizzId, questionId), config.class.DIV_QUESTION, dom);
 
-    displayTitleNode(question.name, config.QUESTION_TITLE_TYPE, config.ids.questions.ID_QUESTION_NAME.format(questionId), divQuestion);
+    displayTitleNode(question.name, config.QUESTION_TITLE_TYPE, config.ids.questions.ID_QUESTION_NAME.format(config.ids.ID_MAIN_DIV, quizzId, questionId), divQuestion);
 
     var questionAnswers = question.answers;
-    var divAnswers = createDivNode(config.ids.questions.ID_QUESTION_ANSWERS.format(questionId), config.class.DIV_ANSWERS, divQuestion);
+    var divAnswers = createDivNode(config.ids.questions.ID_QUESTION_ANSWERS.format(config.ids.ID_MAIN_DIV, quizzId, questionId), config.class.DIV_ANSWERS, divQuestion);
 
     questionAnswers.forEach(function(answer, index) {
-        var divAnswer = createDivNode(config.ids.questions.ID_QUESTION_ANSWER.format(questionId, index), config.class.DIV_ANSWER, divAnswers);
+        var divAnswer = createDivNode(config.ids.questions.ID_QUESTION_ANSWER.format(config.ids.ID_MAIN_DIV, quizzId, questionId, index), config.class.DIV_ANSWER, divAnswers);
 
         var checkboxAnswer = document.createElement(config.elements.ELEMENT_INPUT);
         checkboxAnswer.type = config.elements.ELEMENT_CHECKBOX;
-        checkboxAnswer.id = config.ids.questions.ID_QUESTION_CHECKBOX.format(questionId, index);
+        checkboxAnswer.id = config.ids.questions.ID_QUESTION_CHECKBOX.format(config.ids.ID_MAIN_DIV, quizzId, questionId, index);
         divAnswer.appendChild(checkboxAnswer);
 
-        displayTextNode(answer, config.ids.questions.ID_QUESTION_TEXT.format(questionId, index), divAnswer);
+        displayTextNode(answer, config.ids.questions.ID_QUESTION_TEXT.format(config.ids.ID_MAIN_DIV, quizzId, questionId, index), divAnswer);
     });
 
     if (config.DISPLAY_HINTS)
@@ -111,43 +118,43 @@ function createNewQCM(question, dom, questionId) {
     dom.appendChild(document.createElement("hr"));
 }
 
-function createNewOpen(question, dom, questionId) {
-    var divQuestion = createDivNode(config.ids.questions.ID_QUESTION_MAIN.format(questionId), config.class.DIV_QUESTION, dom);
+function createNewOpen(question, dom, questionId, quizzId) {
+    var divQuestion = createDivNode(config.ids.questions.ID_QUESTION_MAIN.format(config.ids.ID_MAIN_DIV, quizzId, questionId), config.class.DIV_QUESTION, dom);
 
-    displayTitleNode(question.name, config.QUESTION_TITLE_TYPE, config.ids.questions.ID_QUESTION_NAME.format(questionId), divQuestion);
+    displayTitleNode(question.name, config.QUESTION_TITLE_TYPE, config.ids.questions.ID_QUESTION_NAME.format(config.ids.ID_MAIN_DIV, quizzId, questionId), divQuestion);
 
     var inputSolution = document.createElement(config.elements.ELEMENT_INPUT);
     inputSolution.type = "text";
     inputSolution.required = true;
-    inputSolution.id = config.ids.questions.ID_QUESTION_INPUT.format(questionId);
+    inputSolution.id = config.ids.questions.ID_QUESTION_INPUT.format(config.ids.ID_MAIN_DIV, quizzId, questionId);
     divQuestion.appendChild(inputSolution);
 
     if (config.DISPLAY_HINTS)
         displayHints(question.hints, questionId, divQuestion);
 
-    dom.appendChild(document.createElement("hr"));
+    dom.appendChild(document.createElement(config.elements.ELEMENT_HR));
 }
 
-function createNewLinked(question, dom, questionId) {
-    var divQuestion = createDivNode(config.ids.questions.ID_QUESTION_MAIN.format(questionId), config.class.DIV_QUESTION, dom);
+function createNewLinked(question, dom, questionId, quizzId) {
+    var divQuestion = createDivNode(config.ids.questions.ID_QUESTION_MAIN.format(config.ids.ID_MAIN_DIV, quizzId, questionId), config.class.DIV_QUESTION, dom);
 
-    displayTitleNode(question.name, config.QUESTION_TITLE_TYPE, config.ids.questions.ID_QUESTION_NAME.format(questionId), divQuestion); 
+    displayTitleNode(question.name, config.QUESTION_TITLE_TYPE, config.ids.questions.ID_QUESTION_NAME.format(config.ids.ID_MAIN_DIV, quizzId, questionId), divQuestion); 
 
     var questionAnswers = question.answers;
     var questionSolutions = [...question.solution];
     questionSolutions = shuffle(questionSolutions);
-    var divAnswersAndSolutions = createDivNode("quizz-app-questions-" + questionId + "-answersAndSolutions", config.class.DIV_SOLUTIONS, divQuestion);
+    var divAnswersAndSolutions = createDivNode(config.ids.questions.ID_QUESTION_ANSWERS_SOLUTIONS.format(config.ids.ID_MAIN_DIV, quizzId, questionId), config.class.DIV_SOLUTIONS, divQuestion);
 
-    createUlNode("quizz-app-questions-" + questionId + "-answers", divAnswersAndSolutions, config.class.LIST_ANSWERS, questionAnswers);
+    createUlNode(config.ids.questions.ID_QUESTION_ANSWERS.format(config.ids.ID_MAIN_DIV, quizzId, questionId), divAnswersAndSolutions, config.class.LIST_ANSWERS, questionAnswers);
 
-    var ulSolutions = createUlNode("quizz-app-questions-" + questionId + "-solutions", divAnswersAndSolutions, config.class.LIST_SOLUTIONS, questionSolutions);
+    var ulSolutions = createUlNode(config.ids.questions.ID_QUESTION_SOLUTIONS.format(config.ids.ID_MAIN_DIV, quizzId, questionId), divAnswersAndSolutions, config.class.LIST_SOLUTIONS, questionSolutions);
 
     new Sorter(ulSolutions);
 
     if (config.DISPLAY_HINTS)
         displayHints(question.hints, questionId, divQuestion);
 
-    dom.appendChild(document.createElement("hr"));
+    dom.appendChild(document.createElement(config.elements.ELEMENT_HR));
 }
 
 function displayTextNode(text, id, dom) {
@@ -165,23 +172,24 @@ function displayTitleNode(text, textType, id, dom) {
     dom.appendChild(h);
 }
 
-function displayHints(hints, questionId, dom) {
-    if (hints.length <= 0) return;
+function displayHints(hints, questionId, dom, quizzId) {
+    if (hints.length <= 0 || hints.isEmpty()) return;
 
-    var divHints = createDivNode("quizz-app-questions-" + questionId + "hints", config.class.DIV_HINTS, dom);
+    var divHints = createDivNode(config.ids.questions.ID_QUESTION_HINTS.format(config.ids.ID_MAIN_DIV, quizzId, questionId), config.class.DIV_HINTS, dom);
 
     hints.forEach(function(hint, index) {
         if (hint == "") return;
-        createButton(config.lang.button.displayHint.format(index + 1), "quizz-app-questions-" + questionId + "hints-button-" + index, divHints, function() {
-            var button = document.getElementById("quizz-app-questions-" + questionId + "hints-button-" + index);
-            displayTitleNode(hints[index], config.NORMAL_TEXT_TYPE, "quizz-app-questions-" + questionId + "hints-" + index, divHints);
+        createButton(config.lang.button.displayHint.format(index + 1), config.ids.questions.ID_QUESTION_HINTS_BUTTON.format(config.ids.ID_MAIN_DIV, quizzId, questionId, index), divHints, function() {
+            var button = document.getElementById(config.ids.questions.ID_QUESTION_HINTS_BUTTON.format(config.ids.ID_MAIN_DIV, quizzId, questionId, index));
+            displayTitleNode(hints[index], config.NORMAL_TEXT_TYPE, config.ids.questions.ID_QUESTION_HINTS_TEXT.format(config.ids.ID_MAIN_DIV, quizzId, questionId, index), divHints);
             button.remove();
         });
     });
+
 }
 
 function createButton(text, id, dom, onclick) {
-    var button = document.createElement("button");
+    var button = document.createElement(config.elements.ELEMENT_BUTTON);
     button.innerHTML = text;
     button.id = id;
     dom.appendChild(button);
@@ -238,17 +246,17 @@ function drop(ev) {
     ev.target.appendChild(document.getElementById(data));
 }
 
-function validateQuizz(questions, dom) {
+function validateQuizz(questions, dom, quizzId) {
     var rightQuestions = 0;
     questions.forEach(function(question, index) {
         if (question.type == config.types.QUESTION_QCM) {
-            if (validateQCM(question, index))
+            if (validateQCM(question, index, quizzId))
                 rightQuestions++;
         } else if (question.type == config.types.QUESTION_OPEN) {
-            if (validateOpen(question, index))
+            if (validateOpen(question, index, quizzId))
                 rightQuestions++;
         } else if (question.type == config.types.QUESTION_LINKED) {
-            if (validateLinked(question, index))
+            if (validateLinked(question, index, quizzId))
                 rightQuestions++;
         }
     });
@@ -259,12 +267,12 @@ function validateQuizz(questions, dom) {
     displayTitleNode(`Votre score est de ${rightQuestions}/${questions.length} !`, config.SCORE_TITLE_TYPE, config.ids.ID_MAIN_SCORE, dom);
 }
 
-function validateQCM(question, questionId) {
+function validateQCM(question, questionId, quizzId) {
     var solution = question.solution;
     var answers = question.answers;
     var rightAnswers = 0;
     answers.forEach(function(answer, index) {
-        if (document.getElementById(config.ids.questions.ID_QUESTION_CHECKBOX.format(questionId, index)).checked) {
+        if (document.getElementById(config.ids.questions.ID_QUESTION_CHECKBOX.format(config.ids.ID_MAIN_DIV, quizzId, questionId, index)).checked) {
             if (solution.includes(index + 1)) {
                 rightAnswers++;
             }
@@ -277,9 +285,9 @@ function validateQCM(question, questionId) {
     return rightAnswers == solution.length;
 }
 
-function validateOpen(question, questionId) {
+function validateOpen(question, questionId, quizzId) {
     var solution = question.solution;
-    var elem = document.getElementById(config.ids.questions.ID_QUESTION_INPUT.format(questionId));
+    var elem = document.getElementById(config.ids.questions.ID_QUESTION_INPUT.format(config.ids.ID_MAIN_DIV, quizzId, questionId));
     if (question.caseSensitive) {
         if (elem.value == solution)
             return true;
@@ -290,8 +298,8 @@ function validateOpen(question, questionId) {
     return false;
 }
 
-function validateLinked(question, questionId) {
-    var ulSolutions = document.getElementById("quizz-app-questions-" + questionId + "-solutions");
+function validateLinked(question, questionId, quizzId) {
+    var ulSolutions = document.getElementById(config.ids.questions.ID_QUESTION_SOLUTIONS.format(config.ids.ID_MAIN_DIV, quizzId, questionId));
 
     var userInput = [];
     for (i = 0; i < ulSolutions.children.length; i++) {
@@ -299,6 +307,15 @@ function validateLinked(question, questionId) {
         userInput.push(child.textContent);
     }
     return compare(question.solution, userInput);
+}
+
+Array.prototype.isEmpty = function() {
+    var arrSize = this.length, emptyItems = 0
+    this.forEach(function(item) {
+        if(item == "") 
+        emptyItems++;
+    });
+    return arrSize == emptyItems;
 }
 
 String.prototype.format = function() {
