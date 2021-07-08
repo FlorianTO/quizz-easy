@@ -2,6 +2,11 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    margin-top: 1rem;
+}
+
+.question {
+    margin: auto;
 }
 
 #quizz-app hr {
@@ -28,8 +33,23 @@
     font-weight: bold;
 }
 
+.solutions ul li {
+    margin: 10px 0;
+}
+
+.list_solutions {
+    list-style: none;
+}
+
+.list_answers li {
+    padding: 5px;
+}
+
 .list_solutions li {
     cursor: grab;
+    padding: 3px;
+    text-align: center;
+    border: black solid 2px;
 }
 
 .answers {
@@ -42,12 +62,14 @@
 
 .questions input[type=text] {
     max-width: 400px;
-    margin-left: 2rem;
+    display: block;
+    margin: auto;
 }
 
 .hints {
     display: flex;
     justify-content: space-around;
+    flex-wrap: wrap;
     margin: 10px 0;
 }
 
@@ -55,11 +77,13 @@
     display: flex;
     flex-direction: column;
     margin: auto;
+    padding: 0px 30px 20px;
+    border: black solid;
 }
 
 #quizz-app h2 {
     font-weight: bold;
-    margin: 2rem auto 3rem;
+    margin: 2rem auto;
     text-decoration: underline;
 }
 

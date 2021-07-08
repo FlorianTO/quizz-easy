@@ -6,7 +6,7 @@ var json = {
         {
             type: "QCM",
             name: "Combien font 2+3 ?",
-            hints: ["indice1","indice2"],
+            hints: ["indice1","indice2", "indice 3", "indice 4"],
             optionals: [
                 {
                     type: "IMAGE",
@@ -32,19 +32,19 @@ var json = {
         },
         {
             type: "OPEN",
-            name: "Quel est le prénom de Mr.GUIBERT ?",
-            hints: ["commence par un O","Est le nom d'une plante"],
+            name: "Qui est le PDG de Microsoft ? (Prénom et nom)",
+            hints: ["Est la traduction anglaise de 'portails'"],
             optionals: [],
-            solution: "Olivier",
+            solution: "Bill Gates",
             caseSensitive: false
         },
         {
             type: "LINKED",
-            name: "Lier chaque mot à son synonyme",
+            name: "Associer chaque animal à sa catégorie",
             hints: ["",""],
             optionals: [],
-            answers: ["<img src='./assets/crayon.png' alt='crayon'>", "<img src='./assets/gomme.png' alt='gomme'>", "stylo"],
-            solution: ["crayon", "gomme", "stylo"]
+            answers: ["Reptile", "Félin", "Singe"],
+            solution: ["Serpent", "Tigre", "Gorille"]
         }
     ]
 };
