@@ -251,6 +251,8 @@ function validateQuizz(questions, dom) {
     });
     console.log(rightQuestions);
 
+    if(typeof(document.getElementById(config.ids.ID_MAIN_SCORE)) != 'undefined' && document.getElementById(config.ids.ID_MAIN_SCORE) != null)
+        document.getElementById(config.ids.ID_MAIN_SCORE).remove();
     displayTitleNode(`Votre score est de ${rightQuestions}/${questions.length} !`, config.SCORE_TITLE_TYPE, config.ids.ID_MAIN_SCORE, dom);
 }
 
