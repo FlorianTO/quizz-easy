@@ -52,7 +52,9 @@ var config = {
             DIV_SOLUTIONS: "solutions",
             DIV_HINTS: "hints",
             LIST_ANSWERS: "list_answers",
-            LIST_SOLUTIONS: "list_solutions"
+            LIST_SOLUTIONS: "list_solutions",
+            BTN_HINT: "button_hint",
+            BTN_VALIDATE: "button_validate"
     }
 };
 
@@ -90,7 +92,7 @@ function createNewQuizz(quizz, quizzId) {
             createNewLinked(question, divQuestions, index, quizzId);
     });
 
-    createButton(config.lang.button.validate, config.ids.ID_MAIN_VALIDATE, dom, function() { validateQuizz(quizzQuestions, dom, quizzId); });
+    createButton(config.lang.button.validate, config.ids.ID_MAIN_VALIDATE, config.class.BTN_VALIDATE, dom, function() { validateQuizz(quizzQuestions, dom, quizzId); });
 }
 
 function createNewQCM(question, dom, questionId, quizzId) {
@@ -179,7 +181,7 @@ function displayHints(hints, questionId, dom, quizzId) {
 
     hints.forEach(function(hint, index) {
         if (hint == "") return;
-        createButton(config.lang.button.displayHint.format(index + 1), config.ids.questions.ID_QUESTION_HINTS_BUTTON.format(config.ids.ID_MAIN_DIV, quizzId, questionId, index), divHints, function() {
+        createButton(config.lang.button.displayHint.format(index + 1), config.ids.questions.ID_QUESTION_HINTS_BUTTON.format(config.ids.ID_MAIN_DIV, quizzId, questionId, index), config.class.BTN_HINT, divHints, function() {
             var button = document.getElementById(config.ids.questions.ID_QUESTION_HINTS_BUTTON.format(config.ids.ID_MAIN_DIV, quizzId, questionId, index));
             displayTitleNode(hints[index], config.NORMAL_TEXT_TYPE, config.ids.questions.ID_QUESTION_HINTS_TEXT.format(config.ids.ID_MAIN_DIV, quizzId, questionId, index), divHints);
             button.remove();
@@ -188,10 +190,11 @@ function displayHints(hints, questionId, dom, quizzId) {
 
 }
 
-function createButton(text, id, dom, onclick) {
+function createButton(text, id, classe, dom, onclick) {
     var button = document.createElement(config.elements.ELEMENT_BUTTON);
     button.innerHTML = text;
     button.id = id;
+    button.className = classe;
     dom.appendChild(button);
     button.addEventListener("click", onclick);
 }

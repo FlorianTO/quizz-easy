@@ -70,7 +70,9 @@
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
-    margin: 10px 0;
+    margin: auto;
+    max-width: 500px;
+    width: 80%;
 }
 
 #quizz-app {
@@ -87,16 +89,16 @@
     text-decoration: underline;
 }
 
-#quizz-app-questions-2-answersAndSolutions {
+.solutions {
     display: flex;
     justify-content: space-around;
 }
 
-#quizz-app-score {
+h4:last-child {
     margin: 1rem auto;
 }
 
-#quizz-app-validate {
+.button_validate {
     width: 100%;
     max-width: 50%;
     margin: auto;
