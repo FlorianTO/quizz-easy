@@ -34,7 +34,7 @@ var json = [{
         {
             type: "OPEN",
             name: "Qui est le PDG de Microsoft ? (Prénom et nom)",
-            hints: ["Est la traduction anglaise de 'portails'"],
+            hints: ["Son nom est la traduction anglaise de 'portails'"],
             optionals: [],
             solution: "Bill Gates",
             caseSensitive: false

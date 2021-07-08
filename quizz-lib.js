@@ -59,10 +59,13 @@ var config = {
             DIV_ANSWER: "answer",
             DIV_SOLUTIONS: "solutions",
             DIV_HINTS: "hints",
+            DIV_SOLUCE: "soluce",
             LIST_ANSWERS: "list_answers",
             LIST_SOLUTIONS: "list_solutions",
             BTN_HINT: "button_hint",
-            BTN_VALIDATE: "button_validate"
+            BTN_VALIDATE: "button_validate",
+            BTN_SOLUTION: "button_solution",
+            TEXT_SCORE: "text_score"
     }
 };
 
@@ -84,7 +87,7 @@ function createNewQuizz(quizz, quizzId) {
     var dom = document.getElementById(config.ids.ID_MAIN_DIV);
     console.log(dom);
 
-    displayTitleNode(quizz.name, config.MAIN_TITLE_TYPE, config.ids.ID_MAIN_TITLE, dom);
+    displayTitleNode(quizz.name, config.MAIN_TITLE_TYPE, "", config.ids.ID_MAIN_TITLE, dom);
 
     displayTextNode(quizz.description, config.ids.ID_MAIN_DESCRIPTION, dom);
 
@@ -106,7 +109,7 @@ function createNewQuizz(quizz, quizzId) {
 function createNewQCM(question, dom, questionId, quizzId) {
     var divQuestion = createDivNode(config.ids.questions.ID_QUESTION_MAIN.format(config.ids.ID_MAIN_DIV, quizzId, questionId), config.class.DIV_QUESTION, dom);
 
-    displayTitleNode(question.name, config.QUESTION_TITLE_TYPE, config.ids.questions.ID_QUESTION_NAME.format(config.ids.ID_MAIN_DIV, quizzId, questionId), divQuestion);
+    displayTitleNode(question.name, config.QUESTION_TITLE_TYPE, "", config.ids.questions.ID_QUESTION_NAME.format(config.ids.ID_MAIN_DIV, quizzId, questionId), divQuestion);
 
     var questionAnswers = question.answers;
     var divAnswers = createDivNode(config.ids.questions.ID_QUESTION_ANSWERS.format(config.ids.ID_MAIN_DIV, quizzId, questionId), config.class.DIV_ANSWERS, divQuestion);
@@ -135,7 +138,7 @@ function createNewQCM(question, dom, questionId, quizzId) {
 function createNewOpen(question, dom, questionId, quizzId) {
     var divQuestion = createDivNode(config.ids.questions.ID_QUESTION_MAIN.format(config.ids.ID_MAIN_DIV, quizzId, questionId), config.class.DIV_QUESTION, dom);
 
-    displayTitleNode(question.name, config.QUESTION_TITLE_TYPE, config.ids.questions.ID_QUESTION_NAME.format(config.ids.ID_MAIN_DIV, quizzId, questionId), divQuestion);
+    displayTitleNode(question.name, config.QUESTION_TITLE_TYPE, "", config.ids.questions.ID_QUESTION_NAME.format(config.ids.ID_MAIN_DIV, quizzId, questionId), divQuestion);
 
     var inputSolution = document.createElement(config.elements.ELEMENT_INPUT);
     inputSolution.type = "text";
@@ -154,7 +157,7 @@ function createNewOpen(question, dom, questionId, quizzId) {
 function createNewLinked(question, dom, questionId, quizzId) {
     var divQuestion = createDivNode(config.ids.questions.ID_QUESTION_MAIN.format(config.ids.ID_MAIN_DIV, quizzId, questionId), config.class.DIV_QUESTION, dom);
 
-    displayTitleNode(question.name, config.QUESTION_TITLE_TYPE, config.ids.questions.ID_QUESTION_NAME.format(config.ids.ID_MAIN_DIV, quizzId, questionId), divQuestion); 
+    displayTitleNode(question.name, config.QUESTION_TITLE_TYPE, "", config.ids.questions.ID_QUESTION_NAME.format(config.ids.ID_MAIN_DIV, quizzId, questionId), divQuestion); 
 
     var questionAnswers = question.answers;
     var questionSolutions = [...question.solution];
@@ -169,15 +172,15 @@ function createNewLinked(question, dom, questionId, quizzId) {
 
     if (config.DISPLAY_HINTS)
         displayHints(question.hints, questionId, divQuestion);
-
+    
     displaySoluce(questionId, quizzId, divQuestion, question.solution);
 
     dom.appendChild(document.createElement(config.elements.ELEMENT_HR));
 }
 
 function displaySoluce(questionId, quizzId, dom, solutions) {
-    var divSoluce = createDivNode(config.ids.questions.ID_QUESTION_SOLUCE.format(config.ids.ID_MAIN_DIV, quizzId, questionId), "", dom);
-    createButton(config.lang.button.displaySoluce, config.ids.questions.ID_QUESTION_SOLUCE_BUTTON.format(config.ids.ID_MAIN_DIV, quizzId, questionId), "", divSoluce, function(ev) {
+    var divSoluce = createDivNode(config.ids.questions.ID_QUESTION_SOLUCE.format(config.ids.ID_MAIN_DIV, quizzId, questionId), config.class.DIV_SOLUCE, dom);
+    createButton(config.lang.button.displaySoluce, config.ids.questions.ID_QUESTION_SOLUCE_BUTTON.format(config.ids.ID_MAIN_DIV, quizzId, questionId), config.class.BTN_SOLUTION, divSoluce, function(ev) {
         var soluceString;
         
         if(solutions.length == 1) {
@@ -188,7 +191,7 @@ function displaySoluce(questionId, quizzId, dom, solutions) {
                 soluceString += i == solutions.length ? ` {${i - 1}} !` : ` {${i - 1}},`;
             } 
         }
-        displayTitleNode(soluceString.format(...solutions), config.SCORE_TITLE_TYPE, config.ids.questions.ID_QUESTION_SOLUCE_TEXT.format(config.ids.ID_MAIN_DIV, quizzId, questionId), divSoluce);
+        displayTitleNode(soluceString.format(...solutions), config.SCORE_TITLE_TYPE, "", config.ids.questions.ID_QUESTION_SOLUCE_TEXT.format(config.ids.ID_MAIN_DIV, quizzId, questionId), divSoluce);
         document.getElementById(config.ids.questions.ID_QUESTION_SOLUCE_BUTTON.format(config.ids.ID_MAIN_DIV, quizzId, questionId)).remove();
     });
 }
@@ -199,12 +202,13 @@ function displayTextNode(text, id, dom) {
     dom.appendChild(textNode);
 }
 
-function displayTitleNode(text, textType, id, dom) {
+function displayTitleNode(text, textType, classe, id, dom) {
     //Element de type h (h1, h2, etc)
     var h = document.createElement(textType);
     var textNode = document.createTextNode(text);
     h.appendChild(textNode);
     h.id = id;
+    h.className = classe;
     dom.appendChild(h);
 }
 
@@ -217,7 +221,7 @@ function displayHints(hints, questionId, dom, quizzId) {
         if (hint == "") return;
         createButton(config.lang.button.displayHint.format(index + 1), config.ids.questions.ID_QUESTION_HINTS_BUTTON.format(config.ids.ID_MAIN_DIV, quizzId, questionId, index), config.class.BTN_HINT, divHints, function() {
             var button = document.getElementById(config.ids.questions.ID_QUESTION_HINTS_BUTTON.format(config.ids.ID_MAIN_DIV, quizzId, questionId, index));
-            displayTitleNode(hints[index], config.NORMAL_TEXT_TYPE, config.ids.questions.ID_QUESTION_HINTS_TEXT.format(config.ids.ID_MAIN_DIV, quizzId, questionId, index), divHints);
+            displayTitleNode(hints[index], config.NORMAL_TEXT_TYPE, "", config.ids.questions.ID_QUESTION_HINTS_TEXT.format(config.ids.ID_MAIN_DIV, quizzId, questionId, index), divHints);
             button.remove();
         });
     });
@@ -301,7 +305,8 @@ function validateQuizz(questions, dom, quizzId) {
 
     if(typeof(document.getElementById(config.ids.ID_MAIN_SCORE)) != 'undefined' && document.getElementById(config.ids.ID_MAIN_SCORE) != null)
         document.getElementById(config.ids.ID_MAIN_SCORE).remove();
-    displayTitleNode(`Votre score est de ${rightQuestions}/${questions.length} !`, config.SCORE_TITLE_TYPE, config.ids.ID_MAIN_SCORE, dom);
+    displayTitleNode(`Votre score est de ${rightQuestions}/${questions.length} !`, config.SCORE_TITLE_TYPE, config.class.TEXT_SCORE, config.ids.ID_MAIN_SCORE, dom);
+    console.log(document.getElementsByClassName("text_score"));
 }
 
 function validateQCM(question, questionId, quizzId) {
