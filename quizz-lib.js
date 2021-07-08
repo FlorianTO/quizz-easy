@@ -61,6 +61,9 @@ function createNewQuizz(jsonObject) {
     if (jsonObject.display_hints != config.DISPLAY_HINTS)
         config.DISPLAY_HINTS = jsonObject.display_hints;
 
+    if (jsonObject.element_id != config.ids.ID_MAIN_DIV)
+        config.ids.ID_MAIN_DIV = jsonObject.element_id;
+
     var dom = document.getElementById(config.ids.ID_MAIN_DIV);
     console.log(dom);
 
